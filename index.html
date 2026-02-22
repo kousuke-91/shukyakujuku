@@ -452,7 +452,7 @@
     /* ══ FOOTER ══ */
     footer { background: #0a0f1e; color: rgba(255,255,255,0.32); padding: 2.5rem 5vw; display: flex; align-items: center; justify-content: space-between; font-size: 0.7rem; letter-spacing: 0.05em; flex-wrap: wrap; gap: 1rem; }
     .footer-logo-link { text-decoration: none; }
-    footer .footer-logo { font-family: 'Shippori Mincho', serif; font-size: 1.1rem; font-weight: 800; background: linear-gradient(135deg, var(--grad-1), var(--grad-2)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
+    footer .footer-logo { font-family: 'Shippori Mincho', serif; font-size: 1.1rem; font-weight: 800; background: linear-gradient(135deg, var(--grad-1), var(--grad-2)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     footer a { color: rgba(255,255,255,0.32); text-decoration: none; }
     footer a:hover { color: rgba(255,255,255,0.6); }
 
@@ -497,8 +497,12 @@
       .hamburger { display: flex; }
 
       section { padding: 3rem 1.2rem; }
-      #hero { padding: calc(var(--nav-h) + 2rem) 1.2rem 3rem; min-height: auto; }
-      .hero-btns { gap: 0.6rem; }
+      #hero { padding: calc(var(--nav-h) + 2rem) 1.4rem 3rem; min-height: auto; }
+      .hero-left { width: 100%; text-align: center; }
+      .hero-eyebrow { display: inline-block; }
+      .hero-sub { margin-left: auto; margin-right: auto; }
+      .hero-btns { gap: 0.7rem; justify-content: center; }
+      .btn-primary, .btn-outline { text-align: center; justify-content: center; }
       /* logo smaller on mobile */
       .hero-ring { width: 150px; height: 150px; }
       .hero-kanji { font-size: 1.6rem; }
@@ -522,8 +526,8 @@
 
     @media (max-width: 420px) {
       .services-grid { grid-template-columns: 1fr; }
-      .hero-btns { flex-direction: column; align-items: stretch; }
-      .btn-primary, .btn-outline { justify-content: center; }
+      .hero-btns { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-outline { width: 100%; max-width: 280px; justify-content: center; }
       .hero-ring { width: 130px; height: 130px; }
     }
   </style>
