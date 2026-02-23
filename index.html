@@ -2,957 +2,1263 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>集客塾 | 塾・スクール専門 Instagram集客パートナー</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Shippori+Mincho:wght@400;600;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --ink: #1a1a2e;
-      --ivory: #f8f6f1;
-      --cream: #f0ede5;
-      --slate-light: #dce4f0;
-      --deep: #0f1729;
-      --grad-1: #e85d8a;
-      --grad-2: #f4a044;
-      --gold-light: #e8d5a3;
-      --nav-h: 60px;
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --ink:#1a1a2e;
+      --ivory:#f9f8f5;
+      --cream:#f2efe8;
+      --deep:#0f1729;
+      --grad-1:#e85d8a;
+      --grad-2:#f4a044;
+      --gold-light:#e8d5a3;
+      --border:rgba(26,26,46,0.1);
+      --nav-h:68px;
+      --col:700px;    /* 本文カラム幅 */
+      --wide:1060px;  /* ワイドカラム幅 */
     }
-    html { scroll-behavior: smooth; scroll-padding-top: var(--nav-h); }
-    body {
-      font-family: 'Noto Serif JP', serif;
-      background: var(--ivory);
-      color: var(--ink);
-      overflow-x: hidden;
-      word-break: keep-all;
-      overflow-wrap: break-word;
+    html{scroll-behavior:smooth;scroll-padding-top:var(--nav-h);overflow-x:clip}
+    body{
+      font-family:'Noto Serif JP',serif;
+      background:var(--ivory);color:var(--ink);
+      overflow-x:clip;word-break:keep-all;overflow-wrap:break-word;
+      line-height:1.9;
+    }
+    img,video,iframe,embed,object{max-width:100%;height:auto;display:block}
+
+    /* ════════════════════════
+       NAV
+    ════════════════════════ */
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:200;
+      height:var(--nav-h);
+      padding:0 clamp(1.4rem,4vw,3.5rem);
+      display:flex;align-items:center;justify-content:space-between;gap:1rem;
+      background:rgba(249,248,245,0.97);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--border);
+      transition:box-shadow .3s;
+    }
+    nav.scrolled{box-shadow:0 2px 24px rgba(0,0,0,0.07)}
+
+    .nav-brand{text-decoration:none;display:flex;flex-direction:column;gap:1px}
+    .nav-brand-ja{
+      font-family:'Shippori Mincho',serif;font-size:1.25rem;font-weight:800;
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
+      background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      letter-spacing:.1em;line-height:1;
+    }
+    .nav-brand-en{font-size:.55rem;letter-spacing:.22em;color:rgba(26,26,46,.35);text-transform:uppercase;line-height:1}
+
+    .nav-links{display:flex;list-style:none;gap:0}
+    .nav-links li{display:flex;flex-direction:column;align-items:center}
+    .nav-links a{
+      display:flex;flex-direction:column;align-items:center;gap:1px;
+      text-decoration:none;padding:.35rem .8rem;position:relative;
+    }
+    .nav-links a .en{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--grad-1);line-height:1}
+    .nav-links a .ja{font-size:.68rem;letter-spacing:.08em;color:rgba(26,26,46,.55);line-height:1;transition:color .2s}
+    .nav-links a::after{
+      content:'';position:absolute;bottom:0;left:.8rem;right:.8rem;
+      height:2px;background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
+      transform:scaleX(0);transition:transform .25s;border-radius:2px;
+    }
+    .nav-links a:hover .ja,.nav-links a.active .ja{color:var(--ink)}
+    .nav-links a.active::after{transform:scaleX(1)}
+
+    .nav-cta{
+      display:flex;flex-direction:column;align-items:center;gap:1px;
+      padding:.5rem 1.2rem;
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
+      border:none;border-radius:2rem;cursor:pointer;
+      text-decoration:none;flex-shrink:0;
+      transition:transform .2s,box-shadow .2s;
+    }
+    .nav-cta .en{font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.7);line-height:1}
+    .nav-cta .ja{font-size:.7rem;letter-spacing:.06em;color:#fff;font-family:'Noto Serif JP',serif;line-height:1}
+    .nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(232,93,138,.38)}
+
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;flex-shrink:0;padding:4px}
+    .hamburger span{width:22px;height:2px;background:var(--ink);display:block;transition:all .3s;border-radius:2px}
+    .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+    .hamburger.open span:nth-child(2){opacity:0}
+    .hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+    .mobile-drawer{
+      display:none;position:fixed;inset:0;
+      background:rgba(10,16,30,.97);z-index:190;
+      flex-direction:column;align-items:center;justify-content:center;gap:2.2rem;
+    }
+    .mobile-drawer.open{display:flex}
+    .mobile-drawer .close-btn{position:absolute;top:1.2rem;right:1.5rem;font-size:2rem;cursor:pointer;color:rgba(255,255,255,.4);line-height:1;transition:color .2s;background:none;border:none}
+    .mobile-drawer .close-btn:hover{color:#fff}
+    .mobile-drawer a{
+      display:flex;flex-direction:column;align-items:center;gap:2px;
+      text-decoration:none;transition:opacity .2s;
+    }
+    .mobile-drawer a:hover{opacity:.75}
+    .mobile-drawer a .en{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grad-1)}
+    .mobile-drawer a .ja{font-size:1.15rem;font-family:'Shippori Mincho',serif;font-weight:700;color:#fff;letter-spacing:.1em}
+    .mobile-drawer .drawer-cta{
+      margin-top:.5rem;padding:.85rem 2.5rem;
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
+      border-radius:3rem;
+    }
+    .mobile-drawer .drawer-cta .ja{font-size:.9rem}
+
+    /* ════════════════════════
+       FAB
+    ════════════════════════ */
+    #scrollTop{
+      position:fixed;bottom:2rem;right:2rem;z-index:150;
+      width:44px;height:44px;border-radius:50%;
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
+      color:#fff;font-size:1.1rem;border:none;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 4px 16px rgba(232,93,138,.4);
+      opacity:0;pointer-events:none;transition:opacity .3s,transform .2s;
+    }
+    #scrollTop.show{opacity:1;pointer-events:auto}
+    #scrollTop:hover{transform:translateY(-2px)}
+
+    /* ════════════════════════
+       共通レイアウト
+    ════════════════════════ */
+    .sec{padding:clamp(5rem,9vw,8rem) clamp(1.4rem,5vw,3.5rem)}
+    .sec-dark{background:var(--deep)}
+    .sec-cream{background:var(--cream)}
+    .sec-ivory{background:var(--ivory)}
+    .sec-white{background:#fff}
+
+    .inner{max-width:var(--col);margin:0 auto}
+    .inner-wide{max-width:var(--wide);margin:0 auto}
+
+    /* セクション大ラベル（hidariude風・英語+日本語2段） */
+    .sec-label{
+      display:flex;flex-direction:column;gap:.3rem;
+      margin-bottom:clamp(2rem,4vw,3rem);
+    }
+    .sec-label .en{
+      font-family:'DM Serif Display',serif;font-style:italic;
+      font-size:clamp(3.5rem,8vw,6.5rem);line-height:.9;
+      background:linear-gradient(135deg,rgba(232,93,138,.18),rgba(244,160,68,.12));
+      -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+      letter-spacing:-.02em;
+    }
+    .sec-label-dark .en{
+      background:linear-gradient(135deg,rgba(232,93,138,.35),rgba(244,160,68,.25));
+      -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    }
+    .sec-label .ja{
+      font-size:.65rem;letter-spacing:.24em;text-transform:uppercase;
+      color:var(--grad-1);
     }
 
-    /* ══ NAV ══ */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      height: var(--nav-h);
-      padding: 0 2.5rem;
-      display: flex; align-items: center; justify-content: space-between;
-      background: rgba(248,246,241,0.96);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(201,168,76,0.2);
-      gap: 1rem;
-      transition: height 0.3s, box-shadow 0.3s;
+    /* 本文見出し */
+    .h2{
+      font-family:'Shippori Mincho',serif;
+      font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:800;line-height:1.3;
+      margin-bottom:1rem;
     }
-    nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.08); }
+    .h2-white{color:#fff}
+    .h3{
+      font-family:'Shippori Mincho',serif;
+      font-size:clamp(1rem,2vw,1.3rem);font-weight:700;line-height:1.4;
+      margin-bottom:.6rem;
+    }
+    .h3-white{color:#fff}
 
-    /* Logo – clickable, always visible */
-    .nav-logo {
-      font-family: 'Shippori Mincho', serif;
-      font-size: 1.25rem; font-weight: 800;
-      background: linear-gradient(135deg, var(--grad-1), var(--grad-2));
-      background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      letter-spacing: 0.08em;
-      flex-shrink: 0; white-space: nowrap;
-      text-decoration: none; cursor: pointer;
-      /* ensure gradient renders as link */
-      display: inline-block;
-    }
-    .nav-logo:hover { opacity: 0.85; }
+    .lead{font-size:clamp(.85rem,1.6vw,.96rem);line-height:2.05;color:rgba(26,26,46,.62)}
+    .lead-white{color:rgba(255,255,255,.52)}
+    .lead p+p{margin-top:1.2em}
 
-    .nav-links { display: flex; gap: 0; list-style: none; }
-    .nav-links a {
-      font-size: 0.76rem; letter-spacing: 0.1em;
-      color: var(--ink); text-decoration: none;
-      opacity: 0.55; transition: opacity 0.2s, color 0.2s;
-      white-space: nowrap; padding: 0.4rem 0.9rem;
-      position: relative;
+    .grad-text{
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
+      background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
     }
-    .nav-links a::after {
-      content: ''; position: absolute; bottom: -2px; left: 0.9rem; right: 0.9rem;
-      height: 2px; background: linear-gradient(135deg, var(--grad-1), var(--grad-2));
-      transform: scaleX(0); transition: transform 0.25s;
-    }
-    .nav-links a:hover, .nav-links a.active { opacity: 1; }
-    .nav-links a.active::after { transform: scaleX(1); }
 
-    .nav-cta {
-      padding: 0.45rem 1.1rem;
-      background: linear-gradient(135deg, var(--grad-1), var(--grad-2));
-      color: white; font-size: 0.74rem; letter-spacing: 0.08em;
-      border: none; border-radius: 2rem; cursor: pointer;
-      font-family: 'Noto Serif JP', serif;
-      transition: transform 0.2s, box-shadow 0.2s;
-      text-decoration: none; white-space: nowrap; flex-shrink: 0;
-    }
-    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(232,93,138,0.35); }
+    .divider{width:36px;height:3px;background:linear-gradient(135deg,var(--grad-1),var(--grad-2));border-radius:2px;margin:1.4rem 0}
+    .divider-center{margin:1.4rem auto}
 
-    /* hamburger */
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; flex-shrink: 0; padding: 4px; }
-    .hamburger span { width: 22px; height: 2px; background: var(--ink); display: block; transition: all 0.3s; border-radius: 2px; }
-    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
-    .hamburger.open span:nth-child(2) { opacity: 0; }
-    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+    /* ボタン */
+    .btn{
+      display:inline-flex;align-items:center;gap:.5rem;
+      font-family:'Noto Serif JP',serif;border-radius:3rem;
+      text-decoration:none;cursor:pointer;border:none;
+      transition:transform .2s,box-shadow .2s;white-space:nowrap;
+    }
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{
+      padding:.88rem 2.2rem;font-size:clamp(.8rem,1.4vw,.9rem);letter-spacing:.06em;
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));color:#fff;
+    }
+    .btn-primary:hover{box-shadow:0 10px 28px rgba(232,93,138,.4)}
+    .btn-outline{
+      padding:.85rem 2rem;font-size:clamp(.8rem,1.4vw,.9rem);letter-spacing:.06em;
+      border:1px solid rgba(26,26,46,.2);color:rgba(26,26,46,.72);background:transparent;
+    }
+    .btn-outline:hover{border-color:var(--grad-1);color:var(--grad-1)}
+    .btn-outline-white{
+      padding:.85rem 2rem;font-size:clamp(.8rem,1.4vw,.9rem);letter-spacing:.06em;
+      border:1px solid rgba(255,255,255,.3);color:rgba(255,255,255,.8);background:transparent;
+    }
+    .btn-outline-white:hover{border-color:#fff;color:#fff}
+    .btn-group{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center}
 
-    /* full-screen mobile drawer */
-    .mobile-drawer {
-      display: none; position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(15,23,41,0.97);
-      z-index: 190;
-      flex-direction: column; align-items: center; justify-content: center; gap: 2.2rem;
+    /* ════════════════════════
+       HERO
+    ════════════════════════ */
+    #hero{
+      min-height:100svh;background:var(--deep);
+      display:flex;flex-direction:column;justify-content:flex-end;
+      padding:calc(var(--nav-h) + 3rem) clamp(1.4rem,5vw,3.5rem) clamp(4rem,7vw,6rem);
+      position:relative;overflow:hidden;
     }
-    .mobile-drawer.open { display: flex; }
-    .mobile-drawer a {
-      font-size: 1.3rem; color: rgba(255,255,255,0.85); text-decoration: none;
-      font-family: 'Shippori Mincho', serif; font-weight: 700; letter-spacing: 0.12em;
-      transition: color 0.2s;
-    }
-    .mobile-drawer a:hover { color: white; }
-    .mobile-drawer .drawer-cta {
-      margin-top: 0.5rem; padding: 0.85rem 2.2rem;
-      background: linear-gradient(135deg, var(--grad-1), var(--grad-2));
-      border-radius: 3rem; font-size: 0.9rem;
-    }
-    .mobile-drawer .close-btn {
-      position: absolute; top: 1rem; right: 1.4rem;
-      font-size: 2rem; cursor: pointer; color: rgba(255,255,255,0.5);
-      line-height: 1; transition: color 0.2s;
-    }
-    .mobile-drawer .close-btn:hover { color: white; }
-
-    /* ══ SECTIONS ══ */
-    section { padding: 5rem 5vw; }
-    .section-tag {
-      display: inline-block; font-size: 0.66rem;
-      letter-spacing: 0.22em; text-transform: uppercase;
-      color: var(--grad-1); margin-bottom: 0.8rem;
-    }
-    .section-title {
-      font-family: 'Shippori Mincho', serif;
-      font-size: clamp(1.55rem, 4vw, 2.5rem);
-      font-weight: 800; line-height: 1.3; margin-bottom: 1.2rem;
-    }
-    .section-subtitle {
-      font-size: clamp(0.82rem, 1.9vw, 0.94rem); line-height: 1.95;
-      color: rgba(26,26,46,0.62);
-    }
-    .text-center { text-align: center; }
-    .text-center .section-subtitle { max-width: 540px; margin: 0 auto; }
-
-    /* ══ HERO ══ */
-    #hero {
-      min-height: 100svh;
-      display: grid; grid-template-columns: 1fr auto;
-      align-items: center;
-      padding: calc(var(--nav-h) + 3rem) 5vw 4rem;
-      gap: 4vw;
-      position: relative; overflow: hidden; background: var(--deep);
-    }
-    .hero-bg {
-      position: absolute; inset: 0;
+    .hero-bg{
+      position:absolute;inset:0;
       background:
-        radial-gradient(ellipse at 72% 38%, rgba(232,93,138,0.2) 0%, transparent 52%),
-        radial-gradient(ellipse at 12% 72%, rgba(244,160,68,0.13) 0%, transparent 48%),
+        radial-gradient(ellipse 65% 55% at 85% 25%,rgba(232,93,138,.15) 0%,transparent 60%),
+        radial-gradient(ellipse 50% 45% at 10% 85%,rgba(244,160,68,.1) 0%,transparent 55%),
         var(--deep);
     }
-    .hero-grid-lines {
-      position: absolute; inset: 0; opacity: 0.025;
-      background-image:
-        linear-gradient(rgba(255,255,255,1) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px);
-      background-size: 60px 60px;
-    }
-    .hero-left { position: relative; z-index: 2; min-width: 0; }
-    .hero-eyebrow {
-      display: inline-block; padding: 0.28rem 0.9rem;
-      border: 1px solid rgba(232,93,138,0.5); border-radius: 2rem;
-      font-size: 0.66rem; letter-spacing: 0.16em; color: var(--grad-1);
-      margin-bottom: 1.4rem;
-      animation: fadeUp 0.8s 0.2s both;
-    }
-    .hero-title {
-      font-family: 'Shippori Mincho', serif;
-      font-size: clamp(1.9rem, 4.2vw, 3.8rem);
-      font-weight: 800; line-height: 1.22; color: white;
-      margin-bottom: 1.2rem;
-      animation: fadeUp 0.8s 0.4s both;
-    }
-    .hero-title em {
-      font-style: normal;
-      background: linear-gradient(135deg, var(--grad-1), var(--grad-2));
-      background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .hero-sub {
-      font-size: clamp(0.8rem, 1.7vw, 0.93rem); line-height: 2;
-      color: rgba(255,255,255,0.58); margin-bottom: 2.2rem;
-      max-width: 520px;
-      animation: fadeUp 0.8s 0.6s both;
-    }
-    .hero-btns {
-      display: flex; gap: 0.85rem; flex-wrap: wrap;
-      animation: fadeUp 0.8s 0.8s both;
-    }
-    .btn-primary {
-      padding: 0.82rem 1.8rem;
-      background: linear-gradient(135deg, var(--grad-1), var(--grad-2));
-      color: white; font-size: clamp(0.76rem, 1.4vw, 0.86rem); letter-spacing: 0.06em;
-      border: none; border-radius: 3rem; cursor: pointer;
-      font-family: 'Noto Serif JP', serif;
-      transition: transform 0.2s, box-shadow 0.2s;
-      text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap;
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(232,93,138,0.42); }
-    .btn-outline {
-      padding: 0.82rem 1.8rem;
-      border: 1px solid rgba(255,255,255,0.28); color: rgba(255,255,255,0.78);
-      font-size: clamp(0.76rem, 1.4vw, 0.86rem); letter-spacing: 0.06em;
-      border-radius: 3rem; cursor: pointer;
-      font-family: 'Noto Serif JP', serif;
-      background: transparent; transition: all 0.2s;
-      text-decoration: none; display: inline-flex; align-items: center; white-space: nowrap;
-    }
-    .btn-outline:hover { border-color: white; color: white; }
-
-    /* hero right: logo circle */
-    .hero-right {
-      position: relative; z-index: 2; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      animation: fadeUp 0.8s 0.5s both;
-    }
-    .hero-ring {
-      width: clamp(180px, 26vw, 300px);
-      height: clamp(180px, 26vw, 300px);
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--grad-1), var(--grad-2));
-      padding: 3px; flex-shrink: 0;
-    }
-    .hero-ring-inner {
-      width: 100%; height: 100%; border-radius: 50%; background: var(--deep);
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 0.9rem;
-    }
-    .hero-kanji {
-      font-family: 'Shippori Mincho', serif;
-      font-size: clamp(1.6rem, 4.5vw, 3rem); font-weight: 800;
-      background: linear-gradient(135deg, #5b8ee6, #3d6fd4);
-      background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    .hero-bars { display: flex; gap: 6px; align-items: flex-end; position: relative; }
-    .bar { border-radius: 3px 3px 0 0; }
-    .bar-1 { width: 11px; height: 20px; background: var(--grad-1); }
-    .bar-2 { width: 11px; height: 32px; background: var(--grad-2); }
-    .bar-3 { width: 11px; height: 44px; background: var(--grad-1); }
-    .play-dot {
-      position: absolute; top: -26px; right: -10px;
-      width: 24px; height: 24px; background: var(--grad-2); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 8px; color: white; padding-left: 2px;
+    /* グリッド装飾 */
+    .hero-grid{
+      position:absolute;inset:0;opacity:.025;
+      background-image:linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px);
+      background-size:64px 64px;
     }
 
-    /* ══ WORRIES ══ */
-    #worries { background: var(--cream); display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
-    .worries-list { display: flex; flex-direction: column; gap: 0.9rem; margin-top: 2rem; }
-    .worry-item {
-      display: flex; gap: 1rem; align-items: flex-start;
-      padding: 1rem 1.3rem; background: white; border-radius: 12px;
-      border-left: 3px solid var(--grad-1); box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-      opacity: 0; transform: translateX(-16px); transition: all 0.5s;
-    }
-    .worry-item.visible { opacity: 1; transform: translateX(0); }
-    .worry-num { font-family: 'DM Serif Display', serif; font-size: 1.1rem; color: var(--grad-1); flex-shrink: 0; font-style: italic; min-width: 1.8rem; }
-    .worry-text { font-size: clamp(0.8rem, 1.5vw, 0.87rem); line-height: 1.7; }
-    .worries-right { background: var(--deep); border-radius: 20px; padding: 2.5rem; color: white; position: relative; overflow: hidden; }
-    .worries-right::before { content: ''; position: absolute; top: -50px; right: -50px; width: 160px; height: 160px; border-radius: 50%; background: linear-gradient(135deg, var(--grad-1), var(--grad-2)); opacity: 0.12; }
-    .worries-right .quote { font-family: 'DM Serif Display', serif; font-size: 2.8rem; color: var(--grad-1); line-height: 1; }
-    .worries-right p { font-size: clamp(0.82rem, 1.5vw, 0.9rem); line-height: 1.9; color: rgba(255,255,255,0.72); margin-top: 0.8rem; }
-    .worries-right strong { color: white; font-weight: 600; }
-    .worries-cta-box { margin-top: 1.5rem; padding: 1.2rem; background: rgba(232,93,138,0.15); border: 1px solid rgba(232,93,138,0.3); border-radius: 12px; }
-    .worries-cta-box p { font-size: 0.92rem; font-weight: 600; color: white; margin-top: 0; }
-    .worries-cta-box span { color: var(--grad-2); }
-
-    /* ══ WHY ══ */
-    #why { background: white; }
-    .why-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1.2rem; margin-top: 3rem; }
-    .why-card { padding: 1.8rem 1.4rem; border: 1px solid var(--slate-light); border-radius: 16px; position: relative; transition: all 0.3s; opacity: 0; transform: translateY(18px); }
-    .why-card.visible { opacity: 1; transform: translateY(0); }
-    .why-card:hover { border-color: var(--grad-1); box-shadow: 0 8px 24px rgba(232,93,138,0.1); transform: translateY(-4px); }
-    .why-card-num { font-family: 'DM Serif Display', serif; font-size: 2.2rem; color: var(--slate-light); position: absolute; top: 0.8rem; right: 1rem; font-style: italic; }
-    .why-card-icon { font-size: 1.8rem; margin-bottom: 0.8rem; }
-    .why-card h3 { font-family: 'Shippori Mincho', serif; font-size: clamp(0.85rem,1.4vw,0.94rem); font-weight: 700; margin-bottom: 0.5rem; }
-    .why-card p { font-size: clamp(0.75rem,1.2vw,0.81rem); line-height: 1.75; color: rgba(26,26,46,0.6); }
-    .why-conclusion { margin-top: 2.5rem; padding: 2rem 2.5rem; background: var(--deep); border-radius: 14px; display: flex; align-items: center; gap: 1.5rem; }
-    .why-conclusion .arrow { font-size: 1.8rem; color: var(--grad-2); flex-shrink: 0; }
-    .why-conclusion p { font-family: 'Shippori Mincho', serif; font-size: clamp(0.9rem,2vw,1.12rem); font-weight: 700; color: white; }
-    .why-conclusion span { color: var(--grad-1); }
-
-    /* ══ SERVICES ══ */
-    #services { background: var(--cream); }
-    .services-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-top: 3rem; }
-    .service-card { background: white; border-radius: 14px; padding: 1.5rem 1.2rem; border-bottom: 3px solid transparent; transition: all 0.3s; opacity: 0; transform: translateY(18px); }
-    .service-card.visible { opacity: 1; transform: translateY(0); }
-    .service-card:hover { border-bottom-color: var(--grad-1); box-shadow: 0 6px 20px rgba(0,0,0,0.07); transform: translateY(-3px); }
-    .service-icon { width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg,rgba(232,93,138,0.1),rgba(244,160,68,0.1)); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 0.8rem; }
-    .service-card h3 { font-family: 'Shippori Mincho', serif; font-size: clamp(0.82rem,1.3vw,0.9rem); font-weight: 700; margin-bottom: 0.4rem; }
-    .service-card p { font-size: clamp(0.72rem,1.1vw,0.77rem); line-height: 1.7; color: rgba(26,26,46,0.6); }
-
-    /* ══ PLANS ══ */
-    #plans { background: white; }
-    .plans-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem; }
-    .plan-card { border-radius: 18px; overflow: hidden; border: 1px solid var(--slate-light); transition: all 0.3s; opacity: 0; transform: translateY(18px); position: relative; }
-    .plan-card.visible { opacity: 1; transform: translateY(0); }
-    .plan-card:hover { transform: translateY(-5px); box-shadow: 0 14px 36px rgba(0,0,0,0.09); }
-    .plan-card.featured { border-color: var(--grad-1); box-shadow: 0 6px 24px rgba(232,93,138,0.18); }
-    .plan-card.featured::before { content: 'おすすめ'; position: absolute; top: 0; right: 0; background: linear-gradient(135deg, var(--grad-1), var(--grad-2)); color: white; font-size: 0.65rem; letter-spacing: 0.1em; padding: 0.28rem 0.9rem; border-bottom-left-radius: 10px; }
-    .plan-header { padding: 1.8rem 1.8rem 1.4rem; background: var(--deep); color: white; }
-    .plan-name { font-family: 'Shippori Mincho', serif; font-size: clamp(1rem,2vw,1.22rem); font-weight: 800; margin-bottom: 0.3rem; }
-    .plan-desc { font-size: 0.73rem; opacity: 0.52; }
-    .plan-body { padding: 1.5rem 1.8rem; }
-    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
-    .plan-features li { font-size: clamp(0.78rem,1.4vw,0.85rem); display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.5; }
-    .plan-features li::before { content: '✓'; color: var(--grad-1); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
-
-    /* ══ DIFFERENCE ══ */
-    #difference { background: var(--deep); }
-    #difference .section-title { color: white; }
-    #difference .section-tag { color: var(--gold-light); }
-    .diff-table { margin-top: 2.5rem; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255,255,255,0.08); }
-    .diff-row { display: grid; grid-template-columns: 1.2fr 1fr 1.4fr; border-bottom: 1px solid rgba(255,255,255,0.05); opacity: 0; transition: opacity 0.4s; }
-    .diff-row.visible { opacity: 1; }
-    .diff-row.header { background: rgba(255,255,255,0.05); }
-    .diff-cell { padding: 0.95rem 1.3rem; font-size: clamp(0.74rem,1.3vw,0.82rem); color: rgba(255,255,255,0.6); }
-    .diff-cell.label { color: rgba(255,255,255,0.36); font-size: 0.75rem; }
-    .diff-cell.us { color: white; font-weight: 600; border-left: 2px solid var(--grad-1); background: rgba(232,93,138,0.06); }
-    .diff-cell.head { color: rgba(255,255,255,0.36); font-size: 0.68rem; letter-spacing: 0.1em; font-weight: 600; }
-    .diff-cell.head.us-head { color: var(--grad-1); border-left: 2px solid var(--grad-1); background: rgba(232,93,138,0.06); }
-    .check { color: var(--grad-1); }
-
-    /* ══ FLOW ══ */
-    #flow { background: var(--cream); }
-    .flow-steps { display: flex; flex-direction: column; margin-top: 3rem; max-width: 640px; margin-left: auto; margin-right: auto; }
-    .flow-step { display: grid; grid-template-columns: 66px 1fr; gap: 1.2rem; align-items: flex-start; opacity: 0; transform: translateX(-16px); transition: all 0.5s; }
-    .flow-step.visible { opacity: 1; transform: translateX(0); }
-    .flow-step-left { display: flex; flex-direction: column; align-items: center; }
-    .flow-step-num { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--grad-1), var(--grad-2)); color: white; font-family: 'DM Serif Display', serif; font-size: 1.15rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .flow-step-line { width: 2px; flex: 1; min-height: 36px; background: linear-gradient(to bottom, rgba(232,93,138,0.35), transparent); }
-    .flow-step:last-child .flow-step-line { display: none; }
-    .flow-step-content { padding-bottom: 2rem; }
-    .flow-step-content h3 { font-family: 'Shippori Mincho', serif; font-size: clamp(0.87rem,1.5vw,1rem); font-weight: 700; margin-bottom: 0.3rem; }
-    .flow-step-content p { font-size: clamp(0.77rem,1.3vw,0.82rem); line-height: 1.75; color: rgba(26,26,46,0.6); }
-
-    /* ══ INSTAGRAM FEED ══ */
-    #insta-feed { background: white; }
-    .insta-feed-head { text-align: center; margin-bottom: 2.5rem; }
-    .insta-handle {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      margin-top: 0.8rem; font-size: 0.82rem;
-      color: rgba(26,26,46,0.5); text-decoration: none;
-      transition: color 0.2s;
-    }
-    .insta-handle:hover { color: var(--grad-1); }
-
-    .insta-grid {
-      display: grid; grid-template-columns: repeat(3,1fr);
-      gap: 1rem; max-width: 960px; margin: 0 auto;
-    }
-    .insta-embed-wrap {
-      background: var(--cream); border-radius: 16px; overflow: hidden;
-      border: 1px solid var(--slate-light);
-      display: flex; flex-direction: column; align-items: center;
-      min-height: 420px; position: relative;
-    }
-    .insta-embed-wrap .instagram-media {
-      margin: 0 !important; min-width: 100% !important;
-      max-width: 100% !important; border: none !important;
-    }
-    .insta-placeholder {
-      display: flex; flex-direction: column; align-items: center;
-      justify-content: center; gap: 0.6rem;
-      padding: 2rem; text-align: center; flex: 1;
-      color: rgba(26,26,46,0.35); font-size: 0.78rem; line-height: 1.6;
-    }
-    .insta-placeholder .ph-icon { font-size: 2.2rem; opacity: 0.35; }
-    /* delete button on each card */
-    .insta-del-btn {
-      position: absolute; top: 0.6rem; right: 0.6rem;
-      width: 26px; height: 26px; border-radius: 50%;
-      background: rgba(232,93,138,0.85); color: white;
-      border: none; cursor: pointer; font-size: 0.8rem;
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; transition: opacity 0.2s;
-      z-index: 5;
-    }
-    .insta-embed-wrap:hover .insta-del-btn { opacity: 1; }
-
-    /* URL input area */
-    .insta-url-area {
-      max-width: 640px; margin: 2rem auto 0;
-      background: var(--cream); border-radius: 16px;
-      padding: 1.6rem 1.8rem; border: 1px dashed var(--slate-light);
-      text-align: center;
-    }
-    .insta-url-area p { font-size: 0.8rem; color: rgba(26,26,46,0.55); margin-bottom: 0.9rem; line-height: 1.7; }
-    .insta-url-row { display: flex; gap: 0.6rem; flex-wrap: wrap; justify-content: center; }
-    .insta-url-input {
-      flex: 1; min-width: 220px; padding: 0.6rem 1rem;
-      border-radius: 2rem; border: 1px solid var(--slate-light);
-      font-size: 0.8rem; font-family: 'Noto Serif JP', serif;
-      outline: none; background: white; transition: border-color 0.2s;
-    }
-    .insta-url-input:focus { border-color: var(--grad-1); }
-    .insta-add-btn {
-      padding: 0.6rem 1.4rem; border-radius: 2rem; border: none; cursor: pointer;
-      background: linear-gradient(135deg, var(--grad-1), var(--grad-2));
-      color: white; font-size: 0.78rem; font-family: 'Noto Serif JP', serif;
-      white-space: nowrap; transition: opacity 0.2s;
-    }
-    .insta-add-btn:hover { opacity: 0.88; }
-    .insta-msg { margin-top: 0.6rem; font-size: 0.75rem; color: var(--grad-1); min-height: 1.1em; }
-
-    .insta-profile-cta { text-align: center; margin-top: 2.5rem; }
-    .insta-profile-btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      padding: 0.8rem 2rem;
-      background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045);
-      color: white; border-radius: 3rem; text-decoration: none;
-      font-size: 0.84rem; letter-spacing: 0.05em;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .insta-profile-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(131,58,180,0.3); }
-
-    @media (max-width: 1100px) { .insta-grid { grid-template-columns: repeat(2,1fr); } }
-    @media (max-width: 600px)  { .insta-grid { grid-template-columns: 1fr; } }
-
-    /* ══ FUTURE ══ */
-    #future { background: var(--cream); }
-    .future-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.2rem; margin-top: 3rem; }
-    .future-card { padding: 2rem; border-radius: 14px; border: 1px solid var(--slate-light); position: relative; overflow: hidden; transition: all 0.3s; opacity: 0; transform: translateY(18px); background: white; }
-    .future-card.visible { opacity: 1; transform: translateY(0); }
-    .future-card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,0,0,0.07); }
-    .future-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(135deg, var(--grad-1), var(--grad-2)); }
-    .future-icon { font-size: 1.8rem; margin-bottom: 0.8rem; }
-    .future-card h3 { font-family: 'Shippori Mincho', serif; font-size: clamp(0.9rem,1.7vw,1.04rem); font-weight: 700; margin-bottom: 0.5rem; }
-    .future-card p { font-size: clamp(0.77rem,1.3vw,0.82rem); line-height: 1.75; color: rgba(26,26,46,0.6); }
-
-    /* ══ CTA ══ */
-    #cta { background: var(--deep); text-align: center; padding: 6rem 5vw; position: relative; overflow: hidden; }
-    #cta::before { content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%); width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(232,93,138,0.14) 0%, transparent 70%); }
-    #cta .section-title { color: white; position: relative; z-index: 1; }
-    #cta .section-subtitle { color: rgba(255,255,255,0.5); position: relative; z-index: 1; margin: 0 auto 2.5rem; }
-    .cta-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.2rem; max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
-    .cta-card { padding: 2rem 1.5rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; backdrop-filter: blur(8px); }
-    .cta-card-icon { font-size: 2rem; margin-bottom: 0.8rem; }
-    .cta-card h3 { font-family: 'Shippori Mincho', serif; font-size: 1rem; font-weight: 700; color: white; margin-bottom: 0.6rem; }
-    .cta-card p { font-size: 0.79rem; color: rgba(255,255,255,0.48); margin-bottom: 1.2rem; line-height: 1.75; }
-    .line-btn-wrap { display: flex; justify-content: center; }
-    .line-btn-wrap img { height: 40px; display: block; }
-    .insta-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.3rem; background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); color: white; border-radius: 2rem; text-decoration: none; font-size: 0.78rem; letter-spacing: 0.04em; transition: transform 0.2s, box-shadow 0.2s; }
-    .insta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(131,58,180,0.32); }
-    .email-link { color: var(--gold-light); text-decoration: none; font-size: 0.79rem; border-bottom: 1px solid rgba(232,213,163,0.4); padding-bottom: 1px; word-break: break-all; transition: border-color 0.2s; }
-    .email-link:hover { border-color: var(--gold-light); }
-    .cta-note { margin-top: 1.5rem; font-size: 0.7rem; color: rgba(255,255,255,0.28); position: relative; z-index: 1; }
-
-    /* ══ FOOTER ══ */
-    footer { background: #0a0f1e; color: rgba(255,255,255,0.32); padding: 2.5rem 5vw; display: flex; align-items: center; justify-content: space-between; font-size: 0.7rem; letter-spacing: 0.05em; flex-wrap: wrap; gap: 1rem; }
-    .footer-logo-link { text-decoration: none; }
-    footer .footer-logo { font-family: 'Shippori Mincho', serif; font-size: 1.1rem; font-weight: 800; background: linear-gradient(135deg, var(--grad-1), var(--grad-2)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    footer a { color: rgba(255,255,255,0.32); text-decoration: none; }
-    footer a:hover { color: rgba(255,255,255,0.6); }
-
-    /* scroll-to-top FAB */
-    #scrollTop {
-      position: fixed; bottom: 1.6rem; right: 1.6rem; z-index: 150;
-      width: 44px; height: 44px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--grad-1), var(--grad-2));
-      color: white; font-size: 1.2rem; border: none; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 16px rgba(232,93,138,0.4);
-      opacity: 0; pointer-events: none;
-      transition: opacity 0.3s, transform 0.2s;
-    }
-    #scrollTop.show { opacity: 1; pointer-events: auto; }
-    #scrollTop:hover { transform: translateY(-2px); }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .hero-inner{
+      position:relative;z-index:2;
+      max-width:var(--wide);width:100%;
+      display:grid;grid-template-columns:1fr auto;align-items:flex-end;
+      gap:clamp(2rem,4vw,6rem);
     }
 
-    /* ══ RESPONSIVE ══ */
-    @media (max-width: 1100px) {
-      /* stack hero: text top, logo below centered */
-      #hero { grid-template-columns: 1fr; justify-items: start; }
-      .hero-right { justify-self: center; margin-top: 2rem; }
-      .hero-ring { width: 200px; height: 200px; }
+    /* 左：テキスト */
+    .hero-text .eyebrow{
+      display:inline-block;padding:.26rem .9rem;
+      border:1px solid rgba(232,93,138,.45);border-radius:2rem;
+      font-size:.62rem;letter-spacing:.18em;color:var(--grad-1);
+      margin-bottom:1.4rem;
+      animation:fadeUp .8s .1s both;
+    }
+    .hero-title{
+      font-family:'Shippori Mincho',serif;
+      font-size:clamp(2.4rem,6vw,5rem);font-weight:800;
+      line-height:1.15;color:#fff;
+      margin-bottom:1.6rem;letter-spacing:-.01em;
+      animation:fadeUp .8s .3s both;
+    }
+    .hero-title .accent{
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
+      background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    }
+    .hero-body{
+      font-size:clamp(.82rem,1.5vw,.93rem);line-height:2.1;
+      color:rgba(255,255,255,.5);max-width:500px;
+      margin-bottom:2.2rem;
+      animation:fadeUp .8s .5s both;
+    }
+    .hero-btns{animation:fadeUp .8s .7s both}
 
-      .why-grid { grid-template-columns: repeat(2,1fr); }
-      .services-grid { grid-template-columns: repeat(2,1fr); }
-      .plans-grid { grid-template-columns: 1fr; max-width: 420px; margin: 3rem auto 0; }
-      #worries { grid-template-columns: 1fr; gap: 2.5rem; }
-      .cta-cards { grid-template-columns: 1fr; max-width: 420px; }
+    /* 右：ロゴビジュアル */
+    .hero-visual{
+      flex-shrink:0;
+      animation:fadeUp .8s .4s both;
+    }
+    .hero-ring{
+      width:clamp(150px,20vw,260px);height:clamp(150px,20vw,260px);
+      border-radius:50%;
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
+      padding:3px;
+    }
+    .hero-ring-inner{
+      width:100%;height:100%;border-radius:50%;background:var(--deep);
+      display:flex;align-items:center;justify-content:center;
+      flex-direction:column;gap:.75rem;
+    }
+    .hero-kanji{
+      font-family:'Shippori Mincho',serif;
+      font-size:clamp(1.4rem,3.5vw,2.6rem);font-weight:800;
+      background:linear-gradient(135deg,#5b8ee6,#3d6fd4);
+      background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    }
+    .hero-bars{display:flex;gap:5px;align-items:flex-end;position:relative}
+    .bar{border-radius:3px 3px 0 0}
+    .bar-1{width:9px;height:16px;background:var(--grad-1)}
+    .bar-2{width:9px;height:28px;background:var(--grad-2)}
+    .bar-3{width:9px;height:40px;background:var(--grad-1)}
+    .play-dot{
+      position:absolute;top:-22px;right:-8px;
+      width:20px;height:20px;background:var(--grad-2);border-radius:50%;
+      display:flex;align-items:center;justify-content:center;font-size:7px;color:#fff;padding-left:2px;
     }
 
-    @media (max-width: 768px) {
-      :root { --nav-h: 54px; }
-      nav { padding: 0 1.2rem; }
-      .nav-links { display: none; }
-      .nav-cta   { display: none; }
-      .hamburger { display: flex; }
+    /* スクロールヒント */
+    .hero-scroll{
+      position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+      z-index:2;display:flex;flex-direction:column;align-items:center;gap:.5rem;
+      animation:fadeUp .8s 1.2s both;
+    }
+    .hero-scroll span{font-size:.56rem;letter-spacing:.22em;color:rgba(255,255,255,.28)}
+    .scroll-line{width:1px;height:42px;background:linear-gradient(to bottom,rgba(255,255,255,.25),transparent);animation:scrollPulse 1.8s ease-in-out infinite}
 
-      section { padding: 3rem 1.2rem; }
-      #hero { padding: calc(var(--nav-h) + 2rem) 1.4rem 3rem; min-height: auto; }
-      .hero-left { width: 100%; text-align: center; }
-      .hero-eyebrow { display: inline-block; }
-      .hero-sub { margin-left: auto; margin-right: auto; }
-      .hero-btns { gap: 0.7rem; justify-content: center; }
-      .btn-primary, .btn-outline { text-align: center; justify-content: center; }
-      /* logo smaller on mobile */
-      .hero-ring { width: 150px; height: 150px; }
-      .hero-kanji { font-size: 1.6rem; }
+    /* ════════════════════════
+       TICKER（流れるテキスト帯）
+    ════════════════════════ */
+    .ticker{
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
+      padding:.6rem 0;overflow:hidden;
+    }
+    .ticker-inner{
+      display:flex;gap:2.5rem;white-space:nowrap;
+      animation:ticker 24s linear infinite;
+    }
+    .ticker-item{
+      font-size:.68rem;letter-spacing:.18em;color:rgba(255,255,255,.85);
+      display:flex;align-items:center;gap:.7rem;flex-shrink:0;
+    }
+    .ticker-dot{width:4px;height:4px;background:rgba(255,255,255,.5);border-radius:50%}
 
-      .why-grid { grid-template-columns: 1fr; gap: 0.8rem; }
-      .services-grid { grid-template-columns: repeat(2,1fr); gap: 0.8rem; }
-      .future-grid { grid-template-columns: 1fr; gap: 0.8rem; }
-      .cta-cards { grid-template-columns: 1fr; gap: 0.9rem; }
+    /* ════════════════════════
+       CONCEPT（課題提起）
+    ════════════════════════ */
+    #concept .inner{max-width:var(--col)}
+    .concept-text{
+      font-family:'Shippori Mincho',serif;
+      font-size:clamp(1rem,2.2vw,1.35rem);font-weight:600;line-height:2.1;
+      color:var(--ink);
+    }
+    .concept-text .line{display:block;margin-bottom:.1em}
+    .concept-text .line.heavy{font-weight:800;font-size:clamp(1.1rem,2.5vw,1.55rem)}
+    .concept-text .line.grad{
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
+      background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    }
+    .concept-sub{
+      font-size:clamp(.82rem,1.5vw,.94rem);line-height:2.05;
+      color:rgba(26,26,46,.58);margin-top:2rem;
+    }
+    .concept-badge{
+      display:inline-flex;align-items:center;gap:.6rem;
+      margin-top:2rem;padding:.7rem 1.3rem;
+      background:var(--deep);border-radius:2rem;
+    }
+    .concept-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--grad-1)}
+    .concept-badge span{font-size:.8rem;color:#fff;font-weight:600}
 
-      .diff-table { overflow-x: auto; }
-      .diff-row { min-width: 480px; }
+    /* ════════════════════════
+       WORRIES（お悩み）
+    ════════════════════════ */
+    #worries .pain-row{
+      display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,7rem);
+      align-items:flex-start;margin-top:3rem;
+    }
+    .pain-list{display:flex;flex-direction:column;gap:0}
+    .pain-item{
+      display:flex;gap:1.2rem;align-items:flex-start;
+      padding:1.4rem 0;border-bottom:1px solid var(--border);
+      opacity:0;transform:translateY(12px);transition:all .5s;
+    }
+    .pain-item:last-child{border-bottom:none}
+    .pain-item.visible{opacity:1;transform:translateY(0)}
+    .pain-num{
+      font-family:'DM Serif Display',serif;font-size:1.5rem;
+      font-style:italic;color:rgba(26,26,46,.14);line-height:1.1;
+      flex-shrink:0;min-width:2rem;padding-top:.05rem;
+    }
+    .pain-text{font-size:clamp(.85rem,1.5vw,.95rem);line-height:1.8;font-weight:600}
 
-      .flow-step { grid-template-columns: 52px 1fr; gap: 0.8rem; }
-      .flow-steps { margin-top: 2rem; }
+    /* インサイトカード */
+    .insight-card{
+      background:var(--deep);border-radius:20px;padding:clamp(2rem,3.5vw,2.8rem);
+      position:relative;overflow:hidden;
+      opacity:0;transform:translateY(12px);transition:all .6s .1s;
+    }
+    .insight-card.visible{opacity:1;transform:translateY(0)}
+    .insight-card::after{
+      content:'';position:absolute;bottom:-60px;right:-60px;
+      width:160px;height:160px;border-radius:50%;
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));opacity:.07;
+    }
+    .insight-card blockquote{
+      font-family:'Shippori Mincho',serif;
+      font-size:clamp(.95rem,1.8vw,1.2rem);font-weight:700;
+      color:#fff;line-height:1.75;margin-bottom:1.4rem;position:relative;z-index:1;
+    }
+    .insight-card blockquote::before{
+      content:'"';font-family:'DM Serif Display',serif;
+      font-size:3.5rem;color:var(--grad-1);line-height:.7;
+      display:block;margin-bottom:.4rem;
+    }
+    .insight-card p{font-size:clamp(.79rem,1.4vw,.88rem);color:rgba(255,255,255,.52);line-height:1.95;position:relative;z-index:1}
+    .insight-badge{
+      display:inline-flex;align-items:center;gap:.5rem;
+      margin-top:1.4rem;padding:.55rem 1rem;
+      background:rgba(232,93,138,.14);border:1px solid rgba(232,93,138,.3);
+      border-radius:2rem;position:relative;z-index:1;
+    }
+    .insight-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--grad-1)}
+    .insight-badge span{font-size:.75rem;color:#fff;font-weight:600}
 
-      .worries-right { padding: 1.6rem; }
-      .plans-grid { max-width: 100%; }
-      .why-conclusion { flex-direction: column; gap: 0.8rem; padding: 1.4rem; }
-      footer { flex-direction: column; text-align: center; }
+    /* ════════════════════════
+       WHY（できない理由・交互レイアウト）
+    ════════════════════════ */
+    #why{background:var(--cream)}
+    .why-lead{max-width:var(--col)}
+    .alt-block{
+      display:grid;grid-template-columns:1fr 1fr;gap:clamp(2.5rem,5vw,6rem);
+      align-items:center;
+      padding:clamp(2.5rem,4vw,4rem) 0;
+      border-bottom:1px solid rgba(26,26,46,.07);
+      opacity:0;transform:translateY(16px);transition:all .6s;
+    }
+    .alt-block:last-child{border-bottom:none}
+    .alt-block.visible{opacity:1;transform:translateY(0)}
+    .alt-block.rev{direction:rtl}
+    .alt-block.rev>*{direction:ltr}
+
+    .alt-visual{
+      aspect-ratio:1;max-width:320px;width:100%;margin:0 auto;
+      border-radius:24px;background:var(--deep);
+      display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.8rem;
+      position:relative;overflow:hidden;
+    }
+    .alt-visual::before{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(135deg,rgba(232,93,138,.07),rgba(244,160,68,.05));
+    }
+    .alt-visual .big-num{
+      font-family:'DM Serif Display',serif;font-style:italic;
+      font-size:clamp(4.5rem,9vw,8rem);line-height:.9;
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
+      background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      position:relative;z-index:1;
+    }
+    .alt-visual .big-icon{font-size:clamp(1.8rem,3.5vw,2.8rem);position:relative;z-index:1}
+
+    .alt-text .tag{
+      font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;
+      color:var(--grad-1);margin-bottom:.5rem;display:block;
     }
 
-    @media (max-width: 420px) {
-      .services-grid { grid-template-columns: 1fr; }
-      .hero-btns { flex-direction: column; align-items: center; }
-      .btn-primary, .btn-outline { width: 100%; max-width: 280px; justify-content: center; }
-      .hero-ring { width: 130px; height: 130px; }
+    /* ════════════════════════
+       SERVICES
+    ════════════════════════ */
+    #services{background:var(--ivory)}
+    .svc-grid{
+      display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem;
+      margin-top:3rem;
+    }
+    .svc-card{
+      padding:2rem 2.2rem;border:1px solid rgba(26,26,46,.09);
+      border-radius:18px;background:#fff;
+      transition:all .3s;
+      opacity:0;transform:translateY(12px);
+    }
+    .svc-card.visible{opacity:1;transform:translateY(0)}
+    .svc-card:hover{border-color:var(--grad-1);box-shadow:0 8px 28px rgba(232,93,138,.08);transform:translateY(-3px)}
+    .svc-icon{
+      width:42px;height:42px;border-radius:12px;
+      background:linear-gradient(135deg,rgba(232,93,138,.08),rgba(244,160,68,.08));
+      display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:.9rem;
+    }
+    .svc-card h3{font-family:'Shippori Mincho',serif;font-size:clamp(.9rem,1.5vw,1.02rem);font-weight:700;margin-bottom:.45rem}
+    .svc-card p{font-size:clamp(.74rem,1.2vw,.81rem);line-height:1.8;color:rgba(26,26,46,.56)}
+
+    /* ════════════════════════
+       PLANS（ダーク背景）
+    ════════════════════════ */
+    #plans{position:relative;overflow:hidden}
+    #plans::before{
+      content:'';position:absolute;top:-200px;right:-200px;
+      width:min(600px,80vw);height:min(600px,80vw);border-radius:50%;
+      background:radial-gradient(circle,rgba(232,93,138,.09) 0%,transparent 70%);
+    }
+    .plans-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem;
+      margin-top:3rem;
+    }
+    .plan-card{
+      border-radius:20px;overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      transition:all .3s;position:relative;
+      opacity:0;transform:translateY(14px);
+    }
+    .plan-card.visible{opacity:1;transform:translateY(0)}
+    .plan-card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(0,0,0,.25)}
+    .plan-card.featured{border-color:var(--grad-1);background:rgba(232,93,138,.06);box-shadow:0 6px 24px rgba(232,93,138,.14)}
+    .plan-card.featured::before{
+      content:'おすすめ';position:absolute;top:0;right:0;
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
+      color:#fff;font-size:.6rem;letter-spacing:.1em;
+      padding:.26rem .85rem;border-bottom-left-radius:12px;
+    }
+    .plan-head{padding:1.7rem 1.7rem 1.2rem;border-bottom:1px solid rgba(255,255,255,.07)}
+    .plan-name{font-family:'Shippori Mincho',serif;font-size:clamp(.92rem,1.8vw,1.12rem);font-weight:800;color:#fff;margin-bottom:.28rem}
+    .plan-desc{font-size:.7rem;color:rgba(255,255,255,.38)}
+    .plan-body{padding:1.4rem 1.7rem}
+    .plan-features{list-style:none;display:flex;flex-direction:column;gap:.7rem}
+    .plan-features li{font-size:clamp(.75rem,1.3vw,.83rem);color:rgba(255,255,255,.68);display:flex;align-items:flex-start;gap:.5rem;line-height:1.55}
+    .plan-features li::before{content:'✓';color:var(--grad-1);font-weight:700;flex-shrink:0;margin-top:1px}
+    .plans-note{margin-top:1.6rem;text-align:center;font-size:.72rem;color:rgba(255,255,255,.26)}
+
+    /* ════════════════════════
+       DIFFERENCE（比較表）
+    ════════════════════════ */
+    #difference{background:var(--ivory)}
+    .diff-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:2.5rem}
+    .diff-table{width:100%;min-width:460px;border-radius:16px;overflow:hidden;border:1px solid rgba(26,26,46,.09)}
+    .diff-row{display:grid;grid-template-columns:1.3fr 1fr 1.4fr;border-bottom:1px solid rgba(26,26,46,.06);opacity:0;transition:opacity .4s}
+    .diff-row:last-child{border-bottom:none}
+    .diff-row.visible{opacity:1}
+    .diff-row.hdr{background:var(--deep)}
+    .diff-cell{padding:1rem 1.3rem;font-size:clamp(.73rem,1.3vw,.82rem);color:rgba(26,26,46,.62)}
+    .diff-cell.lbl{color:rgba(26,26,46,.36);font-size:.72rem}
+    .diff-cell.us{color:var(--ink);font-weight:700;border-left:2px solid var(--grad-1);background:rgba(232,93,138,.04)}
+    .diff-cell.hd{font-size:.65rem;letter-spacing:.12em;font-weight:600;color:rgba(255,255,255,.38)}
+    .diff-cell.hd.us-hd{color:var(--grad-1);border-left:2px solid var(--grad-1);background:rgba(232,93,138,.08)}
+    .chk{color:var(--grad-1)}
+
+    /* ════════════════════════
+       FLOW
+    ════════════════════════ */
+    #flow{background:var(--cream)}
+    .flow-list{
+      max-width:600px;margin:3rem auto 0;
+      display:flex;flex-direction:column;
+    }
+    .flow-step{
+      display:grid;grid-template-columns:58px 1fr;gap:1.1rem;
+      opacity:0;transform:translateX(-12px);transition:all .5s;
+    }
+    .flow-step.visible{opacity:1;transform:translateX(0)}
+    .flow-left{display:flex;flex-direction:column;align-items:center}
+    .flow-num{
+      width:40px;height:40px;border-radius:50%;flex-shrink:0;
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
+      color:#fff;font-family:'DM Serif Display',serif;font-size:1.05rem;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .flow-line{width:2px;flex:1;min-height:28px;background:linear-gradient(to bottom,rgba(232,93,138,.3),transparent)}
+    .flow-step:last-child .flow-line{display:none}
+    .flow-content{padding-bottom:1.8rem}
+    .flow-content h3{font-family:'Shippori Mincho',serif;font-size:clamp(.87rem,1.5vw,.98rem);font-weight:700;margin-bottom:.28rem}
+    .flow-content p{font-size:clamp(.76rem,1.3vw,.82rem);line-height:1.85;color:rgba(26,26,46,.56)}
+
+    /* ════════════════════════
+       INSTAGRAM
+    ════════════════════════ */
+    #insta-feed{background:var(--ivory)}
+    .insta-handle-link{
+      display:inline-flex;align-items:center;gap:.5rem;
+      font-size:.78rem;color:rgba(26,26,46,.42);text-decoration:none;
+      margin-top:.8rem;transition:color .2s;
+    }
+    .insta-handle-link:hover{color:var(--grad-1)}
+    .insta-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;
+      margin-top:2.5rem;
+    }
+    .insta-embed-wrap{
+      background:var(--cream);border-radius:14px;overflow:hidden;
+      border:1px solid rgba(26,26,46,.08);
+      display:flex;flex-direction:column;align-items:center;min-height:400px;position:relative;
+    }
+    .insta-embed-wrap .instagram-media{margin:0!important;min-width:100%!important;max-width:100%!important;border:none!important}
+    .insta-placeholder{
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:.5rem;padding:2rem;text-align:center;flex:1;
+      color:rgba(26,26,46,.3);font-size:.76rem;line-height:1.7;
+    }
+    .insta-placeholder .ph-icon{font-size:1.8rem;opacity:.28}
+    .insta-del-btn{
+      position:absolute;top:.6rem;right:.6rem;width:24px;height:24px;
+      border-radius:50%;background:rgba(232,93,138,.85);color:#fff;
+      border:none;cursor:pointer;font-size:.72rem;
+      display:flex;align-items:center;justify-content:center;
+      opacity:0;transition:opacity .2s;z-index:5;
+    }
+    .insta-embed-wrap:hover .insta-del-btn{opacity:1}
+    .insta-url-box{
+      max-width:580px;margin:2rem auto 0;
+      background:var(--cream);border-radius:16px;padding:1.5rem 1.8rem;
+      border:1px dashed rgba(26,26,46,.14);text-align:center;
+    }
+    .insta-url-box p{font-size:.78rem;color:rgba(26,26,46,.5);margin-bottom:.8rem;line-height:1.75}
+    .insta-row{display:flex;gap:.6rem;flex-wrap:wrap;justify-content:center}
+    .insta-input{
+      flex:1;min-width:min(220px,100%);padding:.58rem 1rem;
+      border-radius:2rem;border:1px solid rgba(26,26,46,.12);
+      font-size:.78rem;font-family:'Noto Serif JP',serif;outline:none;
+      background:#fff;transition:border-color .2s;
+    }
+    .insta-input:focus{border-color:var(--grad-1)}
+    .insta-add{
+      padding:.58rem 1.3rem;border-radius:2rem;border:none;cursor:pointer;
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
+      color:#fff;font-size:.76rem;font-family:'Noto Serif JP',serif;white-space:nowrap;
+      transition:opacity .2s;
+    }
+    .insta-add:hover{opacity:.88}
+    .insta-msg{margin-top:.55rem;font-size:.73rem;color:var(--grad-1);min-height:1em;text-align:center}
+    .insta-footer{text-align:center;margin-top:2rem}
+    .insta-profile-btn{
+      display:inline-flex;align-items:center;gap:.5rem;padding:.78rem 2rem;
+      background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
+      color:#fff;border-radius:3rem;text-decoration:none;font-size:.82rem;
+      letter-spacing:.05em;transition:transform .2s,box-shadow .2s;
+    }
+    .insta-profile-btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(131,58,180,.28)}
+
+    /* ════════════════════════
+       FUTURE（ダーク）
+    ════════════════════════ */
+    #future{position:relative;overflow:hidden}
+    .future-grid{
+      display:grid;grid-template-columns:repeat(2,1fr);gap:1.3rem;
+      margin-top:3rem;
+    }
+    .future-card{
+      padding:1.8rem;border-radius:16px;
+      border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);
+      position:relative;overflow:hidden;
+      transition:all .3s;opacity:0;transform:translateY(12px);
+    }
+    .future-card.visible{opacity:1;transform:translateY(0)}
+    .future-card:hover{transform:translateY(-3px);background:rgba(255,255,255,.05);border-color:rgba(232,93,138,.28)}
+    .future-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(135deg,var(--grad-1),var(--grad-2))}
+    .future-icon{font-size:1.5rem;margin-bottom:.75rem}
+    .future-card h3{font-family:'Shippori Mincho',serif;font-size:clamp(.87rem,1.5vw,.98rem);font-weight:700;color:#fff;margin-bottom:.45rem}
+    .future-card p{font-size:clamp(.74rem,1.2vw,.81rem);line-height:1.85;color:rgba(255,255,255,.46)}
+
+    /* ════════════════════════
+       CTA
+    ════════════════════════ */
+    #cta{background:var(--ivory);text-align:center}
+    .cta-cards{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;
+      margin-top:3rem;
+    }
+    .cta-card{
+      padding:2rem 1.6rem;background:#fff;
+      border:1px solid rgba(26,26,46,.08);border-radius:18px;
+      transition:all .3s;
+    }
+    .cta-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.06);border-color:rgba(232,93,138,.2)}
+    .cta-card-icon{font-size:1.7rem;margin-bottom:.75rem}
+    .cta-card h3{font-family:'Shippori Mincho',serif;font-size:.96rem;font-weight:700;margin-bottom:.55rem}
+    .cta-card p{font-size:.77rem;color:rgba(26,26,46,.5);margin-bottom:1.2rem;line-height:1.8}
+    .line-btn-wrap{display:flex;justify-content:center}
+    .line-btn-wrap img{height:38px}
+    .insta-btn{
+      display:inline-flex;align-items:center;gap:.45rem;padding:.62rem 1.3rem;
+      background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
+      color:#fff;border-radius:2rem;text-decoration:none;font-size:.76rem;
+      letter-spacing:.04em;transition:transform .2s;
+    }
+    .insta-btn:hover{transform:translateY(-2px)}
+    .email-link{
+      color:var(--grad-1);text-decoration:none;font-size:.77rem;
+      border-bottom:1px solid rgba(232,93,138,.3);padding-bottom:1px;
+      word-break:break-all;transition:border-color .2s;
+    }
+    .email-link:hover{border-color:var(--grad-1)}
+    .cta-note{margin-top:1.4rem;font-size:.68rem;color:rgba(26,26,46,.28)}
+
+    /* ════════════════════════
+       FOOTER
+    ════════════════════════ */
+    footer{
+      background:var(--deep);color:rgba(255,255,255,.28);
+      padding:2.5rem clamp(1.4rem,4vw,3.5rem);
+      display:flex;align-items:center;justify-content:space-between;
+      font-size:.68rem;letter-spacing:.05em;flex-wrap:wrap;gap:1rem;
+    }
+    .footer-logo-link{text-decoration:none;display:flex;flex-direction:column;gap:2px}
+    .footer-logo{
+      font-family:'Shippori Mincho',serif;font-size:1.05rem;font-weight:800;
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
+      background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    }
+    .footer-logo-sub{font-size:.52rem;letter-spacing:.18em;color:rgba(255,255,255,.22);text-transform:uppercase}
+    footer a{color:rgba(255,255,255,.28);text-decoration:none}
+    footer a:hover{color:rgba(255,255,255,.6)}
+
+    /* ════════════════════════
+       KEYFRAMES
+    ════════════════════════ */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes scrollPulse{0%,100%{opacity:.28;transform:scaleY(1)}50%{opacity:.65;transform:scaleY(1.2)}}
+    @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+    /* ════════════════════════
+       RESPONSIVE
+    ════════════════════════ */
+    @media(max-width:1020px){
+      .hero-inner{grid-template-columns:1fr;justify-items:start}
+      .hero-visual{justify-self:center;margin-top:2rem}
+      #worries .pain-row{grid-template-columns:1fr;gap:2.5rem}
+      .alt-block{grid-template-columns:1fr;gap:2rem}
+      .alt-block.rev{direction:ltr}
+      .alt-visual{max-width:240px}
+      .svc-grid{grid-template-columns:1fr}
+      .plans-grid{grid-template-columns:1fr;max-width:380px;margin:3rem auto 0}
+      .future-grid{grid-template-columns:1fr}
+      .cta-cards{grid-template-columns:1fr;max-width:360px;margin:3rem auto 0}
+      .insta-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media(max-width:768px){
+      :root{--nav-h:58px}
+      nav{padding:0 1.2rem}
+      .nav-links,.nav-cta{display:none}
+      .hamburger{display:flex}
+      .sec{padding:clamp(3.5rem,7vw,5.5rem) 1.2rem}
+      #hero{padding:calc(var(--nav-h) + 2.5rem) 1.2rem 4.5rem}
+      .hero-title,.hero-body,.hero-text .eyebrow{text-align:center}
+      .hero-btns{display:flex;justify-content:center}
+      .hero-visual{width:100%;display:flex;justify-content:center}
+      .hero-ring{width:160px;height:160px}
+      .diff-row{min-width:420px}
+      .insta-grid{grid-template-columns:1fr}
+      footer{flex-direction:column;text-align:center}
+      .plans-grid{max-width:100%}
+      .sec-label .en{font-size:clamp(3rem,9vw,5rem)}
+    }
+    @media(max-width:440px){
+      .btn-group{flex-direction:column;align-items:center}
+      .btn-primary,.btn-outline-white{width:100%;max-width:280px;justify-content:center}
+      .hero-ring{width:140px;height:140px}
     }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ══ NAV ══ -->
 <nav id="navbar">
-  <!-- Logo → scroll to top -->
-  <a href="#hero" class="nav-logo" id="navLogo">集客塾</a>
-
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#worries">お悩み</a></li>
-    <li><a href="#why">集客できない理由</a></li>
-    <li><a href="#services">サービス</a></li>
-    <li><a href="#plans">プラン</a></li>
-    <li><a href="#insta-feed">投稿</a></li>
-    <li><a href="#cta">お問い合わせ</a></li>
+  <a href="#hero" class="nav-brand">
+    <span class="nav-brand-ja">集客塾</span>
+    <span class="nav-brand-en">Shukyaku Juku</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#concept"><span class="en">Concept</span><span class="ja">コンセプト</span></a></li>
+    <li><a href="#worries"><span class="en">Worries</span><span class="ja">お悩み</span></a></li>
+    <li><a href="#services"><span class="en">Services</span><span class="ja">サービス</span></a></li>
+    <li><a href="#plans"><span class="en">Plans</span><span class="ja">プラン</span></a></li>
+    <li><a href="#cta"><span class="en">Contact</span><span class="ja">お問い合わせ</span></a></li>
   </ul>
-
-  <a href="#cta" class="nav-cta">無料相談</a>
-
+  <a href="#cta" class="nav-cta btn">
+    <span class="en">Free Consultation</span>
+    <span class="ja">無料相談</span>
+  </a>
   <div class="hamburger" id="hamburger" onclick="toggleDrawer()">
     <span></span><span></span><span></span>
   </div>
 </nav>
 
-<!-- MOBILE DRAWER -->
+<!-- ══ MOBILE DRAWER ══ -->
 <div class="mobile-drawer" id="mobileDrawer">
-  <span class="close-btn" onclick="toggleDrawer()">×</span>
-  <a href="#worries"    onclick="toggleDrawer()">お悩み</a>
-  <a href="#why"        onclick="toggleDrawer()">集客できない理由</a>
-  <a href="#services"   onclick="toggleDrawer()">サービス</a>
-  <a href="#plans"      onclick="toggleDrawer()">プラン</a>
-  <a href="#insta-feed" onclick="toggleDrawer()">投稿を見る</a>
-  <a href="#flow"       onclick="toggleDrawer()">ご利用の流れ</a>
-  <a href="#cta"        onclick="toggleDrawer()" class="drawer-cta btn-primary">無料相談はこちら</a>
+  <button class="close-btn" onclick="toggleDrawer()">×</button>
+  <a href="#concept" onclick="toggleDrawer()"><span class="en">Concept</span><span class="ja">コンセプト</span></a>
+  <a href="#worries" onclick="toggleDrawer()"><span class="en">Worries</span><span class="ja">お悩み</span></a>
+  <a href="#services" onclick="toggleDrawer()"><span class="en">Services</span><span class="ja">サービス</span></a>
+  <a href="#plans" onclick="toggleDrawer()"><span class="en">Plans</span><span class="ja">プラン</span></a>
+  <a href="#flow" onclick="toggleDrawer()"><span class="en">Flow</span><span class="ja">ご利用の流れ</span></a>
+  <a href="#cta" onclick="toggleDrawer()" class="drawer-cta"><span class="en">Free Consultation</span><span class="ja">無料相談はこちら</span></a>
 </div>
 
-<!-- SCROLL-TO-TOP FAB -->
+<!-- ══ FAB ══ -->
 <button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="トップに戻る">↑</button>
 
-<!-- ═══════ HERO ═══════ -->
+<!-- ══════════════════════════
+  HERO
+══════════════════════════ -->
 <section id="hero">
   <div class="hero-bg"></div>
-  <div class="hero-grid-lines"></div>
-  <div class="hero-left">
-    <div class="hero-eyebrow">〜 インスタ部 〜　塾・スクール専門</div>
-    <h1 class="hero-title">インスタで<em>集客できる</em><br>仕組みを、一緒に作ります。</h1>
-    <p class="hero-sub">頑張って投稿しているのに問い合わせが来ない——その原因は「投稿」ではなく「設計」の不在です。集客塾は、塾・スクール専門の集客パートナーとしてあなたのインスタを変えます。</p>
-    <div class="hero-btns">
-      <a href="#cta" class="btn-primary">無料相談を申し込む</a>
-      <a href="#services" class="btn-outline">サービスを見る</a>
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="eyebrow">〜 インスタ部 〜　塾・スクール専門</div>
+      <h1 class="hero-title">
+        インスタで<span class="accent">集客できる</span><br>仕組みを、<br>一緒に作ります。
+      </h1>
+      <p class="hero-body">頑張って投稿しているのに問い合わせが来ない——その原因は「投稿」ではなく「設計」の不在です。集客塾は、塾・スクール専門の集客パートナーとしてあなたのインスタを変えます。</p>
+      <div class="hero-btns">
+        <div class="btn-group">
+          <a href="#cta" class="btn btn-primary">無料相談を申し込む</a>
+          <a href="#services" class="btn btn-outline-white">サービスを見る</a>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="hero-right">
-    <div class="hero-ring">
-      <div class="hero-ring-inner">
-        <div class="hero-kanji">集客塾</div>
-        <div class="hero-bars">
-          <div class="bar bar-1"></div>
-          <div class="bar bar-2"></div>
-          <div class="bar bar-3"></div>
-          <div class="play-dot">▶</div>
+    <div class="hero-visual">
+      <div class="hero-ring">
+        <div class="hero-ring-inner">
+          <div class="hero-kanji">集客塾</div>
+          <div class="hero-bars">
+            <div class="bar bar-1"></div>
+            <div class="bar bar-2"></div>
+            <div class="bar bar-3"></div>
+            <div class="play-dot">▶</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  <div class="hero-scroll">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
+  </div>
 </section>
 
-<!-- ═══════ WORRIES ═══════ -->
-<section id="worries">
-  <div>
-    <span class="section-tag">Worries</span>
-    <h2 class="section-title">こんな悩み、ありませんか？</h2>
-    <div class="worries-list">
-      <div class="worry-item"><span class="worry-num">01</span><span class="worry-text">頑張って投稿してるのに問い合わせが来ない</span></div>
-      <div class="worry-item"><span class="worry-num">02</span><span class="worry-text">何を投稿すれば集客に繋がるのかわからない</span></div>
-      <div class="worry-item"><span class="worry-num">03</span><span class="worry-text">フォロワーは増えても体験・入会に繋がらない</span></div>
-      <div class="worry-item"><span class="worry-num">04</span><span class="worry-text">塾運営が忙しくてSNSまで手が回らない</span></div>
-      <div class="worry-item"><span class="worry-num">05</span><span class="worry-text">インスタを始めたけど正解がわからず止まっている</span></div>
+<!-- ══ TICKER ══ -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    <span class="ticker-item">塾・スクール専門<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Instagram集客設計<span class="ticker-dot"></span></span>
+    <span class="ticker-item">無料相談受付中<span class="ticker-dot"></span></span>
+    <span class="ticker-item">問い合わせ導線設計<span class="ticker-dot"></span></span>
+    <span class="ticker-item">月次面談サポート<span class="ticker-dot"></span></span>
+    <span class="ticker-item">教育現場経験あり<span class="ticker-dot"></span></span>
+    <span class="ticker-item">塾・スクール専門<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Instagram集客設計<span class="ticker-dot"></span></span>
+    <span class="ticker-item">無料相談受付中<span class="ticker-dot"></span></span>
+    <span class="ticker-item">問い合わせ導線設計<span class="ticker-dot"></span></span>
+    <span class="ticker-item">月次面談サポート<span class="ticker-dot"></span></span>
+    <span class="ticker-item">教育現場経験あり<span class="ticker-dot"></span></span>
+  </div>
+</div>
+
+<!-- ══════════════════════════
+  CONCEPT
+══════════════════════════ -->
+<section id="concept" class="sec sec-ivory">
+  <div class="inner-wide">
+    <div class="sec-label">
+      <span class="en">Concept</span>
+      <span class="ja">コンセプト</span>
     </div>
-  </div>
-  <div class="worries-right">
-    <div class="quote">"</div>
-    <p>実は、塾・スクールの多くが<strong>同じ壁</strong>にぶつかっています。<br><br>原因は投稿の質や量ではなく、<strong>「誰に」「何を伝え」「どう問い合わせに繋げるか」</strong>という設計がないことです。</p>
-    <div class="worries-cta-box"><p>集客塾は、その<span>設計から一緒に作ります。</span></p></div>
-  </div>
-</section>
-
-<!-- ═══════ WHY ═══════ -->
-<section id="why">
-  <div class="text-center">
-    <span class="section-tag">Why Can't You</span>
-    <h2 class="section-title">なぜインスタで集客できないのか？</h2>
-    <p class="section-subtitle">多くの場合、問題は「投稿」ではありません。集客できない本当の理由がここにあります。</p>
-  </div>
-  <div class="why-grid">
-    <div class="why-card"><div class="why-card-num">01</div><div class="why-card-icon">🎯</div><h3>ターゲットが不明確</h3><p>誰に向けたアカウントか決まっていないため、誰にも刺さらない投稿になっています。</p></div>
-    <div class="why-card"><div class="why-card-num">02</div><div class="why-card-icon">🗺️</div><h3>導線が設計されていない</h3><p>問い合わせや体験申込みまでの流れが作られておらず、見てもらっても行動に繋がりません。</p></div>
-    <div class="why-card"><div class="why-card-num">03</div><div class="why-card-icon">🎲</div><h3>感覚で投稿している</h3><p>戦略なく思いついたことを投稿しているため、一貫性がなくフォロワーが増えません。</p></div>
-    <div class="why-card"><div class="why-card-num">04</div><div class="why-card-icon">📊</div><h3>改善の視点がない</h3><p>数値や反応を見て改善する仕組みがなく、同じ失敗を繰り返しています。</p></div>
-  </div>
-  <div class="why-conclusion">
-    <span class="arrow">→</span>
-    <p>「投稿」ではなく、<span>「設計」がない</span>ことが集客できない本当の理由です。</p>
-  </div>
-</section>
-
-<!-- ═══════ SERVICES ═══════ -->
-<section id="services">
-  <div class="text-center">
-    <span class="section-tag">Services</span>
-    <h2 class="section-title">集客塾のサービス内容</h2>
-    <p class="section-subtitle">運用代行にとどまらず、集客できるインスタを一緒に設計・改善するフルサポートです。</p>
-  </div>
-  <div class="services-grid">
-    <div class="service-card"><div class="service-icon">🎯</div><h3>アカウント設計</h3><p>ターゲット設定・コンセプト設計・方向性決定を行います。</p></div>
-    <div class="service-card"><div class="service-icon">✏️</div><h3>投稿企画</h3><p>集客につながる投稿テーマ・構成を戦略的に設計します。</p></div>
-    <div class="service-card"><div class="service-icon">🖼️</div><h3>投稿制作</h3><p>投稿内容作成・構成作り・改善提案を行います。</p></div>
-    <div class="service-card"><div class="service-icon">💬</div><h3>運用サポート</h3><p>投稿添削・改善アドバイス・運用相談に対応します。</p></div>
-    <div class="service-card"><div class="service-icon">🔗</div><h3>導線設計</h3><p>プロフ・ストーリー・DM導線を最適化します。</p></div>
-    <div class="service-card"><div class="service-icon">🤝</div><h3>面談サポート</h3><p>月1〜2回のオンライン面談で伴走します。</p></div>
-    <div class="service-card"><div class="service-icon">📈</div><h3>改善・分析</h3><p>反応・数値を元に継続的な改善提案を行います。</p></div>
-    <div class="service-card"><div class="service-icon">🏆</div><h3>集客戦略</h3><p>体験・問い合わせまでの流れを丸ごと設計します。</p></div>
-  </div>
-</section>
-
-<!-- ═══════ PLANS ═══════ -->
-<section id="plans">
-  <div class="text-center">
-    <span class="section-tag">Plans</span>
-    <h2 class="section-title">選べる３つのプラン</h2>
-    <p class="section-subtitle">状況やご予算に合わせて最適なプランをお選びいただけます。まずはお試しプランから始めることも可能です。</p>
-  </div>
-  <div class="plans-grid">
-    <div class="plan-card">
-      <div class="plan-header"><div class="plan-name">お試しプラン</div><div class="plan-desc">まずは試してみたい方に</div></div>
-      <div class="plan-body"><ul class="plan-features"><li>月２回投稿</li><li>月１回 30分オンライン面談</li><li>簡易運用アドバイス</li><li>改善フィードバック</li></ul></div>
-    </div>
-    <div class="plan-card featured">
-      <div class="plan-header" style="background:linear-gradient(135deg,#1a1a2e,#2d1f3d)"><div class="plan-name">スタンダードプラン</div><div class="plan-desc">本格的に集客したい方に</div></div>
-      <div class="plan-body"><ul class="plan-features"><li>月４回投稿</li><li>月２回 60分オンライン面談</li><li>投稿企画・構成サポート</li><li>運用改善・集客導線設計</li></ul></div>
-    </div>
-    <div class="plan-card">
-      <div class="plan-header"><div class="plan-name">プレミアムプラン</div><div class="plan-desc">完全にお任せしたい方に</div></div>
-      <div class="plan-body"><ul class="plan-features"><li>月８回投稿</li><li>月２回 60分オンライン面談</li><li>優先対応</li><li>運用・集客フル相談</li><li>体験・入会導線まで設計</li></ul></div>
-    </div>
-  </div>
-  <p style="text-align:center;margin-top:1.5rem;font-size:0.76rem;color:rgba(26,26,46,0.42);">※ 料金は「集客導線」「改善」「伴走」込みの投資です。無理な営業は一切いたしません。</p>
-</section>
-
-<!-- ═══════ DIFFERENCE ═══════ -->
-<section id="difference">
-  <span class="section-tag">Why Us</span>
-  <h2 class="section-title">他の運用代行との違い</h2>
-  <div class="diff-table">
-    <div class="diff-row header"><div class="diff-cell head label">比較項目</div><div class="diff-cell head">一般的な運用代行</div><div class="diff-cell head us-head">集客塾</div></div>
-    <div class="diff-row"><div class="diff-cell label">対象</div><div class="diff-cell">業種問わず</div><div class="diff-cell us"><span class="check">✓</span> 塾・スクール専門</div></div>
-    <div class="diff-row"><div class="diff-cell label">目的</div><div class="diff-cell">投稿・フォロー</div><div class="diff-cell us"><span class="check">✓</span> 問い合わせ・体験</div></div>
-    <div class="diff-row"><div class="diff-cell label">投稿</div><div class="diff-cell">作るだけ</div><div class="diff-cell us"><span class="check">✓</span> 集客導線込み</div></div>
-    <div class="diff-row"><div class="diff-cell label">戦略</div><div class="diff-cell">ほぼなし</div><div class="diff-cell us"><span class="check">✓</span> 最初に設計から</div></div>
-    <div class="diff-row"><div class="diff-cell label">改善</div><div class="diff-cell">ほぼなし</div><div class="diff-cell us"><span class="check">✓</span> 数字をみて改善</div></div>
-    <div class="diff-row"><div class="diff-cell label">サポート</div><div class="diff-cell">チャットのみ</div><div class="diff-cell us"><span class="check">✓</span> 面談付き</div></div>
-    <div class="diff-row"><div class="diff-cell label">立場</div><div class="diff-cell">外注</div><div class="diff-cell us"><span class="check">✓</span> 集客パートナー</div></div>
-    <div class="diff-row" style="border-bottom:none"><div class="diff-cell label">現場理解</div><div class="diff-cell">ほぼなし</div><div class="diff-cell us"><span class="check">✓</span> 教育現場経験あり</div></div>
-  </div>
-</section>
-
-<!-- ═══════ FLOW ═══════ -->
-<section id="flow">
-  <div class="text-center">
-    <span class="section-tag">Flow</span>
-    <h2 class="section-title">ご利用の流れ</h2>
-    <p class="section-subtitle">無料相談から始まり、集客の仕組みができあがるまでをしっかり伴走します。</p>
-  </div>
-  <div class="flow-steps">
-    <div class="flow-step"><div class="flow-step-left"><div class="flow-step-num">1</div><div class="flow-step-line"></div></div><div class="flow-step-content"><h3>無料相談</h3><p>現状・悩み・目標をヒアリングし、方向性を整理します。</p></div></div>
-    <div class="flow-step"><div class="flow-step-left"><div class="flow-step-num">2</div><div class="flow-step-line"></div></div><div class="flow-step-content"><h3>現状ヒアリング</h3><p>アカウントと投稿を見て、集客できない原因を明確にします。</p></div></div>
-    <div class="flow-step"><div class="flow-step-left"><div class="flow-step-num">3</div><div class="flow-step-line"></div></div><div class="flow-step-content"><h3>プラン決定</h3><p>目的に合ったプランと運用方針を決めます。</p></div></div>
-    <div class="flow-step"><div class="flow-step-left"><div class="flow-step-num">4</div><div class="flow-step-line"></div></div><div class="flow-step-content"><h3>アカウント・集客設計</h3><p>ターゲット・投稿内容・問い合わせ導線を設計します。</p></div></div>
-    <div class="flow-step"><div class="flow-step-left"><div class="flow-step-num">5</div><div class="flow-step-line"></div></div><div class="flow-step-content"><h3>投稿・運用スタート</h3><p>投稿・運用をスタートし、反応を見ながら進めます。</p></div></div>
-    <div class="flow-step"><div class="flow-step-left"><div class="flow-step-num">6</div><div class="flow-step-line"></div></div><div class="flow-step-content"><h3>月次面談・改善</h3><p>定期面談で数値と反応を確認し改善します。</p></div></div>
-    <div class="flow-step"><div class="flow-step-left"><div class="flow-step-num">7</div><div class="flow-step-line"></div></div><div class="flow-step-content"><h3>集客の仕組化</h3><p>問い合わせが生まれる運用の型を作ります。</p></div></div>
-  </div>
-</section>
-
-<!-- ═══════ INSTAGRAM FEED ═══════ -->
-<section id="insta-feed">
-  <div class="insta-feed-head">
-    <span class="section-tag">Instagram</span>
-    <h2 class="section-title">集客塾の最新投稿</h2>
-    <p class="section-subtitle" style="margin:0 auto">実際の投稿をご覧ください。集客に繋がるコンテンツを日々発信しています。</p>
-    <a href="https://www.instagram.com/shukyaku_juku_official" target="_blank" class="insta-handle">
-      <span>📷</span>@shukyaku_juku_official
-    </a>
-  </div>
-
-  <div class="insta-grid" id="instaGrid"></div>
-
-  <!-- URL 追加フォーム -->
-  <div class="insta-url-area">
-    <p>
-      <strong>投稿を追加する：</strong>Instagramの投稿を開き「…」→「リンクをコピー」でURLを取得して貼り付けてください。<br>
-      <span style="font-size:0.73rem;opacity:0.65;">例： https://www.instagram.com/p/ABC123/</span>
-    </p>
-    <div class="insta-url-row">
-      <input type="url" class="insta-url-input" id="instaUrlInput" placeholder="投稿URLを貼り付け...">
-      <button class="insta-add-btn" onclick="addEmbed()">追加する</button>
-    </div>
-    <p class="insta-msg" id="instaMsg"></p>
-  </div>
-
-  <div class="insta-profile-cta">
-    <a href="https://www.instagram.com/shukyaku_juku_official" target="_blank" class="insta-profile-btn">
-      <span>📷</span> Instagramをフォローする
-    </a>
-  </div>
-</section>
-
-<!-- ═══════ FUTURE ═══════ -->
-<section id="future">
-  <div class="text-center">
-    <span class="section-tag">Future</span>
-    <h2 class="section-title">集客塾と作る将来像</h2>
-    <p class="section-subtitle">集客の仕組みができると、塾経営が変わります。</p>
-  </div>
-  <div class="future-grid">
-    <div class="future-card"><div class="future-icon">⚙️</div><h3>生徒募集が仕組み化される</h3><p>毎回手探りで募集する必要がなくなり、安定した集客の流れが生まれます。</p></div>
-    <div class="future-card"><div class="future-icon">🏆</div><h3>地域で選ばれる塾になる</h3><p>インスタを通じて信頼と実績が伝わり、地域の保護者から選ばれるブランドになります。</p></div>
-    <div class="future-card"><div class="future-icon">💡</div><h3>価格競争から抜け出せる</h3><p>価値が正しく伝わることで、価格ではなく内容で選ばれるようになります。</p></div>
-    <div class="future-card"><div class="future-icon">📅</div><h3>長期的に安定経営できる</h3><p>集客が安定することで、本来の授業・指導に集中できる余裕が生まれます。</p></div>
-  </div>
-</section>
-
-<!-- ═══════ CTA ═══════ -->
-<section id="cta">
-  <span class="section-tag" style="color:var(--gold-light)">Contact</span>
-  <h2 class="section-title">まずは無料でご相談ください</h2>
-  <p class="section-subtitle">インスタを始めるか迷っている、今の運用を見てほしい、集客の方向性を整理したい——だけでもOKです。</p>
-  <div class="cta-cards">
-    <div class="cta-card">
-      <div class="cta-card-icon">💚</div>
-      <h3>LINEで相談する</h3>
-      <p>友だち追加後にメッセージをお送りください。一番かんたんな方法です。</p>
-      <div class="line-btn-wrap">
-        <a href="https://lin.ee/Wwx6qy4"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" alt="友だち追加" height="36" border="0"></a>
+    <div class="inner" style="max-width:var(--col)">
+      <p class="concept-text">
+        <span class="line">「社員のパフォーマンスが上がらない」</span>
+        <span class="line">「優秀な人材を獲得できない」</span>
+      </p>
+      <br>
+      <p class="concept-text">
+        <span class="line">インスタを始めたのに、</span>
+        <span class="line">問い合わせが来ない——</span>
+        <span class="line heavy grad">その原因は、「設計」の不在です。</span>
+      </p>
+      <p class="concept-sub">どれだけ投稿を頑張っても、「誰に・何を・どう届けるか」という設計がなければ、集客には繋がりません。集客塾は、塾・スクールに特化した集客パートナーとして、アカウント設計から問い合わせ導線まで、一緒に仕組みを作ります。</p>
+      <div class="concept-badge">
+        <span class="dot"></span>
+        <span>塾・スクール専門の集客設計パートナー</span>
+      </div>
+      <div style="margin-top:2rem">
+        <a href="#worries" class="btn btn-outline">お悩みを見る</a>
       </div>
     </div>
-    <div class="cta-card">
-      <div class="cta-card-icon">📸</div>
-      <h3>Instagram DMで相談する</h3>
-      <p>DMに「<strong style="color:var(--grad-2)">集客</strong>」と送るだけで無料相談の日程を調整します。</p>
-      <a href="https://www.instagram.com/shukyaku_juku_official" target="_blank" class="insta-btn">
-        <span>📩</span>@shukyaku_juku_official
-      </a>
-    </div>
-    <div class="cta-card">
-      <div class="cta-card-icon">✉️</div>
-      <h3>メールで相談する</h3>
-      <p>お名前・塾名・ご相談内容を記載の上、お気軽にご連絡ください。</p>
-      <a href="/cdn-cgi/l/email-protection#64171d11110f1d050f114a0e110f11240309050d084a070b09" class="email-link"><span class="__cf_email__" data-cfemail="9cefe5e9e9f7e5fdf7e9b2f6e9f7e9dcfbf1fdf5f0b2fff3f1">[email&#160;protected]</span></a>
-    </div>
   </div>
-  <p class="cta-note">※ 無理な営業は一切いたしません。お気軽にどうぞ。</p>
 </section>
 
-<!-- ═══════ FOOTER ═══════ -->
+<!-- ══════════════════════════
+  WORRIES
+══════════════════════════ -->
+<section id="worries" class="sec sec-cream">
+  <div class="inner-wide">
+    <div class="sec-label">
+      <span class="en">Worries</span>
+      <span class="ja">こんなお悩み、ありませんか？</span>
+    </div>
+    <div class="pain-row">
+      <div class="pain-list">
+        <div class="pain-item"><span class="pain-num">01</span><span class="pain-text">頑張って投稿してるのに問い合わせが来ない</span></div>
+        <div class="pain-item"><span class="pain-num">02</span><span class="pain-text">何を投稿すれば集客に繋がるのかわからない</span></div>
+        <div class="pain-item"><span class="pain-num">03</span><span class="pain-text">フォロワーは増えても体験・入会に繋がらない</span></div>
+        <div class="pain-item"><span class="pain-num">04</span><span class="pain-text">塾運営が忙しくてSNSまで手が回らない</span></div>
+        <div class="pain-item"><span class="pain-num">05</span><span class="pain-text">インスタを始めたけど正解がわからず止まっている</span></div>
+      </div>
+      <div class="insight-card">
+        <blockquote>原因は「投稿の質や量」ではなく、「設計の不在」です。</blockquote>
+        <p>塾・スクールの多くが同じ壁にぶつかっています。「誰に」「何を伝え」「どう問い合わせに繋げるか」という設計がないことが、集客できない本当の理由です。</p>
+        <div class="insight-badge"><span class="dot"></span><span>集客塾は、その設計から一緒に作ります。</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════
+  WHY（できない理由・交互）
+══════════════════════════ -->
+<section id="why" class="sec sec-ivory">
+  <div class="inner-wide">
+    <div class="sec-label">
+      <span class="en">Why</span>
+      <span class="ja">なぜインスタで集客できないのか？</span>
+    </div>
+    <div class="why-lead">
+      <p class="lead">多くの場合、問題は「投稿」ではありません。集客できない本当の理由は、設計の欠如にあります。</p>
+    </div>
+
+    <div class="alt-block" style="margin-top:2rem">
+      <div class="alt-visual"><div class="big-num">01</div><div class="big-icon">🎯</div></div>
+      <div class="alt-text">
+        <span class="tag">Problem 01</span>
+        <h3 class="h3">ターゲットが不明確</h3>
+        <p class="lead">誰に向けたアカウントか決まっていないため、誰にも刺さらない投稿になっています。投稿内容がバラバラで、見た人が「自分ごと」として受け取れない状態です。</p>
+      </div>
+    </div>
+    <div class="alt-block rev">
+      <div class="alt-visual"><div class="big-num">02</div><div class="big-icon">🗺️</div></div>
+      <div class="alt-text">
+        <span class="tag">Problem 02</span>
+        <h3 class="h3">導線が設計されていない</h3>
+        <p class="lead">問い合わせや体験申込みまでの流れが作られておらず、見てもらっても行動に繋がりません。プロフィールから体験申込みまでの「道」がない状態です。</p>
+      </div>
+    </div>
+    <div class="alt-block">
+      <div class="alt-visual"><div class="big-num">03</div><div class="big-icon">🎲</div></div>
+      <div class="alt-text">
+        <span class="tag">Problem 03</span>
+        <h3 class="h3">感覚で投稿している</h3>
+        <p class="lead">戦略なく思いついたことを投稿しているため、一貫性がなくフォロワーが増えません。「何のために投稿するか」が曖昧なまま運用が続いています。</p>
+      </div>
+    </div>
+    <div class="alt-block rev">
+      <div class="alt-visual"><div class="big-num">04</div><div class="big-icon">📊</div></div>
+      <div class="alt-text">
+        <span class="tag">Problem 04</span>
+        <h3 class="h3">改善の視点がない</h3>
+        <p class="lead">数値や反応を見て改善する仕組みがなく、同じ失敗を繰り返しています。何が効いているか・効いていないかを測る基準がない状態です。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════
+  SERVICES
+══════════════════════════ -->
+<section id="services" class="sec sec-cream">
+  <div class="inner-wide">
+    <div class="sec-label">
+      <span class="en">Services</span>
+      <span class="ja">サービス内容</span>
+    </div>
+    <div class="inner" style="max-width:var(--col);margin-bottom:1rem">
+      <p class="lead">運用代行にとどまらず、集客できるインスタを一緒に設計・改善するフルサポートです。</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc-card"><div class="svc-icon">🎯</div><h3>アカウント設計</h3><p>ターゲット設定・コンセプト設計・方向性決定を行います。</p></div>
+      <div class="svc-card"><div class="svc-icon">✏️</div><h3>投稿企画</h3><p>集客につながる投稿テーマ・構成を戦略的に設計します。</p></div>
+      <div class="svc-card"><div class="svc-icon">🖼️</div><h3>投稿制作</h3><p>投稿内容作成・構成作り・改善提案を行います。</p></div>
+      <div class="svc-card"><div class="svc-icon">💬</div><h3>運用サポート</h3><p>投稿添削・改善アドバイス・運用相談に対応します。</p></div>
+      <div class="svc-card"><div class="svc-icon">🔗</div><h3>導線設計</h3><p>プロフ・ストーリー・DM導線を最適化します。</p></div>
+      <div class="svc-card"><div class="svc-icon">🤝</div><h3>面談サポート</h3><p>月1〜2回のオンライン面談で伴走します。</p></div>
+      <div class="svc-card"><div class="svc-icon">📈</div><h3>改善・分析</h3><p>反応・数値を元に継続的な改善提案を行います。</p></div>
+      <div class="svc-card"><div class="svc-icon">🏆</div><h3>集客戦略</h3><p>体験・問い合わせまでの流れを丸ごと設計します。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════
+  PLANS
+══════════════════════════ -->
+<section id="plans" class="sec sec-dark">
+  <div class="inner-wide">
+    <div class="sec-label sec-label-dark">
+      <span class="en">Plans</span>
+      <span class="ja">選べる３つのプラン</span>
+    </div>
+    <div class="inner" style="max-width:var(--col);margin-bottom:1rem">
+      <p class="lead lead-white">状況やご予算に合わせて最適なプランをお選びいただけます。まずはお試しプランから始めることも可能です。</p>
+    </div>
+    <div class="plans-grid">
+      <div class="plan-card">
+        <div class="plan-head"><div class="plan-name">お試しプラン</div><div class="plan-desc">まずは試してみたい方に</div></div>
+        <div class="plan-body"><ul class="plan-features"><li>月２回投稿</li><li>月１回 30分オンライン面談</li><li>簡易運用アドバイス</li><li>改善フィードバック</li></ul></div>
+      </div>
+      <div class="plan-card featured">
+        <div class="plan-head"><div class="plan-name">スタンダードプラン</div><div class="plan-desc">本格的に集客したい方に</div></div>
+        <div class="plan-body"><ul class="plan-features"><li>月４回投稿</li><li>月２回 60分オンライン面談</li><li>投稿企画・構成サポート</li><li>運用改善・集客導線設計</li></ul></div>
+      </div>
+      <div class="plan-card">
+        <div class="plan-head"><div class="plan-name">プレミアムプラン</div><div class="plan-desc">完全にお任せしたい方に</div></div>
+        <div class="plan-body"><ul class="plan-features"><li>月８回投稿</li><li>月２回 60分オンライン面談</li><li>優先対応</li><li>運用・集客フル相談</li><li>体験・入会導線まで設計</li></ul></div>
+      </div>
+    </div>
+    <p class="plans-note">※ 料金は「集客導線」「改善」「伴走」込みの投資です。無理な営業は一切いたしません。</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════
+  DIFFERENCE
+══════════════════════════ -->
+<section id="difference" class="sec sec-ivory">
+  <div class="inner-wide">
+    <div class="sec-label">
+      <span class="en">Difference</span>
+      <span class="ja">他の運用代行との違い</span>
+    </div>
+    <div class="diff-wrap">
+      <div class="diff-table">
+        <div class="diff-row hdr"><div class="diff-cell hd lbl">比較項目</div><div class="diff-cell hd">一般的な運用代行</div><div class="diff-cell hd us-hd">集客塾</div></div>
+        <div class="diff-row"><div class="diff-cell lbl">対象</div><div class="diff-cell">業種問わず</div><div class="diff-cell us"><span class="chk">✓</span> 塾・スクール専門</div></div>
+        <div class="diff-row"><div class="diff-cell lbl">目的</div><div class="diff-cell">投稿・フォロー</div><div class="diff-cell us"><span class="chk">✓</span> 問い合わせ・体験</div></div>
+        <div class="diff-row"><div class="diff-cell lbl">投稿</div><div class="diff-cell">作るだけ</div><div class="diff-cell us"><span class="chk">✓</span> 集客導線込み</div></div>
+        <div class="diff-row"><div class="diff-cell lbl">戦略</div><div class="diff-cell">ほぼなし</div><div class="diff-cell us"><span class="chk">✓</span> 最初に設計から</div></div>
+        <div class="diff-row"><div class="diff-cell lbl">改善</div><div class="diff-cell">ほぼなし</div><div class="diff-cell us"><span class="chk">✓</span> 数字をみて改善</div></div>
+        <div class="diff-row"><div class="diff-cell lbl">サポート</div><div class="diff-cell">チャットのみ</div><div class="diff-cell us"><span class="chk">✓</span> 面談付き</div></div>
+        <div class="diff-row"><div class="diff-cell lbl">立場</div><div class="diff-cell">外注</div><div class="diff-cell us"><span class="chk">✓</span> 集客パートナー</div></div>
+        <div class="diff-row"><div class="diff-cell lbl">現場理解</div><div class="diff-cell">ほぼなし</div><div class="diff-cell us"><span class="chk">✓</span> 教育現場経験あり</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════
+  FLOW
+══════════════════════════ -->
+<section id="flow" class="sec sec-cream">
+  <div class="inner-wide">
+    <div class="sec-label">
+      <span class="en">Flow</span>
+      <span class="ja">ご利用の流れ</span>
+    </div>
+    <div class="inner" style="max-width:var(--col);margin-bottom:1rem">
+      <p class="lead">無料相談から始まり、集客の仕組みができあがるまでをしっかり伴走します。</p>
+    </div>
+    <div class="flow-list">
+      <div class="flow-step"><div class="flow-left"><div class="flow-num">1</div><div class="flow-line"></div></div><div class="flow-content"><h3>無料相談</h3><p>現状・悩み・目標をヒアリングし、方向性を整理します。</p></div></div>
+      <div class="flow-step"><div class="flow-left"><div class="flow-num">2</div><div class="flow-line"></div></div><div class="flow-content"><h3>現状ヒアリング</h3><p>アカウントと投稿を見て、集客できない原因を明確にします。</p></div></div>
+      <div class="flow-step"><div class="flow-left"><div class="flow-num">3</div><div class="flow-line"></div></div><div class="flow-content"><h3>プラン決定</h3><p>目的に合ったプランと運用方針を決めます。</p></div></div>
+      <div class="flow-step"><div class="flow-left"><div class="flow-num">4</div><div class="flow-line"></div></div><div class="flow-content"><h3>アカウント・集客設計</h3><p>ターゲット・投稿内容・問い合わせ導線を設計します。</p></div></div>
+      <div class="flow-step"><div class="flow-left"><div class="flow-num">5</div><div class="flow-line"></div></div><div class="flow-content"><h3>投稿・運用スタート</h3><p>投稿・運用をスタートし、反応を見ながら進めます。</p></div></div>
+      <div class="flow-step"><div class="flow-left"><div class="flow-num">6</div><div class="flow-line"></div></div><div class="flow-content"><h3>月次面談・改善</h3><p>定期面談で数値と反応を確認し改善します。</p></div></div>
+      <div class="flow-step"><div class="flow-left"><div class="flow-num">7</div><div class="flow-line"></div></div><div class="flow-content"><h3>集客の仕組化</h3><p>問い合わせが生まれる運用の型を作ります。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════
+  INSTAGRAM
+══════════════════════════ -->
+<section id="insta-feed" class="sec sec-ivory">
+  <div class="inner-wide">
+    <div class="sec-label">
+      <span class="en">Instagram</span>
+      <span class="ja">集客塾の最新投稿</span>
+    </div>
+    <div class="inner" style="max-width:var(--col);margin-bottom:.5rem">
+      <p class="lead">実際の投稿をご覧ください。集客に繋がるコンテンツを日々発信しています。</p>
+      <a href="https://www.instagram.com/shukyaku_juku_official" target="_blank" class="insta-handle-link"><span>📷</span>@shukyaku_juku_official</a>
+    </div>
+    <div class="insta-grid" id="instaGrid"></div>
+    <div class="insta-url-box">
+      <p><strong>投稿を追加する：</strong>Instagramの投稿を開き「…」→「リンクをコピー」でURLを取得して貼り付けてください。<br><span style="font-size:.71rem;opacity:.6">例：https://www.instagram.com/p/ABC123/</span></p>
+      <div class="insta-row">
+        <input type="url" class="insta-input" id="instaUrlInput" placeholder="投稿URLを貼り付け...">
+        <button class="insta-add" onclick="addEmbed()">追加する</button>
+      </div>
+      <p class="insta-msg" id="instaMsg"></p>
+    </div>
+    <div class="insta-footer">
+      <a href="https://www.instagram.com/shukyaku_juku_official" target="_blank" class="insta-profile-btn"><span>📷</span>Instagramをフォローする</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════
+  FUTURE
+══════════════════════════ -->
+<section id="future" class="sec sec-dark">
+  <div class="inner-wide">
+    <div class="sec-label sec-label-dark">
+      <span class="en">Future</span>
+      <span class="ja">集客塾と作る将来像</span>
+    </div>
+    <div class="inner" style="max-width:var(--col);margin-bottom:1rem">
+      <p class="lead lead-white">集客の仕組みができると、塾経営が変わります。</p>
+    </div>
+    <div class="future-grid">
+      <div class="future-card"><div class="future-icon">⚙️</div><h3>生徒募集が仕組み化される</h3><p>毎回手探りで募集する必要がなくなり、安定した集客の流れが生まれます。</p></div>
+      <div class="future-card"><div class="future-icon">🏆</div><h3>地域で選ばれる塾になる</h3><p>インスタを通じて信頼と実績が伝わり、地域の保護者から選ばれるブランドになります。</p></div>
+      <div class="future-card"><div class="future-icon">💡</div><h3>価格競争から抜け出せる</h3><p>価値が正しく伝わることで、価格ではなく内容で選ばれるようになります。</p></div>
+      <div class="future-card"><div class="future-icon">📅</div><h3>長期的に安定経営できる</h3><p>集客が安定することで、本来の授業・指導に集中できる余裕が生まれます。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════
+  CTA
+══════════════════════════ -->
+<section id="cta" class="sec sec-ivory" style="text-align:center">
+  <div class="inner-wide">
+    <div class="sec-label" style="justify-content:center;align-items:center">
+      <span class="en">Contact</span>
+      <span class="ja">まずは無料でご相談ください</span>
+    </div>
+    <div class="inner" style="max-width:var(--col);margin-bottom:1rem">
+      <p class="lead">インスタを始めるか迷っている、今の運用を見てほしい、集客の方向性を整理したい——だけでもOKです。</p>
+    </div>
+    <div class="cta-cards">
+      <div class="cta-card">
+        <div class="cta-card-icon">💚</div>
+        <h3>LINEで相談する</h3>
+        <p>友だち追加後にメッセージをお送りください。一番かんたんな方法です。</p>
+        <div class="line-btn-wrap"><a href="https://lin.ee/Wwx6qy4"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" alt="友だち追加" height="36" border="0"></a></div>
+      </div>
+      <div class="cta-card">
+        <div class="cta-card-icon">📸</div>
+        <h3>Instagram DMで相談する</h3>
+        <p>DMに「<strong style="color:var(--grad-1)">集客</strong>」と送るだけで無料相談の日程を調整します。</p>
+        <a href="https://www.instagram.com/shukyaku_juku_official" target="_blank" class="insta-btn"><span>📩</span>@shukyaku_juku_official</a>
+      </div>
+      <div class="cta-card">
+        <div class="cta-card-icon">✉️</div>
+        <h3>メールで相談する</h3>
+        <p>お名前・塾名・ご相談内容を記載の上、お気軽にご連絡ください。</p>
+        <a href="mailto:syuukyaku.juku@gmail.com" class="email-link">syuukyaku.juku@gmail.com</a>
+      </div>
+    </div>
+    <p class="cta-note">※ 無理な営業は一切いたしません。お気軽にどうぞ。</p>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
 <footer>
-  <a href="#hero" class="footer-logo-link"><span class="footer-logo">集客塾</span></a>
+  <a href="#hero" class="footer-logo-link">
+    <span class="footer-logo">集客塾</span>
+    <span class="footer-logo-sub">Shukyaku Juku</span>
+  </a>
   <div>
     <a href="https://www.instagram.com/shukyaku_juku_official" target="_blank">@shukyaku_juku_official</a>
     　|　
-    <a href="/cdn-cgi/l/email-protection#16656f63637d6f777d63387c637d6356717b777f7a3875797b"><span class="__cf_email__" data-cfemail="80f3f9f5f5ebf9e1ebf5aeeaf5ebf5c0e7ede1e9ecaee3efed">[email&#160;protected]</span></a>
+    <a href="mailto:syuukyaku.juku@gmail.com">syuukyaku.juku@gmail.com</a>
   </div>
   <div>© 2025 集客塾 All rights reserved.</div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-/* ── NAV ACTIVE STATE ── */
+<script>
+/* ── NAV ACTIVE ── */
 const sections = document.querySelectorAll('section[id]');
-const navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
-const navH = () => parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'));
+const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+function updateNav(){
+  const h = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'));
+  let cur='';
+  sections.forEach(s=>{ if(window.scrollY >= s.offsetTop - h - 10) cur=s.id; });
+  navLinks.forEach(a=> a.classList.toggle('active', a.getAttribute('href')==='#'+cur));
+}
+const navbar = document.getElementById('navbar');
+const fab = document.getElementById('scrollTop');
+window.addEventListener('scroll',()=>{
+  const y=window.scrollY;
+  navbar.classList.toggle('scrolled',y>50);
+  fab.classList.toggle('show',y>400);
+  updateNav();
+},{passive:true});
 
-function updateActiveNav() {
-  let current = '';
-  sections.forEach(sec => {
-    if (window.scrollY >= sec.offsetTop - navH() - 10) current = sec.id;
-  });
-  navAnchors.forEach(a => {
-    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-  });
+/* ── DRAWER ── */
+const drawer=document.getElementById('mobileDrawer');
+const hamburger=document.getElementById('hamburger');
+let open=false;
+function toggleDrawer(){
+  open=!open;
+  drawer.classList.toggle('open',open);
+  hamburger.classList.toggle('open',open);
+  document.body.style.overflow=open?'hidden':'';
 }
 
-/* ── SCROLL-TO-TOP + NAV SHRINK ── */
-const navbar   = document.getElementById('navbar');
-const fabTop   = document.getElementById('scrollTop');
-window.addEventListener('scroll', () => {
-  const y = window.scrollY;
-  navbar.classList.toggle('scrolled', y > 50);
-  fabTop.classList.toggle('show', y > 400);
-  updateActiveNav();
-}, { passive: true });
-
-/* ── MOBILE DRAWER ── */
-const drawer    = document.getElementById('mobileDrawer');
-const hamburger = document.getElementById('hamburger');
-let drawerOpen  = false;
-function toggleDrawer() {
-  drawerOpen = !drawerOpen;
-  drawer.classList.toggle('open', drawerOpen);
-  hamburger.classList.toggle('open', drawerOpen);
-  document.body.style.overflow = drawerOpen ? 'hidden' : '';
-}
-
-/* ── SCROLL-REVEAL ── */
-const revealObs = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const delay = parseInt(entry.target.dataset.delay || 0);
-      setTimeout(() => entry.target.classList.add('visible'), delay);
+/* ── REVEAL ── */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const d=parseInt(e.target.dataset.delay||0);
+      setTimeout(()=>e.target.classList.add('visible'),d);
     }
   });
-}, { threshold: 0.1 });
-
+},{threshold:0.1});
 [
-  { sel: '.worry-item',   step: 80  },
-  { sel: '.why-card',     step: 100 },
-  { sel: '.service-card', step: 60  },
-  { sel: '.plan-card',    step: 120 },
-  { sel: '.diff-row',     step: 55  },
-  { sel: '.flow-step',    step: 90  },
-  { sel: '.future-card',  step: 100 },
-].forEach(({ sel, step }) => {
-  document.querySelectorAll(sel).forEach((el, i) => {
-    el.dataset.delay = i * step;
-    revealObs.observe(el);
+  {sel:'.pain-item',    step:80},
+  {sel:'.insight-card', step:0},
+  {sel:'.alt-block',    step:0},
+  {sel:'.svc-card',     step:65},
+  {sel:'.plan-card',    step:110},
+  {sel:'.diff-row',     step:45},
+  {sel:'.flow-step',    step:85},
+  {sel:'.future-card',  step:95},
+].forEach(({sel,step})=>{
+  document.querySelectorAll(sel).forEach((el,i)=>{
+    el.dataset.delay=i*step;
+    obs.observe(el);
   });
 });
 
 /* ── INSTAGRAM EMBEDS ── */
-const IG_KEY = 'ig_embed_urls';
-let embedUrls = [];
-try { embedUrls = JSON.parse(localStorage.getItem(IG_KEY) || '[]'); } catch(e) {}
+const IG_KEY='ig_embed_urls';
+let urls=[];
+try{urls=JSON.parse(localStorage.getItem(IG_KEY)||'[]');}catch(e){}
 
-function isValidIgUrl(url) {
-  return /instagram\.com\/(p|reel|tv)\/[\w-]+/i.test(url);
+function isValidIg(u){return /instagram\.com\/(p|reel|tv)\/[\w-]+/i.test(u)}
+function cleanIg(u){
+  try{
+    const p=new URL(u).pathname.split('/').filter(Boolean);
+    const i=p.findIndex(x=>['p','reel','tv'].includes(x));
+    return i===-1||!p[i+1]?null:`https://www.instagram.com/${p[i]}/${p[i+1]}/`;
+  }catch(e){return null}
 }
-function cleanIgUrl(url) {
-  try {
-    const u = new URL(url);
-    const parts = u.pathname.split('/').filter(Boolean);
-    const idx = parts.findIndex(p => ['p','reel','tv'].includes(p));
-    if (idx === -1 || !parts[idx+1]) return null;
-    return `https://www.instagram.com/${parts[idx]}/${parts[idx+1]}/`;
-  } catch(e) { return null; }
-}
-
-function renderGrid() {
-  const grid = document.getElementById('instaGrid');
-  grid.innerHTML = '';
-  if (embedUrls.length === 0) {
-    for (let i = 0; i < 3; i++) {
-      const w = document.createElement('div');
-      w.className = 'insta-embed-wrap';
-      w.innerHTML = '<div class="insta-placeholder"><span class="ph-icon">📸</span><span>投稿URLを追加すると<br>ここに表示されます</span></div>';
-      grid.appendChild(w);
+function renderGrid(){
+  const g=document.getElementById('instaGrid');
+  g.innerHTML='';
+  if(!urls.length){
+    for(let i=0;i<3;i++){
+      const w=document.createElement('div');
+      w.className='insta-embed-wrap';
+      w.innerHTML='<div class="insta-placeholder"><span class="ph-icon">📸</span><span>投稿URLを追加すると<br>ここに表示されます</span></div>';
+      g.appendChild(w);
     }
     return;
   }
-  embedUrls.forEach((url, i) => {
-    const wrap = document.createElement('div');
-    wrap.className = 'insta-embed-wrap';
-    wrap.innerHTML = `
-      <button class="insta-del-btn" onclick="deleteEmbed(${i})" title="削除">✕</button>
-      <blockquote class="instagram-media"
-        data-instgrm-captioned
-        data-instgrm-permalink="${url}"
-        data-instgrm-version="14"
-        style="background:#FFF;border:0;border-radius:3px;box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15);margin:0;max-width:100%;min-width:100%;padding:0;width:99.375%">
-      </blockquote>`;
-    grid.appendChild(wrap);
+  urls.forEach((url,i)=>{
+    const w=document.createElement('div');
+    w.className='insta-embed-wrap';
+    w.innerHTML=`<button class="insta-del-btn" onclick="delEmbed(${i})" title="削除">✕</button><blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="${url}" data-instgrm-version="14" style="background:#FFF;border:0;border-radius:3px;box-shadow:0 0 1px 0 rgba(0,0,0,.5),0 1px 10px 0 rgba(0,0,0,.15);margin:0;max-width:100%;min-width:100%;padding:0;width:99.375%"></blockquote>`;
+    g.appendChild(w);
   });
-  if (window.instgrm) window.instgrm.Embeds.process();
+  if(window.instgrm) window.instgrm.Embeds.process();
 }
-
-function addEmbed() {
-  const input = document.getElementById('instaUrlInput');
-  const msg   = document.getElementById('instaMsg');
-  const raw   = input.value.trim();
-  if (!raw) { msg.textContent = 'URLを入力してください。'; return; }
-  if (!isValidIgUrl(raw)) {
-    msg.textContent = '有効なInstagramの投稿URLを入力してください。';
-    return;
-  }
-  const clean = cleanIgUrl(raw);
-  if (!clean) { msg.textContent = 'URLを正しく解析できませんでした。'; return; }
-  if (embedUrls.includes(clean)) { msg.textContent = 'この投稿はすでに追加されています。'; return; }
-  embedUrls.push(clean);
-  try { localStorage.setItem(IG_KEY, JSON.stringify(embedUrls)); } catch(e) {}
-  input.value = '';
-  msg.textContent = '✓ 追加しました！';
-  setTimeout(() => { msg.textContent = ''; }, 3000);
+function addEmbed(){
+  const inp=document.getElementById('instaUrlInput');
+  const msg=document.getElementById('instaMsg');
+  const raw=inp.value.trim();
+  if(!raw){msg.textContent='URLを入力してください。';return}
+  if(!isValidIg(raw)){msg.textContent='有効なInstagramの投稿URLを入力してください。';return}
+  const clean=cleanIg(raw);
+  if(!clean){msg.textContent='URLを正しく解析できませんでした。';return}
+  if(urls.includes(clean)){msg.textContent='この投稿はすでに追加されています。';return}
+  urls.push(clean);
+  try{localStorage.setItem(IG_KEY,JSON.stringify(urls));}catch(e){}
+  inp.value='';msg.textContent='✓ 追加しました！';
+  setTimeout(()=>{msg.textContent=''},3000);
   renderGrid();
 }
-
-function deleteEmbed(idx) {
-  embedUrls.splice(idx, 1);
-  try { localStorage.setItem(IG_KEY, JSON.stringify(embedUrls)); } catch(e) {}
+function delEmbed(i){
+  urls.splice(i,1);
+  try{localStorage.setItem(IG_KEY,JSON.stringify(urls));}catch(e){}
   renderGrid();
 }
-
-document.getElementById('instaUrlInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') addEmbed();
-});
-
-// load Instagram embed script
-(function() {
-  const sc = document.createElement('script');
-  sc.src = 'https://www.instagram.com/embed.js';
-  sc.async = true; sc.defer = true;
-  sc.onload = () => { if (window.instgrm) window.instgrm.Embeds.process(); };
+document.getElementById('instaUrlInput').addEventListener('keydown',e=>{if(e.key==='Enter')addEmbed()});
+(function(){
+  const sc=document.createElement('script');
+  sc.src='https://www.instagram.com/embed.js';
+  sc.async=true;sc.defer=true;
+  sc.onload=()=>{if(window.instgrm)window.instgrm.Embeds.process()};
   document.body.appendChild(sc);
 })();
-
 renderGrid();
 </script>
 </body>
