@@ -214,20 +214,28 @@
     ════════════════════════ */
     #hero{
       min-height:100svh;background:var(--deep);
-      display:flex;flex-direction:column;justify-content:flex-end;
-      padding:calc(var(--nav-h) + 3rem) clamp(1.4rem,5vw,3.5rem) clamp(4rem,7vw,6rem);
+      display:flex;flex-direction:column;justify-content:center;
+      /* ナビ高さぴったりから開始 → 余白なし */
+      padding:var(--nav-h) clamp(1.4rem,5vw,3.5rem) 0;
       position:relative;overflow:hidden;
     }
     .hero-bg{
       position:absolute;inset:0;
       background:
-        radial-gradient(ellipse 65% 55% at 85% 25%,rgba(232,93,138,.15) 0%,transparent 60%),
-        radial-gradient(ellipse 50% 45% at 10% 85%,rgba(244,160,68,.1) 0%,transparent 55%),
+        radial-gradient(ellipse 70% 60% at 80% 30%,rgba(232,93,138,.18) 0%,transparent 55%),
+        radial-gradient(ellipse 55% 50% at 5% 80%,rgba(244,160,68,.12) 0%,transparent 55%),
         var(--deep);
     }
+    /* 流れる波線装飾（hidariude風） */
+    .hero-waves{
+      position:absolute;inset:0;z-index:1;pointer-events:none;
+      overflow:hidden;
+    }
+    .hero-waves svg{position:absolute;bottom:0;left:0;width:100%;opacity:.18}
+
     /* グリッド装飾 */
     .hero-grid{
-      position:absolute;inset:0;opacity:.025;
+      position:absolute;inset:0;opacity:.02;
       background-image:linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,1) 1px,transparent 1px);
       background-size:64px 64px;
     }
@@ -235,78 +243,117 @@
     .hero-inner{
       position:relative;z-index:2;
       max-width:var(--wide);width:100%;
-      display:grid;grid-template-columns:1fr auto;align-items:flex-end;
-      gap:clamp(2rem,4vw,6rem);
+      display:grid;grid-template-columns:1fr 1fr;align-items:center;
+      gap:clamp(2rem,4vw,5rem);
+      /* ヒーロー内コンテンツを画面中央～やや下に */
+      padding:clamp(2rem,5vw,4rem) 0 clamp(3rem,6vw,5rem);
     }
 
     /* 左：テキスト */
     .hero-text .eyebrow{
-      display:inline-block;padding:.26rem .9rem;
-      border:1px solid rgba(232,93,138,.45);border-radius:2rem;
+      display:inline-block;padding:.28rem .95rem;
+      border:1px solid rgba(232,93,138,.5);border-radius:2rem;
       font-size:.62rem;letter-spacing:.18em;color:var(--grad-1);
-      margin-bottom:1.4rem;
-      animation:fadeUp .8s .1s both;
+      margin-bottom:1.2rem;
+      animation:fadeUp .7s .05s both;
     }
     .hero-title{
       font-family:'Shippori Mincho',serif;
-      font-size:clamp(2.4rem,6vw,5rem);font-weight:800;
-      line-height:1.15;color:#fff;
-      margin-bottom:1.6rem;letter-spacing:-.01em;
-      animation:fadeUp .8s .3s both;
+      /* 組織の左腕級の大きさ */
+      font-size:clamp(2.8rem,7vw,6rem);font-weight:800;
+      line-height:1.08;color:#fff;
+      margin-bottom:1.4rem;letter-spacing:-.02em;
+      animation:fadeUp .7s .2s both;
+    }
+    .hero-title .eyebrow-line{
+      display:block;font-size:clamp(.85rem,1.8vw,1.1rem);font-weight:400;
+      color:rgba(255,255,255,.55);letter-spacing:.06em;
+      margin-bottom:.5rem;font-family:'Noto Serif JP',serif;
     }
     .hero-title .accent{
       background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
       background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
     }
     .hero-body{
-      font-size:clamp(.82rem,1.5vw,.93rem);line-height:2.1;
-      color:rgba(255,255,255,.5);max-width:500px;
-      margin-bottom:2.2rem;
-      animation:fadeUp .8s .5s both;
+      font-size:clamp(.83rem,1.5vw,.93rem);line-height:2.05;
+      color:rgba(255,255,255,.48);max-width:480px;
+      margin-bottom:2rem;
+      animation:fadeUp .7s .4s both;
     }
-    .hero-btns{animation:fadeUp .8s .7s both}
+    .hero-btns{animation:fadeUp .7s .6s both}
 
-    /* 右：ロゴビジュアル */
+    /* 右：2ロゴ並列ビジュアル */
     .hero-visual{
-      flex-shrink:0;
-      animation:fadeUp .8s .4s both;
+      display:flex;align-items:center;justify-content:flex-end;
+      animation:fadeUp .7s .3s both;
     }
-    .hero-ring{
-      width:clamp(150px,20vw,260px);height:clamp(150px,20vw,260px);
-      border-radius:50%;
+    .hero-logos{
+      display:flex;flex-direction:column;align-items:center;gap:1.6rem;
+      width:100%;max-width:380px;
+    }
+    /* ── 集客塾 テキストロゴ（グローリング） ── */
+    .hero-logo-ring{
+      width:clamp(180px,22vw,260px);height:clamp(180px,22vw,260px);
+    }
+    .hero-logo-ring-border{
+      width:100%;height:100%;border-radius:50%;
       background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
-      padding:3px;
+      padding:4px;
+      box-shadow:
+        0 0 40px rgba(232,93,138,.4),
+        0 0 80px rgba(232,93,138,.18),
+        0 0 120px rgba(244,160,68,.12);
+      animation:ringPulse 4s ease-in-out infinite;
     }
-    .hero-ring-inner{
-      width:100%;height:100%;border-radius:50%;background:var(--deep);
-      display:flex;align-items:center;justify-content:center;
-      flex-direction:column;gap:.75rem;
+    .hero-logo-ring-inner{
+      width:100%;height:100%;border-radius:50%;
+      background:var(--deep);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:.6rem;
+      position:relative;overflow:hidden;
     }
-    .hero-kanji{
+    .hero-logo-ring-inner::before{
+      content:'';position:absolute;inset:0;
+      background:radial-gradient(circle at 38% 38%,rgba(232,93,138,.12) 0%,transparent 65%);
+    }
+    .hero-logo-kanji{
       font-family:'Shippori Mincho',serif;
-      font-size:clamp(1.4rem,3.5vw,2.6rem);font-weight:800;
-      background:linear-gradient(135deg,#5b8ee6,#3d6fd4);
+      font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:.14em;
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
       background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      position:relative;z-index:1;line-height:1;
     }
-    .hero-bars{display:flex;gap:5px;align-items:flex-end;position:relative}
-    .bar{border-radius:3px 3px 0 0}
-    .bar-1{width:9px;height:16px;background:var(--grad-1)}
-    .bar-2{width:9px;height:28px;background:var(--grad-2)}
-    .bar-3{width:9px;height:40px;background:var(--grad-1)}
-    .play-dot{
-      position:absolute;top:-22px;right:-8px;
-      width:20px;height:20px;background:var(--grad-2);border-radius:50%;
-      display:flex;align-items:center;justify-content:center;font-size:7px;color:#fff;padding-left:2px;
+    .hero-logo-en{
+      font-size:clamp(.52rem,1vw,.65rem);letter-spacing:.24em;text-transform:uppercase;
+      color:rgba(255,255,255,.32);position:relative;z-index:1;
+    }
+    /* ── × 記号 ── */
+    .hero-logos-x{
+      font-family:'DM Serif Display',serif;font-style:italic;
+      font-size:clamp(1.4rem,3vw,2rem);
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
+      background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      line-height:1;opacity:.85;
+    }
+    /* ── 添付ロゴ：同デザインのリング（サイズだけ少し小さく） */
+    .hero-logo-ring--ig .hero-logo-ring-border{
+      box-shadow:
+        0 0 36px rgba(244,160,68,.38),
+        0 0 72px rgba(244,160,68,.16),
+        0 0 110px rgba(232,93,138,.1);
+      animation-delay:.6s;
     }
 
     /* スクロールヒント */
     .hero-scroll{
-      position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
-      z-index:2;display:flex;flex-direction:column;align-items:center;gap:.5rem;
-      animation:fadeUp .8s 1.2s both;
+      position:relative;z-index:2;
+      display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;
+      padding-bottom:2.5rem;
+      animation:fadeUp .7s 1s both;
     }
-    .hero-scroll span{font-size:.56rem;letter-spacing:.22em;color:rgba(255,255,255,.28)}
-    .scroll-line{width:1px;height:42px;background:linear-gradient(to bottom,rgba(255,255,255,.25),transparent);animation:scrollPulse 1.8s ease-in-out infinite}
+    .hero-scroll span{font-size:.56rem;letter-spacing:.22em;color:rgba(255,255,255,.25)}
+    .scroll-line{width:1px;height:38px;background:linear-gradient(to bottom,rgba(255,255,255,.22),transparent);animation:scrollPulse 1.8s ease-in-out infinite}
+    @keyframes ringPulse{0%,100%{box-shadow:0 0 80px rgba(232,93,138,.25),0 0 160px rgba(244,160,68,.12)}50%{box-shadow:0 0 100px rgba(232,93,138,.35),0 0 200px rgba(244,160,68,.18)}}
 
     /* ════════════════════════
        TICKER（流れるテキスト帯）
@@ -448,8 +495,38 @@
     }
 
     /* ════════════════════════
-       SERVICES
+       CONCEPT ダイアグラム
     ════════════════════════ */
+    .concept-diagram{
+      margin:3rem auto 0;
+      max-width:420px;
+      flex-shrink:0;
+    }
+    .diagram-caption{
+      text-align:center;margin-top:1.2rem;
+      font-family:'Shippori Mincho',serif;font-size:clamp(.82rem,1.8vw,.95rem);font-weight:700;
+      color:rgba(26,26,46,.65);
+    }
+    .diagram-caption strong{color:var(--grad-1)}
+
+    /* ════════════════════════
+       WHY モバイル用カード（スマホのみ表示）
+    ════════════════════════ */
+    .why-mobile-cards{display:none}
+    .why-m-card{
+      background:#fff;border-radius:16px;padding:1.5rem 1.6rem;
+      border:1px solid rgba(26,26,46,.08);
+      display:flex;gap:1rem;align-items:flex-start;
+      opacity:0;transform:translateY(12px);transition:all .5s;
+    }
+    .why-m-card.visible{opacity:1;transform:translateY(0)}
+    .why-m-num{
+      font-family:'DM Serif Display',serif;font-style:italic;
+      font-size:2rem;color:rgba(232,93,138,.25);line-height:1;flex-shrink:0;min-width:2rem;
+    }
+    .why-m-body .tag{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grad-1);display:block;margin-bottom:.3rem}
+    .why-m-body h3{font-family:'Shippori Mincho',serif;font-size:.95rem;font-weight:700;margin-bottom:.4rem}
+    .why-m-body p{font-size:.8rem;line-height:1.8;color:rgba(26,26,46,.58)}
     #services{background:var(--ivory)}
     .svc-grid{
       display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem;
@@ -703,15 +780,17 @@
     ════════════════════════ */
     @media(max-width:1020px){
       .hero-inner{grid-template-columns:1fr;justify-items:start}
-      .hero-visual{justify-self:center;margin-top:2rem}
+      .hero-visual{width:100%;justify-content:center}
+      .hero-logos{flex-direction:row;flex-wrap:wrap;justify-content:center;max-width:100%}
+      .hero-logo-ring{width:195px;height:195px}
       #worries .pain-row{grid-template-columns:1fr;gap:2.5rem}
       .alt-block{grid-template-columns:1fr;gap:2rem}
       .alt-block.rev{direction:ltr}
-      .alt-visual{max-width:240px}
+      .alt-visual{max-width:220px}
       .svc-grid{grid-template-columns:1fr}
       .plans-grid{grid-template-columns:1fr;max-width:380px;margin:3rem auto 0}
       .future-grid{grid-template-columns:1fr}
-      .cta-cards{grid-template-columns:1fr;max-width:360px;margin:3rem auto 0}
+      .cta-cards{grid-template-columns:1fr;max-width:400px;margin:3rem auto 0}
       .insta-grid{grid-template-columns:repeat(2,1fr)}
     }
     @media(max-width:768px){
@@ -720,21 +799,36 @@
       .nav-links,.nav-cta{display:none}
       .hamburger{display:flex}
       .sec{padding:clamp(3.5rem,7vw,5.5rem) 1.2rem}
-      #hero{padding:calc(var(--nav-h) + 2.5rem) 1.2rem 4.5rem}
-      .hero-title,.hero-body,.hero-text .eyebrow{text-align:center}
+      /* hero モバイル */
+      #hero{padding:var(--nav-h) 1.2rem 0}
+      .hero-inner{gap:1.5rem;padding:1.5rem 0 2.5rem}
+      .hero-title{text-align:center;font-size:clamp(2.2rem,8vw,3rem)}
+      .hero-title .eyebrow-line{text-align:center}
+      .hero-body{text-align:center;margin-left:auto;margin-right:auto}
+      .hero-text .eyebrow{display:block;text-align:center}
       .hero-btns{display:flex;justify-content:center}
-      .hero-visual{width:100%;display:flex;justify-content:center}
-      .hero-ring{width:160px;height:160px}
+      .hero-visual{width:100%;justify-content:center}
+      .hero-logos{max-width:100%;flex-direction:row;flex-wrap:wrap;justify-content:center;gap:1rem}
+      .hero-logo-ring{width:130px;height:130px}
+      .hero-logos-x{font-size:1.2rem}
+      /* concept モバイル：縦並び */
+      #concept .inner-wide>div[style*="grid"]{grid-template-columns:1fr!important}
+      .concept-diagram{max-width:280px;margin:2rem auto 0}
+      /* why: モバイルはカードを表示、交互レイアウトを非表示 */
+      .alt-block{display:none}
+      .why-mobile-cards{display:flex;flex-direction:column;gap:1rem;margin-top:2rem}
+      /* other */
       .diff-row{min-width:420px}
       .insta-grid{grid-template-columns:1fr}
       footer{flex-direction:column;text-align:center}
       .plans-grid{max-width:100%}
       .sec-label .en{font-size:clamp(3rem,9vw,5rem)}
+      .cta-cards{max-width:100%;grid-template-columns:1fr!important}
     }
     @media(max-width:440px){
       .btn-group{flex-direction:column;align-items:center}
       .btn-primary,.btn-outline-white{width:100%;max-width:280px;justify-content:center}
-      .hero-ring{width:140px;height:140px}
+      .hero-graphic{max-width:180px}
     }
   </style>
 </head>
@@ -782,13 +876,31 @@
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
+  <div class="hero-waves">
+    <svg viewBox="0 0 1440 320" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,200 C200,140 400,260 600,180 C800,100 1000,220 1200,160 C1350,115 1420,170 1440,160 L1440,320 L0,320Z" fill="url(#wg1)"/>
+      <path d="M0,250 C300,190 500,300 750,230 C950,175 1150,270 1440,210 L1440,320 L0,320Z" fill="url(#wg2)" opacity=".5"/>
+      <defs>
+        <linearGradient id="wg1" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#e85d8a" stop-opacity=".25"/>
+          <stop offset="100%" stop-color="#f4a044" stop-opacity=".15"/>
+        </linearGradient>
+        <linearGradient id="wg2" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#f4a044" stop-opacity=".15"/>
+          <stop offset="100%" stop-color="#e85d8a" stop-opacity=".1"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
   <div class="hero-inner">
     <div class="hero-text">
-      <div class="eyebrow">〜 インスタ部 〜　塾・スクール専門</div>
+      <div class="eyebrow">塾・スクール専門 Instagram集客パートナー</div>
       <h1 class="hero-title">
-        インスタで<span class="accent">集客できる</span><br>仕組みを、<br>一緒に作ります。
+        <span class="eyebrow-line">頑張っても問い合わせが来ない——</span>
+        インスタで<br><span class="accent">集客できる</span><br>仕組みを、<br>一緒に作ります。
       </h1>
-      <p class="hero-body">頑張って投稿しているのに問い合わせが来ない——その原因は「投稿」ではなく「設計」の不在です。集客塾は、塾・スクール専門の集客パートナーとしてあなたのインスタを変えます。</p>
+      <p class="hero-body">その原因は「投稿」ではなく「設計」の不在です。集客塾は、塾・スクール専門の集客パートナーとして、アカウント設計から問い合わせ導線まで丸ごと伴走します。</p>
       <div class="hero-btns">
         <div class="btn-group">
           <a href="#cta" class="btn btn-primary">無料相談を申し込む</a>
@@ -797,19 +909,52 @@
       </div>
     </div>
     <div class="hero-visual">
-      <div class="hero-ring">
-        <div class="hero-ring-inner">
-          <div class="hero-kanji">集客塾</div>
-          <div class="hero-bars">
-            <div class="bar bar-1"></div>
-            <div class="bar bar-2"></div>
-            <div class="bar bar-3"></div>
-            <div class="play-dot">▶</div>
+      <div class="hero-logos">
+        <!-- 集客塾ロゴ（テキスト） -->
+        <div class="hero-logo-ring">
+          <div class="hero-logo-ring-border">
+            <div class="hero-logo-ring-inner">
+              <div class="hero-logo-kanji">集客塾</div>
+              <div class="hero-logo-en">Shukyaku Juku</div>
+            </div>
+          </div>
+        </div>
+        <!-- 繋ぎ記号 -->
+        <div class="hero-logos-x">×</div>
+        <!-- 添付のInstagram集客ロゴ -->
+        <!-- Instagram集客ロゴ：サイトデザイン統一版（SVGリング） -->
+        <div class="hero-logo-ring hero-logo-ring--ig">
+          <div class="hero-logo-ring-border">
+            <div class="hero-logo-ring-inner">
+              <svg viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg"
+                   style="width:clamp(72px,11vw,105px);position:relative;z-index:1;overflow:visible">
+                <defs>
+                  <linearGradient id="igSvgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#e85d8a"/>
+                    <stop offset="100%" stop-color="#f4a044"/>
+                  </linearGradient>
+                </defs>
+                <!-- カメラ外枠 -->
+                <rect x="4" y="6" width="64" height="55" rx="13" ry="13"
+                      fill="none" stroke="url(#igSvgGrad)" stroke-width="5"/>
+                <!-- レンズ -->
+                <circle cx="36" cy="34" r="13" fill="none" stroke="url(#igSvgGrad)" stroke-width="4.5"/>
+                <!-- 右上の小丸 -->
+                <circle cx="58" cy="14" r="4" fill="url(#igSvgGrad)"/>
+                <!-- 上昇グラフ折れ線 -->
+                <polyline points="6,100 28,78 50,87 76,58 108,20"
+                          fill="none" stroke="url(#igSvgGrad)" stroke-width="5.5"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                <!-- 矢印ヘッド -->
+                <polygon points="108,20 91,25 103,37" fill="url(#igSvgGrad)"/>
+              </svg>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
   <div class="hero-scroll">
     <span>SCROLL</span>
     <div class="scroll-line"></div>
@@ -843,24 +988,92 @@
       <span class="en">Concept</span>
       <span class="ja">コンセプト</span>
     </div>
-    <div class="inner" style="max-width:var(--col)">
-      <p class="concept-text">
-        <span class="line">「社員のパフォーマンスが上がらない」</span>
-        <span class="line">「優秀な人材を獲得できない」</span>
-      </p>
-      <br>
-      <p class="concept-text">
-        <span class="line">インスタを始めたのに、</span>
-        <span class="line">問い合わせが来ない——</span>
-        <span class="line heavy grad">その原因は、「設計」の不在です。</span>
-      </p>
-      <p class="concept-sub">どれだけ投稿を頑張っても、「誰に・何を・どう届けるか」という設計がなければ、集客には繋がりません。集客塾は、塾・スクールに特化した集客パートナーとして、アカウント設計から問い合わせ導線まで、一緒に仕組みを作ります。</p>
-      <div class="concept-badge">
-        <span class="dot"></span>
-        <span>塾・スクール専門の集客設計パートナー</span>
+    <div style="display:grid;grid-template-columns:1fr auto;gap:clamp(2rem,5vw,5rem);align-items:center">
+      <div class="inner" style="max-width:var(--col);margin:0">
+        <p class="concept-text">
+          <span class="line">インスタを始めたのに、</span>
+          <span class="line">問い合わせが来ない——</span>
+          <span class="line heavy grad">その原因は、「設計」の不在です。</span>
+        </p>
+        <p class="concept-sub">どれだけ投稿を頑張っても、「誰に・何を・どう届けるか」という設計がなければ、集客には繋がりません。集客塾は、塾・スクールに特化した集客パートナーとして、アカウント設計から問い合わせ導線まで、一緒に仕組みを作ります。</p>
+        <div class="concept-badge">
+          <span class="dot"></span>
+          <span>塾・スクール専門の集客設計パートナー</span>
+        </div>
+        <div style="margin-top:2rem">
+          <a href="#worries" class="btn btn-outline">お悩みを見る</a>
+        </div>
       </div>
-      <div style="margin-top:2rem">
-        <a href="#worries" class="btn btn-outline">お悩みを見る</a>
+
+      <!-- 円形ダイアグラム（純粋SVG・位置ズレなし） -->
+      <div class="concept-diagram">
+        <!--
+          中心 (250,250)、外周ノードは半径140の正五角形
+          角度: 270°(上)、342°(右上)、54°(右下)、126°(左下)、198°(左上)
+          各ノード中心:
+            上     → (250, 110)
+            右上   → (250+140*cos(-18°), 250+140*sin(-18°)) = (383, 207)
+            右下   → (250+140*cos(54°),  250+140*sin(54°))  = (332, 363)
+            左下   → (250+140*cos(126°), 250+140*sin(126°)) = (168, 363)
+            左上   → (250+140*cos(198°), 250+140*sin(198°)) = (117, 207)
+        -->
+        <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:420px;display:block;margin:0 auto">
+          <defs>
+            <linearGradient id="diagGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#e85d8a"/>
+              <stop offset="100%" stop-color="#f4a044"/>
+            </linearGradient>
+            <linearGradient id="diagGradH" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#e85d8a" stop-opacity=".8"/>
+              <stop offset="100%" stop-color="#f4a044" stop-opacity=".8"/>
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="6" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="nodeShadow">
+              <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#e85d8a" flood-opacity=".2"/>
+            </filter>
+          </defs>
+
+          <!-- コネクター線（太く・ダッシュ付き・見やすく） -->
+          <line x1="250" y1="250" x2="250" y2="110"  stroke="url(#diagGradH)" stroke-width="2.5" stroke-dasharray="6 4" opacity=".7"/>
+          <line x1="250" y1="250" x2="383" y2="207"  stroke="url(#diagGradH)" stroke-width="2.5" stroke-dasharray="6 4" opacity=".7"/>
+          <line x1="250" y1="250" x2="332" y2="363"  stroke="url(#diagGradH)" stroke-width="2.5" stroke-dasharray="6 4" opacity=".7"/>
+          <line x1="250" y1="250" x2="168" y2="363"  stroke="url(#diagGradH)" stroke-width="2.5" stroke-dasharray="6 4" opacity=".7"/>
+          <line x1="250" y1="250" x2="117" y2="207"  stroke="url(#diagGradH)" stroke-width="2.5" stroke-dasharray="6 4" opacity=".7"/>
+
+          <!-- 中央円（大きく・グロー） -->
+          <circle cx="250" cy="250" r="72" fill="url(#diagGrad)" filter="url(#glow)" opacity=".95"/>
+          <text x="250" y="242" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="17" font-weight="800" fill="white" letter-spacing="3">インスタ</text>
+          <text x="250" y="265" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="17" font-weight="800" fill="white" letter-spacing="3">集客塾</text>
+
+          <!-- ノード①：上（アカウント設計） -->
+          <circle cx="250" cy="110" r="54" fill="white" stroke="url(#diagGrad)" stroke-width="2.5" filter="url(#nodeShadow)"/>
+          <text x="250" y="102" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">アカウント</text>
+          <text x="250" y="120" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">設計</text>
+
+          <!-- ノード②：右上（投稿企画） -->
+          <circle cx="383" cy="207" r="54" fill="white" stroke="url(#diagGrad)" stroke-width="2.5" filter="url(#nodeShadow)"/>
+          <text x="383" y="199" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">投稿</text>
+          <text x="383" y="217" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">企画</text>
+
+          <!-- ノード③：右下（導線設計） -->
+          <circle cx="332" cy="363" r="54" fill="white" stroke="url(#diagGrad)" stroke-width="2.5" filter="url(#nodeShadow)"/>
+          <text x="332" y="355" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">導線</text>
+          <text x="332" y="373" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">設計</text>
+
+          <!-- ノード④：左下（改善分析） -->
+          <circle cx="168" cy="363" r="54" fill="white" stroke="url(#diagGrad)" stroke-width="2.5" filter="url(#nodeShadow)"/>
+          <text x="168" y="355" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">改善</text>
+          <text x="168" y="373" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">分析</text>
+
+          <!-- ノード⑤：左上（面談伴走） -->
+          <circle cx="117" cy="207" r="54" fill="white" stroke="url(#diagGrad)" stroke-width="2.5" filter="url(#nodeShadow)"/>
+          <text x="117" y="199" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">面談</text>
+          <text x="117" y="217" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">伴走</text>
+        </svg>
+        <p class="diagram-caption">5つの柱で<strong>集客を仕組み化</strong>します</p>
       </div>
     </div>
   </div>
@@ -905,6 +1118,7 @@
       <p class="lead">多くの場合、問題は「投稿」ではありません。集客できない本当の理由は、設計の欠如にあります。</p>
     </div>
 
+    <!-- デスクトップ：交互レイアウト -->
     <div class="alt-block" style="margin-top:2rem">
       <div class="alt-visual"><div class="big-num">01</div><div class="big-icon">🎯</div></div>
       <div class="alt-text">
@@ -936,6 +1150,14 @@
         <h3 class="h3">改善の視点がない</h3>
         <p class="lead">数値や反応を見て改善する仕組みがなく、同じ失敗を繰り返しています。何が効いているか・効いていないかを測る基準がない状態です。</p>
       </div>
+    </div>
+
+    <!-- モバイル：シンプルカード -->
+    <div class="why-mobile-cards">
+      <div class="why-m-card"><span class="why-m-num">01</span><div class="why-m-body"><span class="tag">Problem 01</span><h3>ターゲットが不明確</h3><p>誰に向けたアカウントか決まっていないため、誰にも刺さらない投稿になっています。</p></div></div>
+      <div class="why-m-card"><span class="why-m-num">02</span><div class="why-m-body"><span class="tag">Problem 02</span><h3>導線が設計されていない</h3><p>問い合わせや体験申込みまでの流れが作られておらず、見ても行動に繋がりません。</p></div></div>
+      <div class="why-m-card"><span class="why-m-num">03</span><div class="why-m-body"><span class="tag">Problem 03</span><h3>感覚で投稿している</h3><p>戦略なく思いついたことを投稿しているため、一貫性がなくフォロワーが増えません。</p></div></div>
+      <div class="why-m-card"><span class="why-m-num">04</span><div class="why-m-body"><span class="tag">Problem 04</span><h3>改善の視点がない</h3><p>数値や反応を見て改善する仕組みがなく、同じ失敗を繰り返しています。</p></div></div>
     </div>
   </div>
 </section>
@@ -1105,7 +1327,7 @@
     <div class="inner" style="max-width:var(--col);margin-bottom:1rem">
       <p class="lead">インスタを始めるか迷っている、今の運用を見てほしい、集客の方向性を整理したい——だけでもOKです。</p>
     </div>
-    <div class="cta-cards">
+    <div class="cta-cards" style="grid-template-columns:repeat(2,1fr);max-width:700px;margin:3rem auto 0">
       <div class="cta-card">
         <div class="cta-card-icon">💚</div>
         <h3>LINEで相談する</h3>
@@ -1117,12 +1339,6 @@
         <h3>Instagram DMで相談する</h3>
         <p>DMに「<strong style="color:var(--grad-1)">集客</strong>」と送るだけで無料相談の日程を調整します。</p>
         <a href="https://www.instagram.com/shukyaku_juku_official" target="_blank" class="insta-btn"><span>📩</span>@shukyaku_juku_official</a>
-      </div>
-      <div class="cta-card">
-        <div class="cta-card-icon">✉️</div>
-        <h3>メールで相談する</h3>
-        <p>お名前・塾名・ご相談内容を記載の上、お気軽にご連絡ください。</p>
-        <a href="mailto:syuukyaku.juku@gmail.com" class="email-link">syuukyaku.juku@gmail.com</a>
       </div>
     </div>
     <p class="cta-note">※ 無理な営業は一切いたしません。お気軽にどうぞ。</p>
@@ -1137,13 +1353,11 @@
   </a>
   <div>
     <a href="https://www.instagram.com/shukyaku_juku_official" target="_blank">@shukyaku_juku_official</a>
-    　|　
-    <a href="mailto:syuukyaku.juku@gmail.com">syuukyaku.juku@gmail.com</a>
   </div>
   <div>© 2025 集客塾 All rights reserved.</div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ── NAV ACTIVE ── */
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
@@ -1186,6 +1400,7 @@ const obs=new IntersectionObserver(entries=>{
   {sel:'.pain-item',    step:80},
   {sel:'.insight-card', step:0},
   {sel:'.alt-block',    step:0},
+  {sel:'.why-m-card',   step:80},
   {sel:'.svc-card',     step:65},
   {sel:'.plan-card',    step:110},
   {sel:'.diff-row',     step:45},
