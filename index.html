@@ -21,11 +21,11 @@
       --col:700px;    /* 本文カラム幅 */
       --wide:1060px;  /* ワイドカラム幅 */
     }
-    html{scroll-behavior:smooth;scroll-padding-top:var(--nav-h);overflow-x:clip}
+    html{scroll-behavior:smooth;scroll-padding-top:var(--nav-h);overflow-x:hidden}
     body{
       font-family:'Noto Serif JP',serif;
       background:var(--ivory);color:var(--ink);
-      overflow-x:clip;word-break:keep-all;overflow-wrap:break-word;
+      overflow-x:hidden;word-break:keep-all;overflow-wrap:break-word;
       line-height:1.9;
     }
     img,video,iframe,embed,object{max-width:100%;height:auto;display:block}
@@ -39,7 +39,7 @@
       padding:0 clamp(1.4rem,4vw,3.5rem);
       display:flex;align-items:center;justify-content:space-between;gap:1rem;
       background:rgba(249,248,245,0.97);
-      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
       border-bottom:1px solid var(--border);
       transition:box-shadow .3s;
     }
@@ -213,7 +213,7 @@
        HERO
     ════════════════════════ */
     #hero{
-      min-height:100svh;background:var(--deep);
+      min-height:100vh;min-height:100dvh;background:var(--deep);
       display:flex;flex-direction:column;justify-content:center;
       /* ナビ高さぴったりから開始 → 余白なし */
       padding:var(--nav-h) clamp(1.4rem,5vw,3.5rem) 0;
@@ -231,7 +231,7 @@
       position:absolute;inset:0;z-index:1;pointer-events:none;
       overflow:hidden;
     }
-    .hero-waves svg{position:absolute;bottom:0;left:0;width:100%;opacity:.18}
+    .hero-waves svg{position:absolute;bottom:0;left:0;width:100%;opacity:.18;-webkit-transform:translateZ(0);transform:translateZ(0)}
 
     /* グリッド装飾 */
     .hero-grid{
@@ -304,6 +304,7 @@
         0 0 80px rgba(232,93,138,.18),
         0 0 120px rgba(244,160,68,.12);
       animation:ringPulse 4s ease-in-out infinite;
+      will-change:opacity;
     }
     .hero-logo-ring-inner{
       width:100%;height:100%;border-radius:50%;
@@ -353,7 +354,7 @@
     }
     .hero-scroll span{font-size:.56rem;letter-spacing:.22em;color:rgba(255,255,255,.25)}
     .scroll-line{width:1px;height:38px;background:linear-gradient(to bottom,rgba(255,255,255,.22),transparent);animation:scrollPulse 1.8s ease-in-out infinite}
-    @keyframes ringPulse{0%,100%{box-shadow:0 0 80px rgba(232,93,138,.25),0 0 160px rgba(244,160,68,.12)}50%{box-shadow:0 0 100px rgba(232,93,138,.35),0 0 200px rgba(244,160,68,.18)}}
+    @keyframes ringPulse{0%,100%{opacity:.92}50%{opacity:1}}
 
     /* ════════════════════════
        TICKER（流れるテキスト帯）
@@ -590,7 +591,7 @@
        DIFFERENCE（比較表）
     ════════════════════════ */
     #difference{background:var(--ivory)}
-    .diff-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-top:2.5rem}
+    .diff-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;overflow-y:hidden;margin-top:2.5rem}
     .diff-table{width:100%;min-width:460px;border-radius:16px;overflow:hidden;border:1px solid rgba(26,26,46,.09)}
     .diff-row{display:grid;grid-template-columns:1.3fr 1fr 1.4fr;border-bottom:1px solid rgba(26,26,46,.06);opacity:0;transition:opacity .4s}
     .diff-row:last-child{border-bottom:none}
@@ -830,6 +831,159 @@
       .btn-primary,.btn-outline-white{width:100%;max-width:280px;justify-content:center}
       .hero-graphic{max-width:180px}
     }
+    /* ════════════════════════
+       INSTAGRAM 診断セクション
+    ════════════════════════ */
+    #diagnosis{background:var(--cream)}
+
+    .diag-input-wrap{
+      background:#fff;border-radius:20px;padding:1.6rem 1.8rem;
+      border:1px solid rgba(26,26,46,.09);
+      box-shadow:0 4px 20px rgba(0,0,0,.05);
+      margin-bottom:1.2rem;
+    }
+    .diag-input-row{
+      display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;
+    }
+    .diag-input-icon{font-size:1.4rem;flex-shrink:0}
+    .diag-input{
+      flex:1;min-width:200px;padding:.75rem 1.1rem;
+      border-radius:2rem;border:1.5px solid rgba(26,26,46,.13);
+      font-size:.82rem;font-family:'Noto Serif JP',serif;
+      outline:none;transition:border-color .2s;background:#fff;
+      -webkit-appearance:none;appearance:none;
+    }
+    .diag-input:focus{border-color:var(--grad-1)}
+    .diag-btn{
+      padding:.75rem 1.6rem;border-radius:2rem;border:none;cursor:pointer;
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
+      color:#fff;font-size:.82rem;font-family:'Noto Serif JP',serif;
+      letter-spacing:.06em;white-space:nowrap;flex-shrink:0;
+      transition:transform .2s,box-shadow .2s;
+      -webkit-appearance:none;appearance:none;
+    }
+    .diag-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(232,93,138,.35)}
+    .diag-btn:active{transform:translateY(0)}
+    .diag-hint{font-size:.68rem;color:rgba(26,26,46,.38);margin-top:.6rem;padding-left:.4rem}
+
+    /* ローディング */
+    .diag-loading{
+      display:none;align-items:center;justify-content:center;gap:.8rem;
+      padding:2rem;color:var(--grad-1);font-size:.82rem;
+    }
+    .diag-loading.active{display:flex}
+    .diag-spinner{
+      width:24px;height:24px;border-radius:50%;flex-shrink:0;
+      border:3px solid rgba(232,93,138,.2);
+      border-top-color:var(--grad-1);
+      animation:spin .8s linear infinite;
+    }
+    @keyframes spin{to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}
+
+    /* エラー */
+    .diag-error{
+      display:none;padding:.9rem 1.2rem;border-radius:12px;
+      background:rgba(232,93,138,.08);border:1px solid rgba(232,93,138,.25);
+      color:var(--grad-1);font-size:.8rem;line-height:1.7;margin-bottom:1rem;
+    }
+    .diag-error.active{display:block}
+
+    /* 結果パネル */
+    .diag-result{display:none}
+    .diag-result.active{display:block}
+
+    /* プロフィール */
+    .diag-profile{
+      background:#fff;border-radius:18px;padding:1.4rem 1.6rem;
+      border:1px solid rgba(26,26,46,.07);
+      display:flex;align-items:center;gap:1.2rem;
+      margin-bottom:1rem;
+    }
+    .diag-avatar{
+      width:56px;height:56px;border-radius:50%;flex-shrink:0;
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
+      display:flex;align-items:center;justify-content:center;
+      font-size:1.5rem;
+    }
+    .diag-handle{font-weight:700;font-size:.95rem;letter-spacing:.04em;color:var(--ink)}
+    .diag-account-type{font-size:.68rem;color:rgba(26,26,46,.4);letter-spacing:.1em;margin-top:2px}
+
+    /* メトリクスグリッド */
+    .diag-metrics{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1rem;
+    }
+    .diag-metric-card{
+      background:#fff;border-radius:16px;padding:1.1rem .9rem;text-align:center;
+      border:1px solid rgba(26,26,46,.07);
+      transition:transform .2s;
+    }
+    .diag-metric-card:hover{transform:translateY(-2px)}
+    .diag-metric-val{
+      font-family:'DM Serif Display',serif;font-style:italic;
+      font-size:clamp(1.4rem,3vw,2rem);line-height:1;
+      background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
+      -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+      display:block;margin-bottom:.3rem;
+    }
+    .diag-metric-label{font-size:.62rem;letter-spacing:.1em;color:rgba(26,26,46,.45);line-height:1.4}
+
+    /* スコアバー */
+    .diag-scores{
+      background:#fff;border-radius:18px;padding:1.4rem 1.6rem;
+      border:1px solid rgba(26,26,46,.07);margin-bottom:1rem;
+    }
+    .diag-scores-title{
+      font-family:'Shippori Mincho',serif;font-size:.88rem;font-weight:700;
+      margin-bottom:1rem;color:var(--ink);
+    }
+    .diag-score-item{margin-bottom:.9rem}
+    .diag-score-item:last-child{margin-bottom:0}
+    .diag-score-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem}
+    .diag-score-name{font-size:.75rem;color:rgba(26,26,46,.7)}
+    .diag-score-pct{font-size:.72rem;font-weight:700;color:var(--grad-1)}
+    .diag-score-track{
+      height:7px;background:rgba(26,26,46,.07);border-radius:4px;overflow:hidden;
+    }
+    .diag-score-fill{
+      height:100%;border-radius:4px;
+      background:linear-gradient(90deg,var(--grad-1),var(--grad-2));
+      transition:width .8s cubic-bezier(.4,0,.2,1);
+      width:0%;
+    }
+
+    /* アドバイス */
+    .diag-advice{
+      background:var(--deep);border-radius:18px;padding:1.5rem 1.6rem;
+      margin-bottom:1.2rem;
+    }
+    .diag-advice-title{
+      font-family:'Shippori Mincho',serif;font-size:.9rem;font-weight:700;
+      color:#fff;margin-bottom:.9rem;display:flex;align-items:center;gap:.4rem;
+    }
+    .diag-advice-list{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+    .diag-advice-list li{
+      font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.7;
+      display:flex;align-items:flex-start;gap:.5rem;
+    }
+    .diag-advice-list li::before{
+      content:'→';color:var(--grad-1);flex-shrink:0;margin-top:.05em;
+    }
+
+    /* CTA */
+    .diag-cta{
+      background:linear-gradient(135deg,rgba(232,93,138,.08),rgba(244,160,68,.06));
+      border:1px solid rgba(232,93,138,.2);
+      border-radius:18px;padding:1.4rem 1.6rem;text-align:center;
+    }
+    .diag-cta-text{font-size:.8rem;color:rgba(26,26,46,.6);margin-bottom:1rem;line-height:1.7}
+
+    @media(max-width:560px){
+      .diag-input-row{flex-direction:column;align-items:stretch}
+      .diag-input{min-width:0;width:100%}
+      .diag-btn{width:100%;justify-content:center;text-align:center}
+      .diag-metrics{grid-template-columns:repeat(3,1fr);gap:.5rem}
+      .diag-metric-card{padding:.8rem .5rem}
+    }
   </style>
 </head>
 <body>
@@ -845,6 +999,7 @@
     <li><a href="#worries"><span class="en">Worries</span><span class="ja">お悩み</span></a></li>
     <li><a href="#services"><span class="en">Services</span><span class="ja">サービス</span></a></li>
     <li><a href="#plans"><span class="en">Plans</span><span class="ja">プラン</span></a></li>
+    <li><a href="#diagnosis"><span class="en">Diagnosis</span><span class="ja">インスタ診断</span></a></li>
     <li><a href="#cta"><span class="en">Contact</span><span class="ja">お問い合わせ</span></a></li>
   </ul>
   <a href="#cta" class="nav-cta btn">
@@ -864,6 +1019,7 @@
   <a href="#services" onclick="toggleDrawer()"><span class="en">Services</span><span class="ja">サービス</span></a>
   <a href="#plans" onclick="toggleDrawer()"><span class="en">Plans</span><span class="ja">プラン</span></a>
   <a href="#flow" onclick="toggleDrawer()"><span class="en">Flow</span><span class="ja">ご利用の流れ</span></a>
+  <a href="#diagnosis" onclick="toggleDrawer()"><span class="en">Diagnosis</span><span class="ja">インスタ診断</span></a>
   <a href="#cta" onclick="toggleDrawer()" class="drawer-cta"><span class="en">Free Consultation</span><span class="ja">無料相談はこちら</span></a>
 </div>
 
@@ -927,9 +1083,9 @@
           <div class="hero-logo-ring-border">
             <div class="hero-logo-ring-inner">
               <svg viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg"
-                   style="width:clamp(72px,11vw,105px);position:relative;z-index:1;overflow:visible">
+                   style="width:clamp(72px,11vw,105px);position:relative;z-index:1;display:block">
                 <defs>
-                  <linearGradient id="igSvgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <linearGradient id="igSvgGrad" x1="0%" y1="0%" x2="100%" y2="100%" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="120" y2="110">
                     <stop offset="0%" stop-color="#e85d8a"/>
                     <stop offset="100%" stop-color="#f4a044"/>
                   </linearGradient>
@@ -1005,25 +1161,25 @@
         </div>
       </div>
 
-      <!-- 円形ダイアグラム（純粋SVG・位置ズレなし） -->
+      <!-- 円形ダイアグラム -->
       <div class="concept-diagram">
         <!--
+          元デザイン踏襲：中央グラデーション円＋ダッシュ線＋白ノード円
           中心 (250,250)、外周ノードは半径140の正五角形
           角度: 270°(上)、342°(右上)、54°(右下)、126°(左下)、198°(左上)
-          各ノード中心:
-            上     → (250, 110)
-            右上   → (250+140*cos(-18°), 250+140*sin(-18°)) = (383, 207)
-            右下   → (250+140*cos(54°),  250+140*sin(54°))  = (332, 363)
-            左下   → (250+140*cos(126°), 250+140*sin(126°)) = (168, 363)
-            左上   → (250+140*cos(198°), 250+140*sin(198°)) = (117, 207)
+            上    → (250, 110)
+            右上  → (383, 207)
+            右下  → (332, 363)
+            左下  → (168, 363)
+            左上  → (117, 207)
         -->
         <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:420px;display:block;margin:0 auto">
           <defs>
-            <linearGradient id="diagGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <linearGradient id="diagGrad" x1="0" y1="0" x2="500" y2="500" gradientUnits="userSpaceOnUse">
               <stop offset="0%" stop-color="#e85d8a"/>
               <stop offset="100%" stop-color="#f4a044"/>
             </linearGradient>
-            <linearGradient id="diagGradH" x1="0%" y1="0%" x2="100%" y2="0%">
+            <linearGradient id="diagGradH" x1="0" y1="250" x2="500" y2="250" gradientUnits="userSpaceOnUse">
               <stop offset="0%" stop-color="#e85d8a" stop-opacity=".8"/>
               <stop offset="100%" stop-color="#f4a044" stop-opacity=".8"/>
             </linearGradient>
@@ -1036,42 +1192,42 @@
             </filter>
           </defs>
 
-          <!-- コネクター線（太く・ダッシュ付き・見やすく） -->
+          <!-- コネクター線 -->
           <line x1="250" y1="250" x2="250" y2="110"  stroke="url(#diagGradH)" stroke-width="2.5" stroke-dasharray="6 4" opacity=".7"/>
           <line x1="250" y1="250" x2="383" y2="207"  stroke="url(#diagGradH)" stroke-width="2.5" stroke-dasharray="6 4" opacity=".7"/>
           <line x1="250" y1="250" x2="332" y2="363"  stroke="url(#diagGradH)" stroke-width="2.5" stroke-dasharray="6 4" opacity=".7"/>
           <line x1="250" y1="250" x2="168" y2="363"  stroke="url(#diagGradH)" stroke-width="2.5" stroke-dasharray="6 4" opacity=".7"/>
           <line x1="250" y1="250" x2="117" y2="207"  stroke="url(#diagGradH)" stroke-width="2.5" stroke-dasharray="6 4" opacity=".7"/>
 
-          <!-- 中央円（大きく・グロー） -->
+          <!-- 中央円 -->
           <circle cx="250" cy="250" r="72" fill="url(#diagGrad)" filter="url(#glow)" opacity=".95"/>
-          <text x="250" y="242" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="17" font-weight="800" fill="white" letter-spacing="3">インスタ</text>
-          <text x="250" y="265" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="17" font-weight="800" fill="white" letter-spacing="3">集客塾</text>
+          <text x="250" y="238" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="800" fill="white" letter-spacing="2">企業運営</text>
+          <text x="250" y="257" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="800" fill="white" letter-spacing="2">の最適化</text>
 
-          <!-- ノード①：上（アカウント設計） -->
+          <!-- ノード①：上（戦略設計） -->
           <circle cx="250" cy="110" r="54" fill="white" stroke="url(#diagGrad)" stroke-width="2.5" filter="url(#nodeShadow)"/>
-          <text x="250" y="102" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">アカウント</text>
+          <text x="250" y="102" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">戦略</text>
           <text x="250" y="120" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">設計</text>
 
-          <!-- ノード②：右上（投稿企画） -->
+          <!-- ノード②：右上（コンセプト企画） -->
           <circle cx="383" cy="207" r="54" fill="white" stroke="url(#diagGrad)" stroke-width="2.5" filter="url(#nodeShadow)"/>
-          <text x="383" y="199" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">投稿</text>
-          <text x="383" y="217" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">企画</text>
+          <text x="383" y="196" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="12" font-weight="700" fill="#e85d8a">コンセプト</text>
+          <text x="383" y="213" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">企画</text>
 
           <!-- ノード③：右下（導線設計） -->
           <circle cx="332" cy="363" r="54" fill="white" stroke="url(#diagGrad)" stroke-width="2.5" filter="url(#nodeShadow)"/>
           <text x="332" y="355" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">導線</text>
           <text x="332" y="373" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">設計</text>
 
-          <!-- ノード④：左下（改善分析） -->
+          <!-- ノード④：左下（面談成約） -->
           <circle cx="168" cy="363" r="54" fill="white" stroke="url(#diagGrad)" stroke-width="2.5" filter="url(#nodeShadow)"/>
-          <text x="168" y="355" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">改善</text>
-          <text x="168" y="373" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">分析</text>
+          <text x="168" y="355" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">面談</text>
+          <text x="168" y="373" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">成約</text>
 
-          <!-- ノード⑤：左上（面談伴走） -->
+          <!-- ノード⑤：左上（運用改善） -->
           <circle cx="117" cy="207" r="54" fill="white" stroke="url(#diagGrad)" stroke-width="2.5" filter="url(#nodeShadow)"/>
-          <text x="117" y="199" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">面談</text>
-          <text x="117" y="217" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">伴走</text>
+          <text x="117" y="199" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">運用</text>
+          <text x="117" y="217" text-anchor="middle" font-family="'Shippori Mincho',serif" font-size="14" font-weight="700" fill="#e85d8a">改善</text>
         </svg>
         <p class="diagram-caption">5つの柱で<strong>集客を仕組み化</strong>します</p>
       </div>
@@ -1345,6 +1501,59 @@
   </div>
 </section>
 
+<!-- ══════════════════════════
+  INSTAGRAM 診断
+══════════════════════════ -->
+<section id="diagnosis" class="sec sec-cream">
+  <div class="inner-wide">
+    <div class="sec-label">
+      <span class="en">Diagnosis</span>
+      <span class="ja">自社インスタの課題を確認してみる</span>
+    </div>
+    <div class="inner" style="max-width:660px;margin:0 auto">
+      <p class="lead" style="margin-bottom:2rem">InstagramアカウントのURLを入力するだけで、公開情報をもとに簡易診断レポートを表示します。相談前の自己確認にもご活用ください。</p>
+
+      <!-- 入力エリア -->
+      <div class="diag-input-wrap">
+        <div class="diag-input-row">
+          <div class="diag-input-icon">📸</div>
+          <input type="url" id="diagUrl" class="diag-input"
+                 placeholder="https://www.instagram.com/アカウント名/"
+                 autocomplete="off" autocapitalize="off">
+          <button class="diag-btn" onclick="runDiagnosis()">診断する</button>
+        </div>
+        <p class="diag-hint">例: https://www.instagram.com/shukyaku_juku_official/</p>
+      </div>
+
+      <!-- ローディング -->
+      <div class="diag-loading" id="diagLoading">
+        <div class="diag-spinner"></div>
+        <span>分析中...</span>
+      </div>
+
+      <!-- エラー -->
+      <div class="diag-error" id="diagError"></div>
+
+      <!-- 結果パネル -->
+      <div class="diag-result" id="diagResult">
+        <!-- ヘッダー -->
+        <div class="diag-profile" id="diagProfile"></div>
+        <!-- メトリクスグリッド -->
+        <div class="diag-metrics" id="diagMetrics"></div>
+        <!-- スコアバー -->
+        <div class="diag-scores" id="diagScores"></div>
+        <!-- アドバイス -->
+        <div class="diag-advice" id="diagAdvice"></div>
+        <!-- CTA -->
+        <div class="diag-cta">
+          <p class="diag-cta-text">より詳しい診断は無料相談で。プロの目線でアカウントを分析します。</p>
+          <a href="#cta" class="btn btn-primary">無料相談を申し込む →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ══ FOOTER ══ -->
 <footer>
   <a href="#hero" class="footer-logo-link">
@@ -1474,6 +1683,216 @@ document.getElementById('instaUrlInput').addEventListener('keydown',e=>{if(e.key
   sc.onload=()=>{if(window.instgrm)window.instgrm.Embeds.process()};
   document.body.appendChild(sc);
 })();
+/* ── INSTAGRAM 診断 ── */
+async function runDiagnosis(){
+  const raw = document.getElementById('diagUrl').value.trim();
+  const errEl   = document.getElementById('diagError');
+  const loadEl  = document.getElementById('diagLoading');
+  const resultEl= document.getElementById('diagResult');
+
+  // reset
+  errEl.className='diag-error'; errEl.textContent='';
+  resultEl.className='diag-result';
+  loadEl.className='diag-loading';
+
+  // URLからユーザー名を抽出
+  let username = '';
+  try{
+    const url = new URL(raw.includes('instagram.com') ? raw : 'https://www.instagram.com/'+raw.replace('@',''));
+    const parts = url.pathname.split('/').filter(Boolean);
+    username = parts[0] || '';
+  }catch(e){ username = raw.replace('@','').replace(/\//g,'').trim(); }
+
+  if(!username){ showDiagError('InstagramのアカウントURLまたはユーザー名を入力してください。'); return; }
+
+  loadEl.className='diag-loading active';
+
+  try{
+    // Instagram公開APIでプロフィール情報取得
+    // oEmbedは公開アカウントのプロフィール情報は取れないため
+    // allorigins proxy経由でInstagramページをフェッチして解析
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent('https://www.instagram.com/'+username+'/?__a=1&__d=dis')}`;
+    let data = null;
+    let fetchOk = false;
+
+    try{
+      const res = await fetch(proxyUrl, {signal: AbortSignal.timeout ? AbortSignal.timeout(8000) : undefined});
+      if(res.ok){
+        const json = await res.json();
+        const body = json.contents || '';
+        // JSONパースを試みる
+        if(body && body.trim().startsWith('{')){
+          data = JSON.parse(body);
+          fetchOk = true;
+        }
+      }
+    }catch(fe){ /* fallthrough to demo mode */ }
+
+    loadEl.className='diag-loading';
+
+    if(fetchOk && data && data.graphql){
+      // 実データ取得成功
+      const user = data.graphql.user;
+      renderDiagnosis({
+        username: user.username,
+        fullName: user.full_name,
+        followers: user.edge_followed_by.count,
+        following: user.edge_follow.count,
+        posts: user.edge_owner_to_timeline_media.count,
+        isPrivate: user.is_private,
+        isBusiness: user.is_business_account,
+        bio: user.biography,
+      });
+    } else {
+      // プロキシ取得不可 → 公開情報ベースの参考診断をデモ表示
+      renderDiagnosisDemo(username);
+    }
+
+  }catch(e){
+    loadEl.className='diag-loading';
+    renderDiagnosisDemo(username);
+  }
+}
+
+function showDiagError(msg){
+  document.getElementById('diagLoading').className='diag-loading';
+  const el = document.getElementById('diagError');
+  el.textContent = msg;
+  el.className = 'diag-error active';
+}
+
+function fmtNum(n){
+  if(n>=10000) return (n/10000).toFixed(1)+'万';
+  if(n>=1000)  return (n/1000).toFixed(1)+'千';
+  return String(n);
+}
+
+function calcScores(d){
+  // フォロワー規模スコア
+  let followerScore = Math.min(100, Math.round(Math.log10(Math.max(d.followers,1)+1)/5*100));
+  followerScore = Math.max(10, followerScore);
+
+  // 投稿量スコア（塾向けは月3〜5投稿が理想。100投稿=満点）
+  let postScore = Math.min(100, Math.round(d.posts/100*100));
+  postScore = Math.max(5, postScore);
+
+  // フォロワー/フォロー比（良いアカウントは比率高い）
+  let ratioScore = 50;
+  if(d.following > 0){
+    const ratio = d.followers / d.following;
+    ratioScore = Math.min(100, Math.round(ratio * 25));
+    ratioScore = Math.max(5, ratioScore);
+  }
+
+  // ビジネスアカウント設定
+  let bizScore = d.isBusiness ? 80 : 30;
+
+  return {followerScore, postScore, ratioScore, bizScore};
+}
+
+function genAdvice(d, scores){
+  const tips = [];
+  if(!d.isBusiness) tips.push('プロアカウント（ビジネス）に切り替えると、インサイト（数値）が見えるようになり改善がしやすくなります。');
+  if(d.followers < 500) tips.push('フォロワーが少ない段階では「誰に届けるか」を明確にした設計が最優先です。ターゲット設定から見直しましょう。');
+  if(d.posts < 30) tips.push('投稿数がまだ少ない状態です。継続的な発信がアルゴリズムにも評価されます。月3〜5本を目安に続けましょう。');
+  if(scores.ratioScore < 40) tips.push('フォロー数に対してフォロワー数が少ない状態です。相互フォロー頼りの運用から、コンテンツ起点の集客に切り替えましょう。');
+  if(d.isPrivate) tips.push('アカウントが非公開設定になっています。集客目的では公開設定に変更することが必要です。');
+  if(tips.length===0) tips.push('基本的な設定は整っています。次は投稿の質・導線設計・プロフィール最適化に取り組むと集客力がさらに上がります。');
+  return tips;
+}
+
+function renderDiagnosis(d){
+  const scores = calcScores(d);
+  const advice = genAdvice(d, scores);
+  buildResult(d.username, d.isPrivate, d.isBusiness, d.followers, d.following, d.posts, scores, advice, false);
+}
+
+function renderDiagnosisDemo(username){
+  // APIが取れない場合のデモ表示（公開情報のみの参考値）
+  const d = {
+    username: username,
+    isPrivate: false,
+    isBusiness: null, // 不明
+    followers: null,
+    following: null,
+    posts: null,
+  };
+  const advice = [
+    'プロアカウント（ビジネス）に切り替えると、インサイト数値が確認でき改善がしやすくなります。',
+    'ターゲット設定・プロフィール最適化・問い合わせ導線の3点が集客の基盤です。',
+    'フォロワー数より「問い合わせ数」につながる設計が塾集客では重要です。',
+  ];
+  buildResult(username, false, null, null, null, null, null, advice, true);
+}
+
+function buildResult(username, isPrivate, isBusiness, followers, following, posts, scores, advice, isDemo){
+  // プロフィール
+  document.getElementById('diagProfile').innerHTML = `
+    <div class="diag-avatar">📸</div>
+    <div class="diag-profile-info">
+      <div class="diag-handle">@${username}</div>
+      <div class="diag-account-type">${isDemo ? '参考診断モード（公開APIで取得できなかったため推定表示）' : (isBusiness ? '✅ ビジネスアカウント' : '⚠️ 個人アカウント')}</div>
+    </div>`;
+
+  // メトリクス
+  document.getElementById('diagMetrics').innerHTML = `
+    <div class="diag-metric-card">
+      <span class="diag-metric-val">${followers!=null ? fmtNum(followers) : '—'}</span>
+      <span class="diag-metric-label">フォロワー数</span>
+    </div>
+    <div class="diag-metric-card">
+      <span class="diag-metric-val">${posts!=null ? fmtNum(posts) : '—'}</span>
+      <span class="diag-metric-label">投稿数</span>
+    </div>
+    <div class="diag-metric-card">
+      <span class="diag-metric-val">${following!=null ? fmtNum(following) : '—'}</span>
+      <span class="diag-metric-label">フォロー数</span>
+    </div>`;
+
+  // スコアバー（デモ時は表示しない）
+  if(scores && !isDemo){
+    document.getElementById('diagScores').innerHTML = `
+      <div class="diag-scores-title">📊 アカウント分析スコア</div>
+      ${mkScore('フォロワー規模', scores.followerScore)}
+      ${mkScore('投稿継続度', scores.postScore)}
+      ${mkScore('エンゲージメント比率', scores.ratioScore)}
+      ${mkScore('アカウント設定', scores.bizScore)}`;
+    // アニメーション
+    setTimeout(()=>{
+      document.querySelectorAll('.diag-score-fill').forEach(el=>{
+        el.style.width = el.dataset.w;
+      });
+    }, 80);
+  } else {
+    document.getElementById('diagScores').innerHTML = '';
+  }
+
+  // アドバイス
+  document.getElementById('diagAdvice').innerHTML = `
+    <div class="diag-advice-title">💡 改善のヒント</div>
+    <ul class="diag-advice-list">${advice.map(t=>`<li>${t}</li>`).join('')}</ul>`;
+
+  document.getElementById('diagResult').className = 'diag-result active';
+
+  // 結果へスクロール
+  setTimeout(()=>{
+    document.getElementById('diagResult').scrollIntoView({behavior:'smooth', block:'start'});
+  }, 150);
+}
+
+function mkScore(label, pct){
+  return `<div class="diag-score-item">
+    <div class="diag-score-head">
+      <span class="diag-score-name">${label}</span>
+      <span class="diag-score-pct">${pct}%</span>
+    </div>
+    <div class="diag-score-track"><div class="diag-score-fill" data-w="${pct}%"></div></div>
+  </div>`;
+}
+
+// Enterキー対応
+document.getElementById('diagUrl').addEventListener('keydown',e=>{if(e.key==='Enter')runDiagnosis()});
+
 renderGrid();
 </script>
 </body>
