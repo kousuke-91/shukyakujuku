@@ -46,6 +46,7 @@
       -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
       border-bottom:1px solid var(--border);
       transition:box-shadow .3s;
+      overflow:hidden;
     }
     nav.scrolled{box-shadow:0 2px 24px rgba(0,0,0,0.07)}
 
@@ -96,6 +97,8 @@
       display:none;position:fixed;inset:0;
       background:rgba(10,16,30,.97);z-index:190;
       flex-direction:column;align-items:center;justify-content:center;gap:2.2rem;
+      overflow:hidden;overscroll-behavior:contain;
+      touch-action:none;
     }
     .mobile-drawer.open{display:flex}
     .mobile-drawer .close-btn{position:absolute;top:1.2rem;right:1.5rem;font-size:2rem;cursor:pointer;color:rgba(255,255,255,.4);line-height:1;transition:color .2s;background:none;border:none}
@@ -132,7 +135,7 @@
     /* ════════════════════════
        共通レイアウト
     ════════════════════════ */
-    .sec{padding:clamp(5rem,9vw,8rem) clamp(1.4rem,5vw,3.5rem);box-sizing:border-box;width:100%;overflow-x:hidden}
+    .sec{padding:clamp(5rem,9vw,8rem) clamp(1.4rem,5vw,3.5rem);box-sizing:border-box;width:100%;overflow-x:clip;max-width:100%}
     .sec-dark{background:var(--deep)}
     .sec-cream{background:var(--cream)}
     .sec-ivory{background:var(--ivory)}
@@ -222,7 +225,7 @@
       display:flex;flex-direction:column;justify-content:center;
       /* ナビ高さぴったりから開始 → 余白なし */
       padding:var(--nav-h) clamp(1.4rem,5vw,3.5rem) 0;
-      position:relative;overflow:hidden;
+      position:relative;overflow:hidden;max-width:100vw;
     }
     .hero-bg{
       position:absolute;inset:0;
@@ -250,10 +253,11 @@
       max-width:var(--wide);width:100%;
       display:grid;grid-template-columns:1fr 1fr;align-items:center;
       gap:clamp(2rem,4vw,5rem);
-      min-width:0;overflow-x:hidden;
+      min-width:0;overflow:hidden;width:100%;max-width:min(var(--wide),100%);
       padding:clamp(2rem,5vw,4rem) 0 clamp(3rem,6vw,5rem);
     }
 
+    .hero-text{min-width:0;overflow:hidden;width:100%}
     /* 左：テキスト */
     .hero-text .eyebrow{
       display:inline-block;padding:.28rem .95rem;
@@ -294,7 +298,8 @@
     }
     .hero-logos{
       display:flex;flex-direction:column;align-items:center;gap:1.6rem;
-      width:100%;max-width:380px;
+      width:100%;max-width:min(380px,90vw);
+      box-sizing:border-box;overflow:hidden;
     }
     /* ── 集客塾 テキストロゴ（グローリング） ── */
     .hero-logo-ring{
@@ -740,9 +745,10 @@
        CTA
     ════════════════════════ */
     #cta{background:var(--ivory);text-align:center}
-    .cta-cards{width:100%;box-sizing:border-box;
-      display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;
-      margin-top:3rem;
+    .cta-cards{
+      width:100%;box-sizing:border-box;overflow-x:hidden;
+      display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem;
+      max-width:700px;margin:3rem auto 0;
     }
     .cta-card{
       padding:2rem 1.6rem;background:#fff;
@@ -863,7 +869,7 @@
       /* フューチャー */
       .future-grid{grid-template-columns:repeat(2,1fr)}
       /* CTA */
-      .cta-cards{grid-template-columns:repeat(2,1fr)!important;max-width:580px;margin:3rem auto 0}
+      .cta-cards{grid-template-columns:1fr!important;max-width:480px;margin:3rem auto 0}
       /* フッター */
       footer{flex-direction:column;text-align:center;gap:.8rem}
       /* ラベル */
@@ -1626,7 +1632,7 @@
     <div class="inner" style="max-width:var(--col);margin-bottom:1rem">
       <p class="lead">インスタを始めるか迷っている、今の運用を見てほしい、集客の方向性を整理したい——だけでもOKです。</p>
     </div>
-    <div class="cta-cards" style="grid-template-columns:repeat(2,1fr);max-width:700px;margin:3rem auto 0">
+    <div class="cta-cards">
       <div class="cta-card">
         <div class="cta-card-icon">💚</div>
         <h3>LINEで相談する</h3>
@@ -1739,11 +1745,24 @@ window.addEventListener('resize',()=>{
 const drawer=document.getElementById('mobileDrawer');
 const hamburger=document.getElementById('hamburger');
 let open=false;
+let _scrollY=0;
 function toggleDrawer(){
   open=!open;
   drawer.classList.toggle('open',open);
   hamburger.classList.toggle('open',open);
-  document.body.style.overflow=open?'hidden':'';
+  if(open){
+    _scrollY=window.scrollY||window.pageYOffset;
+    document.body.style.overflow='hidden';
+    document.body.style.position='fixed';
+    document.body.style.top=-_scrollY+'px';
+    document.body.style.width='100%';
+  } else {
+    document.body.style.overflow='';
+    document.body.style.position='';
+    document.body.style.top='';
+    document.body.style.width='';
+    window.scrollTo(0,_scrollY);
+  }
 }
 
 /* ── REVEAL ── */
