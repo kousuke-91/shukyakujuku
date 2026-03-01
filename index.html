@@ -250,14 +250,14 @@
     .hero-inner{
       position:relative;z-index:2;
       width:100%;max-width:min(var(--wide),100%);box-sizing:border-box;
-      display:flex;flex-direction:column;align-items:center;justify-content:center;
-      gap:clamp(2rem,4vw,3rem);
+      /* デスクトップ：左テキスト / 右ロゴの2列、全体を中央揃え */
+      display:grid;grid-template-columns:1fr 1fr;align-items:center;
+      gap:clamp(2rem,4vw,5rem);
       min-width:0;overflow:clip;
       padding:clamp(2rem,5vw,4rem) 0 clamp(3rem,6vw,5rem);
-      text-align:center;
     }
 
-    .hero-text{min-width:0;overflow:hidden;width:100%;text-align:center}
+    .hero-text{min-width:0;overflow:hidden;width:100%;text-align:left}
     /* 左：テキスト */
     .hero-text .eyebrow{
       display:inline-block;padding:.28rem .95rem;
@@ -286,25 +286,25 @@
     .hero-body{
       font-size:clamp(.83rem,1.5vw,.93rem);line-height:2.05;
       color:rgba(255,255,255,.48);max-width:520px;
-      margin:0 auto 2rem;
+      margin:0 0 2rem;
       animation:fadeUp .7s .4s both;
     }
-    .hero-btns{animation:fadeUp .7s .6s both;display:flex;justify-content:center}
+    .hero-btns{animation:fadeUp .7s .6s both;display:flex;justify-content:flex-start}
 
-    /* ロゴビジュアル（中央） */
+    /* ロゴビジュアル（デスクトップ：右揃え） */
     .hero-visual{
       display:flex;align-items:center;justify-content:center;width:100%;
       animation:fadeUp .7s .3s both;
     }
     .hero-logos{
-      display:flex;flex-direction:row;align-items:center;justify-content:center;
-      gap:clamp(.8rem,3vw,2rem);flex-wrap:wrap;
-      width:100%;max-width:min(560px,92vw);
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:clamp(1rem,2vw,1.8rem);
+      width:100%;max-width:min(300px,90vw);
       box-sizing:border-box;overflow:hidden;
     }
     /* ── 集客塾 テキストロゴ（グローリング） ── */
     .hero-logo-ring{
-      width:clamp(100px,22vw,260px);height:clamp(100px,22vw,260px);
+      width:clamp(140px,18vw,240px);height:clamp(140px,18vw,240px);
       flex-shrink:0;
     }
     .hero-logo-ring-border{
@@ -540,6 +540,7 @@
     /* ════════════════════════
        WHY モバイル用カード（スマホのみ表示）
     ════════════════════════ */
+    /* alt-block はデスクトップ(≥1025px)のみ表示 */
     .why-mobile-cards{display:none}
     .why-m-card{
       background:#fff;border-radius:16px;padding:1.5rem 1.6rem;
@@ -830,8 +831,20 @@
       nav{padding:0 clamp(1.2rem,3vw,2.2rem)}
       .sec{padding:clamp(3.5rem,7vw,6rem) clamp(1.4rem,4vw,2.5rem)}
       #hero{padding:var(--nav-h) clamp(1.4rem,4vw,2.5rem) 0}
-      .hero-logo-ring{width:clamp(100px,14vw,180px);height:clamp(100px,14vw,180px)}
-      .hero-logos{max-width:min(480px,88vw)}
+      /* ヒーロー：縦積み・中央寄せ */
+      .hero-inner{
+        display:flex!important;flex-direction:column;
+        align-items:center;justify-content:center;
+        text-align:center;gap:1.8rem;
+      }
+      .hero-text{text-align:center}
+      .hero-body{margin:0 auto 2rem}
+      .hero-btns{justify-content:center}
+      .hero-logos{
+        flex-direction:row!important;flex-wrap:wrap;
+        max-width:min(480px,88vw);gap:clamp(.8rem,3vw,1.8rem);
+      }
+      .hero-logo-ring{width:clamp(100px,14vw,170px);height:clamp(100px,14vw,170px)}
       /* Worries */
       #worries .pain-row{grid-template-columns:1fr;gap:2rem}
       /* コンセプト */
@@ -868,8 +881,12 @@
       nav{padding:0 1.1rem}
       .sec{padding:clamp(3rem,8vw,5rem) 1.1rem}
       #hero{padding:var(--nav-h) 1.1rem 0}
+      .hero-inner{display:flex!important;flex-direction:column;align-items:center;text-align:center}
+      .hero-text{text-align:center}
+      .hero-body{margin:0 auto 2rem}
+      .hero-btns{justify-content:center}
       .hero-logo-ring{width:clamp(90px,20vw,140px);height:clamp(90px,20vw,140px)}
-      .hero-logos{max-width:min(380px,86vw);gap:clamp(.6rem,3vw,1.2rem)}
+      .hero-logos{flex-direction:row!important;flex-wrap:wrap;max-width:min(380px,86vw);gap:clamp(.6rem,3vw,1.2rem)}
       .hero-title{font-size:clamp(2rem,6.5vw,2.8rem)}
       #worries .pain-row{grid-template-columns:1fr;gap:1.8rem}
       .concept-diagram{max-width:min(300px,84vw)}
