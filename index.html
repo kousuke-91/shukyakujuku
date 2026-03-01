@@ -797,7 +797,8 @@
     ═══════════════════════════════════════════════ */
 
     /* ─── 1024px: 大タブレット横向き ─── */
-    @media(max-width:1024px){
+    /* ─── 1024px 横向きのみ: タブレット横向き専用 ─── */
+    @media(max-width:1024px) and (orientation:landscape){
       .hero-inner{grid-template-columns:1fr;justify-items:start}
       .hero-visual{width:100%;justify-content:center}
       .hero-logos{flex-direction:row;flex-wrap:wrap;justify-content:center;max-width:100%}
@@ -815,49 +816,56 @@
       .concept-diagram{max-width:380px;margin:2.5rem auto 0}
     }
 
-    /* ─── 900px: iPad Air縦 / iPad mini縦 (820〜900px) ─── */
-    @media(max-width:900px){
-      :root{--nav-h:62px}
-      /* 全セクション横幅を安全に */
-      .sec{padding:clamp(4rem,8vw,6rem) clamp(1.4rem,4vw,2.5rem)}
-      #hero{padding:var(--nav-h) clamp(1.4rem,4vw,2.5rem) 0}
-      /* ナビ */
+    /* ─── タブレット縦向き(〜1024px) + スマホ(〜900px) → モバイルと完全同一 ─── */
+    @media (max-width:1024px) and (orientation:portrait), (max-width:900px){
+      :root{--nav-h:56px}
+      nav{padding:0 1.1rem}
       .nav-links,.nav-cta{display:none}
       .hamburger{display:flex}
-      nav{padding:0 clamp(1.2rem,3vw,2rem)}
-      /* ヒーロー */
-      .hero-inner{grid-template-columns:1fr;gap:2rem;padding:2rem 0 3rem;justify-items:start}
-      .hero-title{font-size:clamp(2.4rem,5.5vw,3.8rem)}
-      .hero-visual{width:100%;justify-content:center;margin-top:.5rem}
-      .hero-logos{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:1.4rem;max-width:100%}
-      .hero-logo-ring{width:165px;height:165px}
-      /* コンセプト：SVGがはみ出ないよう制限 */
+      /* 全セクション */
+      .sec{padding:clamp(3rem,8vw,5rem) 1.1rem}
+      #hero{padding:var(--nav-h) 1.1rem 0}
+      /* ヒーロー：モバイルと同一 */
+      .hero-inner{grid-template-columns:1fr;gap:1.4rem;padding:1.5rem 0 2.5rem;justify-items:start}
+      .hero-title{text-align:center;font-size:clamp(2rem,5vw,2.8rem)}
+      .hero-title .eyebrow-line{text-align:center}
+      .hero-body{text-align:center;margin-left:auto;margin-right:auto}
+      .hero-text .eyebrow{display:block;text-align:center}
+      .hero-btns{display:flex;justify-content:center}
+      .hero-visual{width:100%;justify-content:center}
+      .hero-logos{max-width:100%;flex-direction:row;flex-wrap:wrap;justify-content:center;gap:.8rem}
+      .hero-logo-ring{width:130px;height:130px}
+      .hero-logos-x{font-size:1rem}
+      /* コンセプト */
       #concept .inner-wide>div[style*="grid"]{grid-template-columns:1fr!important}
-      .concept-diagram{max-width:min(360px,80vw);margin:2rem auto 0}
+      .concept-diagram{max-width:min(320px,88vw);margin:1.5rem auto 0}
       .concept-diagram svg{max-width:100%!important;width:100%!important}
-      /* WHY */
-      .alt-block{grid-template-columns:1fr;gap:1.5rem}
-      .alt-block.rev{direction:ltr}
+      /* WHY：モバイルカード表示 */
+      .alt-block{display:none}
+      .why-mobile-cards{display:flex;flex-direction:column;gap:.8rem;margin-top:1.5rem}
       /* サービス */
-      .svc-grid{grid-template-columns:repeat(2,1fr)}
+      .svc-grid{grid-template-columns:1fr}
       /* プラン */
-      .plans-grid{grid-template-columns:1fr;max-width:440px;margin:3rem auto 0}
-      /* フロー */
-      .flow-list{max-width:560px;margin:0 auto}
+      .plans-grid{max-width:100%;grid-template-columns:1fr}
       /* 比較表 */
       .diff-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;overflow-y:hidden}
+      .diff-row{min-width:340px}
+      /* フロー */
+      .flow-list{padding:0}
       /* インスタ */
-      .insta-grid{grid-template-columns:repeat(2,1fr)}
+      .insta-grid{grid-template-columns:1fr}
       /* フューチャー */
-      .future-grid{grid-template-columns:repeat(2,1fr)}
+      .future-grid{grid-template-columns:1fr}
       /* CTA */
-      .cta-cards{grid-template-columns:repeat(2,1fr)!important;max-width:580px;margin:3rem auto 0}
+      .cta-cards{max-width:100%;grid-template-columns:1fr!important}
       /* フッター */
-      footer{flex-direction:column;text-align:center;gap:1rem}
+      footer{flex-direction:column;text-align:center;gap:.8rem}
       /* セクションラベル */
-      .sec-label .en{font-size:clamp(3.5rem,8vw,5.5rem)}
+      .sec-label .en{font-size:clamp(2.8rem,9vw,4.5rem)}
       /* 診断 */
-      .diag-input-row{flex-wrap:wrap}
+      .diag-input-row{flex-direction:column;align-items:stretch}
+      .diag-input{min-width:0;width:100%}
+      .diag-btn{width:100%;text-align:center}
     }
 
     /* ─── 768px: スマートフォン共通 (iOS / Android) ─── */
@@ -944,8 +952,12 @@
       }
       @media(max-width:900px){
         .sec{
-          padding-left:max(clamp(1.4rem,4vw,2.5rem), env(safe-area-inset-left));
-          padding-right:max(clamp(1.4rem,4vw,2.5rem), env(safe-area-inset-right));
+          padding-left:max(1.1rem, env(safe-area-inset-left));
+          padding-right:max(1.1rem, env(safe-area-inset-right));
+        }
+        nav{
+          padding-left:max(1.1rem, env(safe-area-inset-left));
+          padding-right:max(1.1rem, env(safe-area-inset-right));
         }
       }
       @media(max-width:768px){
@@ -1176,12 +1188,12 @@
 
   <div class="hero-inner">
     <div class="hero-text">
-      <div class="eyebrow">Instagram集客パートナー</div>
-      <h2 class="hero-title">
+      <div class="eyebrow">塾・スクール専門 Instagram集客パートナー</div>
+      <h1 class="hero-title">
         <span class="eyebrow-line">頑張っても問い合わせが来ない——</span>
-        インスタで<br><span class="accent">集客できる</span><br>仕組み<br>一緒に作ります!
-      </h2>
-      <p class="hero-body">その原因は「投稿」ではなく「設計」の不在です。<br>集客塾は、塾・スクール専門の集客パートナーとして、アカウント設計から問い合わせ導線まで丸ごと伴走します。</p>
+        インスタで<br><span class="accent">集客できる</span><br>仕組みを、<br>一緒に作ります。
+      </h1>
+      <p class="hero-body">その原因は「投稿」ではなく「設計」の不在です。集客塾は、塾・スクール専門の集客パートナーとして、アカウント設計から問い合わせ導線まで丸ごと伴走します。</p>
       <div class="hero-btns">
         <div class="btn-group">
           <a href="#cta" class="btn btn-primary">無料相談を申し込む</a>
@@ -1245,11 +1257,13 @@
 <!-- ══ TICKER ══ -->
 <div class="ticker" aria-hidden="true">
   <div class="ticker-inner">
+    <span class="ticker-item">塾・スクール専門<span class="ticker-dot"></span></span>
     <span class="ticker-item">Instagram集客設計<span class="ticker-dot"></span></span>
     <span class="ticker-item">無料相談受付中<span class="ticker-dot"></span></span>
     <span class="ticker-item">問い合わせ導線設計<span class="ticker-dot"></span></span>
     <span class="ticker-item">月次面談サポート<span class="ticker-dot"></span></span>
     <span class="ticker-item">教育現場経験あり<span class="ticker-dot"></span></span>
+    <span class="ticker-item">塾・スクール専門<span class="ticker-dot"></span></span>
     <span class="ticker-item">Instagram集客設計<span class="ticker-dot"></span></span>
     <span class="ticker-item">無料相談受付中<span class="ticker-dot"></span></span>
     <span class="ticker-item">問い合わせ導線設計<span class="ticker-dot"></span></span>
@@ -1274,10 +1288,10 @@
           <span class="line">問い合わせが来ない——</span>
           <span class="line heavy grad">その原因は、「設計」の不在です。</span>
         </p>
-        <p class="concept-sub">どれだけ投稿を頑張っても、「誰に・何を・どう届けるか」という設計がなければ、集客には繋がりません。集客塾は、集客パートナーとして、アカウント設計から問い合わせ導線まで、一緒に仕組みを作ります。</p>
+        <p class="concept-sub">どれだけ投稿を頑張っても、「誰に・何を・どう届けるか」という設計がなければ、集客には繋がりません。集客塾は、塾・スクールに特化した集客パートナーとして、アカウント設計から問い合わせ導線まで、一緒に仕組みを作ります。</p>
         <div class="concept-badge">
           <span class="dot"></span>
-          <span>集客設計パートナー</span>
+          <span>塾・スクール専門の集客設計パートナー</span>
         </div>
         <div style="margin-top:2rem">
           <a href="#worries" class="btn btn-outline">お悩みを見る</a>
@@ -1372,12 +1386,12 @@
         <div class="pain-item"><span class="pain-num">01</span><span class="pain-text">頑張って投稿してるのに問い合わせが来ない</span></div>
         <div class="pain-item"><span class="pain-num">02</span><span class="pain-text">何を投稿すれば集客に繋がるのかわからない</span></div>
         <div class="pain-item"><span class="pain-num">03</span><span class="pain-text">フォロワーは増えても体験・入会に繋がらない</span></div>
-        <div class="pain-item"><span class="pain-num">04</span><span class="pain-text">運営が忙しくてSNSまで手が回らない</span></div>
+        <div class="pain-item"><span class="pain-num">04</span><span class="pain-text">塾運営が忙しくてSNSまで手が回らない</span></div>
         <div class="pain-item"><span class="pain-num">05</span><span class="pain-text">インスタを始めたけど正解がわからず止まっている</span></div>
       </div>
       <div class="insight-card">
         <blockquote>原因は「投稿の質や量」ではなく、「設計の不在」です。</blockquote>
-        <p>多くが同じ壁にぶつかっています。「誰に」「何を伝え」「どう問い合わせに繋げるか」という設計がないことが、集客できない本当の理由です。</p>
+        <p>塾・スクールの多くが同じ壁にぶつかっています。「誰に」「何を伝え」「どう問い合わせに繋げるか」という設計がないことが、集客できない本当の理由です。</p>
         <div class="insight-badge"><span class="dot"></span><span>集客塾は、その設計から一緒に作ります。</span></div>
       </div>
     </div>
@@ -1583,11 +1597,11 @@
       <span class="ja">集客塾と作る将来像</span>
     </div>
     <div class="inner" style="max-width:var(--col);margin-bottom:1rem">
-      <p class="lead lead-white">集客の仕組みができると、経営が変わります。</p>
+      <p class="lead lead-white">集客の仕組みができると、塾経営が変わります。</p>
     </div>
     <div class="future-grid">
-      <div class="future-card"><div class="future-icon">⚙️</div><h3>募集が仕組み化される</h3><p>毎回手探りで募集する必要がなくなり、安定した集客の流れが生まれます。</p></div>
-      <div class="future-card"><div class="future-icon">🏆</div><h3>地域で選ばれるようになる</h3><p>インスタを通じて信頼と実績が伝わり、地域の保護者から選ばれるブランドになります。</p></div>
+      <div class="future-card"><div class="future-icon">⚙️</div><h3>生徒募集が仕組み化される</h3><p>毎回手探りで募集する必要がなくなり、安定した集客の流れが生まれます。</p></div>
+      <div class="future-card"><div class="future-icon">🏆</div><h3>地域で選ばれる塾になる</h3><p>インスタを通じて信頼と実績が伝わり、地域の保護者から選ばれるブランドになります。</p></div>
       <div class="future-card"><div class="future-icon">💡</div><h3>価格競争から抜け出せる</h3><p>価値が正しく伝わることで、価格ではなく内容で選ばれるようになります。</p></div>
       <div class="future-card"><div class="future-icon">📅</div><h3>長期的に安定経営できる</h3><p>集客が安定することで、本来の授業・指導に集中できる余裕が生まれます。</p></div>
     </div>
@@ -1610,7 +1624,7 @@
       <div class="cta-card">
         <div class="cta-card-icon">💚</div>
         <h3>LINEで相談する</h3>
-        <p>友だち追加してください。一番かんたんな方法です。</p>
+        <p>友だち追加後にメッセージをお送りください。一番かんたんな方法です。</p>
         <div class="line-btn-wrap"><a href="https://lin.ee/Wwx6qy4"><img src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png" alt="友だち追加" height="36" border="0"></a></div>
       </div>
       <div class="cta-card">
