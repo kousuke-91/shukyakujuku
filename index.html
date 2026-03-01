@@ -23,7 +23,7 @@
       --col:700px;
       --wide:1060px;
     }
-    html{scroll-behavior:smooth;scroll-padding-top:var(--nav-h);overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+    html{scroll-behavior:smooth;scroll-padding-top:var(--nav-h);overflow-x:hidden;overflow-y:auto;max-width:100vw;-webkit-text-size-adjust:100%;text-size-adjust:100%}
     body{
       font-family:'Noto Serif JP',serif;
       background:var(--ivory);color:var(--ink);
@@ -132,14 +132,14 @@
     /* ════════════════════════
        共通レイアウト
     ════════════════════════ */
-    .sec{padding:clamp(5rem,9vw,8rem) clamp(1.4rem,5vw,3.5rem);box-sizing:border-box;width:100%}
+    .sec{padding:clamp(5rem,9vw,8rem) clamp(1.4rem,5vw,3.5rem);box-sizing:border-box;width:100%;overflow-x:hidden}
     .sec-dark{background:var(--deep)}
     .sec-cream{background:var(--cream)}
     .sec-ivory{background:var(--ivory)}
     .sec-white{background:#fff}
 
-    .inner{max-width:var(--col);margin:0 auto;width:100%;box-sizing:border-box}
-    .inner-wide{max-width:var(--wide);margin:0 auto;width:100%;box-sizing:border-box}
+    .inner{max-width:var(--col);margin:0 auto;width:100%;box-sizing:border-box;overflow-x:hidden}
+    .inner-wide{max-width:var(--wide);margin:0 auto;width:100%;box-sizing:border-box;overflow-x:hidden}
 
     /* セクション大ラベル（hidariude風・英語+日本語2段） */
     .sec-label{
@@ -152,6 +152,7 @@
       background:linear-gradient(135deg,rgba(232,93,138,.18),rgba(244,160,68,.12));
       -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
       letter-spacing:-.02em;
+      max-width:100%;overflow:hidden;
     }
     .sec-label-dark .en{
       background:linear-gradient(135deg,rgba(232,93,138,.35),rgba(244,160,68,.25));
@@ -249,7 +250,7 @@
       max-width:var(--wide);width:100%;
       display:grid;grid-template-columns:1fr 1fr;align-items:center;
       gap:clamp(2rem,4vw,5rem);
-      min-width:0;
+      min-width:0;overflow-x:hidden;
       padding:clamp(2rem,5vw,4rem) 0 clamp(3rem,6vw,5rem);
     }
 
@@ -297,7 +298,8 @@
     }
     /* ── 集客塾 テキストロゴ（グローリング） ── */
     .hero-logo-ring{
-      width:clamp(180px,22vw,260px);height:clamp(180px,22vw,260px);
+      width:clamp(100px,22vw,260px);height:clamp(100px,22vw,260px);
+      flex-shrink:0;
     }
     .hero-logo-ring-border{
       width:100%;height:100%;border-radius:50%;
@@ -323,14 +325,16 @@
     }
     .hero-logo-kanji{
       font-family:'Shippori Mincho',serif;
-      font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:.14em;
+      font-size:clamp(1.2rem,3.5vw,3rem);font-weight:800;letter-spacing:.1em;
       background:linear-gradient(135deg,var(--grad-1),var(--grad-2));
       background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
       position:relative;z-index:1;line-height:1;
+      white-space:nowrap;
     }
     .hero-logo-en{
-      font-size:clamp(.52rem,1vw,.65rem);letter-spacing:.24em;text-transform:uppercase;
+      font-size:clamp(.45rem,1.2vw,.65rem);letter-spacing:.18em;text-transform:uppercase;
       color:rgba(255,255,255,.32);position:relative;z-index:1;
+      white-space:nowrap;
     }
     /* ── × 記号 ── */
     .hero-logos-x{
@@ -799,197 +803,149 @@
        タブレット〜小デスクトップ (〜1020px)
        iPad Pro 12.9" (1024px) / 一般タブレット
     ───────────────────────────────────── */
-    /* ═══════════════════════════════════════════════
-       RESPONSIVE BREAKPOINTS
-       1024px: iPad Air 横 / 大タブレット
-        900px: iPad Air 縦 (820px) / iPad mini 縦
-        768px: スマートフォン共通 (iOS / Android)
-        430px: 小型スマホ (iPhone SE 等)
-    ═══════════════════════════════════════════════ */
+    /* ═══════════════════════════════════════════════════
+       RESPONSIVE BREAKPOINTS  (orientation クエリなし・幅のみ)
+       ≤1024px : タブレット全般（iPad Air/mini 横含む）
+       ≤ 900px : タブレット縦 + スマートフォン
+       ≤ 768px : スマートフォン追加調整
+       ≤ 430px : 小型スマホ
+    ═══════════════════════════════════════════════════ */
 
-    /* ─── 1024px: 大タブレット横向き ─── */
-    /* ─── 1024px 横向きのみ: タブレット横向き専用 ─── */
-    @media(max-width:1024px) and (orientation:landscape){
-      .hero-inner{grid-template-columns:1fr;justify-items:start}
-      .hero-visual{width:100%;justify-content:center}
-      .hero-logos{flex-direction:row;flex-wrap:wrap;justify-content:center;max-width:100%}
-      .hero-logo-ring{width:190px;height:190px}
-      #worries .pain-row{grid-template-columns:1fr;gap:2.5rem}
-      .alt-block{grid-template-columns:1fr;gap:2rem}
-      .alt-block.rev{direction:ltr}
-      .alt-visual{max-width:220px}
-      .svc-grid{grid-template-columns:repeat(2,1fr)}
-      .plans-grid{grid-template-columns:1fr;max-width:440px;margin:3rem auto 0}
-      .future-grid{grid-template-columns:repeat(2,1fr)}
-      .cta-cards{grid-template-columns:repeat(2,1fr)!important;max-width:600px;margin:3rem auto 0}
-      .insta-grid{grid-template-columns:repeat(2,1fr)}
-      #concept .inner-wide>div[style*="grid"]{grid-template-columns:1fr!important}
-      .concept-diagram{max-width:380px;margin:2.5rem auto 0}
-      #worries .pain-row{grid-template-columns:1fr;gap:2rem}
-    }
-
-    /* ─── タブレット縦向き(769〜1024px)：ヒーローは左寄り、その他はモバイルと同一 ─── */
-    @media (min-width:769px) and (max-width:1024px) and (orientation:portrait){
-      :root{--nav-h:62px}
-      nav{padding:0 clamp(1.2rem,3vw,2rem)}
+    /* ──────────────────────────────
+       ≤1024px : タブレット全般
+    ────────────────────────────── */
+    @media(max-width:1024px){
+      :root{--nav-h:60px}
       .nav-links,.nav-cta{display:none}
       .hamburger{display:flex}
-      .sec{padding:clamp(4rem,7vw,6rem) clamp(1.4rem,4vw,2.5rem)}
+      nav{padding:0 clamp(1.2rem,3vw,2.2rem)}
+      /* セクション余白 */
+      .sec{padding:clamp(3.5rem,7vw,6rem) clamp(1.4rem,4vw,2.5rem)}
       #hero{padding:var(--nav-h) clamp(1.4rem,4vw,2.5rem) 0}
-      /* ヒーロー：左寄りのまま・縦積み */
-      .hero-inner{grid-template-columns:1fr;gap:2rem;padding:2.5rem 0 3rem;justify-items:start}
-      .hero-title{text-align:left;font-size:clamp(2.4rem,5vw,3.2rem)}
-      .hero-title .eyebrow-line{text-align:left}
-      .hero-body{text-align:left;margin-left:0;margin-right:0}
-      .hero-text .eyebrow{display:block;text-align:left}
-      .hero-btns{display:flex;justify-content:flex-start}
-      .hero-visual{width:100%;justify-content:center;margin-top:1rem}
-      .hero-logos{max-width:100%;flex-direction:row;flex-wrap:wrap;justify-content:center;gap:1.2rem}
-      .hero-logo-ring{width:150px;height:150px}
-      .hero-logos-x{font-size:1.1rem}
+      /* ── ヒーロー：中央寄せ（モバイルと同じ） ── */
+      .hero-inner{
+        grid-template-columns:1fr;gap:1.8rem;
+        padding:2rem 0 3rem;justify-items:center;
+      }
+      .hero-text{text-align:center;width:100%}
+      .hero-title{text-align:center;font-size:clamp(2.2rem,5vw,3.2rem)}
+      .hero-title .eyebrow-line{text-align:center}
+      .hero-body{text-align:center;margin-left:auto;margin-right:auto;max-width:560px}
+      .hero-text .eyebrow{display:block;text-align:center}
+      .hero-btns{display:flex;justify-content:center}
+      .hero-visual{width:100%;justify-content:center}
+      .hero-logos{
+        max-width:100%;flex-direction:row;flex-wrap:wrap;
+        justify-content:center;gap:1.2rem;
+      }
+      .hero-logo-ring{width:clamp(110px,18vw,160px);height:clamp(110px,18vw,160px)}
+      .hero-logos-x{font-size:clamp(.9rem,2vw,1.2rem)}
       /* Worries */
       #worries .pain-row{grid-template-columns:1fr;gap:2rem}
       /* コンセプト */
       #concept .inner-wide>div[style*="grid"]{grid-template-columns:1fr!important}
       .concept-diagram{max-width:min(380px,80vw);margin:2rem auto 0}
-      /* WHY：モバイルカード表示 */
+      .concept-diagram svg{max-width:100%!important;width:100%!important;height:auto}
+      /* WHY */
       .alt-block{display:none}
       .why-mobile-cards{display:flex;flex-direction:column;gap:.8rem;margin-top:1.5rem}
       /* サービス */
       .svc-grid{grid-template-columns:repeat(2,1fr)}
       /* プラン */
-      .plans-grid{max-width:100%;grid-template-columns:1fr}
+      .plans-grid{max-width:560px;grid-template-columns:1fr;margin:3rem auto 0}
       /* 比較表 */
       .diff-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;overflow-y:hidden}
       .diff-row{min-width:340px}
       /* フロー */
-      .flow-list{max-width:600px;margin:0 auto}
+      .flow-list{max-width:580px;margin:0 auto;padding:0}
       /* インスタ */
       .insta-grid{grid-template-columns:repeat(2,1fr)}
       /* フューチャー */
       .future-grid{grid-template-columns:repeat(2,1fr)}
       /* CTA */
-      .cta-cards{max-width:100%;grid-template-columns:repeat(2,1fr)!important}
+      .cta-cards{grid-template-columns:repeat(2,1fr)!important;max-width:580px;margin:3rem auto 0}
       /* フッター */
       footer{flex-direction:column;text-align:center;gap:.8rem}
-      /* セクションラベル */
-      .sec-label .en{font-size:clamp(3rem,7vw,4.5rem)}
+      /* ラベル */
+      .sec-label .en{font-size:clamp(3rem,7vw,5rem)}
       /* 診断 */
       .diag-input-row{flex-wrap:wrap}
     }
 
-    /* ─── スマホ〜900px：完全モバイルレイアウト ─── */
-    @media (max-width:900px){
+    /* ──────────────────────────────
+       ≤900px : タブレット縦 + スマホ
+    ────────────────────────────── */
+    @media(max-width:900px){
       :root{--nav-h:56px}
       nav{padding:0 1.1rem}
-      .nav-links,.nav-cta{display:none}
-      .hamburger{display:flex}
       .sec{padding:clamp(3rem,8vw,5rem) 1.1rem}
       #hero{padding:var(--nav-h) 1.1rem 0}
-      .hero-inner{grid-template-columns:1fr;gap:1.2rem;padding:1.2rem 0 2rem;justify-items:start}
-      .hero-title{text-align:center;font-size:clamp(2rem,7.5vw,2.8rem)}
-      .hero-title .eyebrow-line{text-align:center}
-      .hero-body{text-align:center;margin-left:auto;margin-right:auto}
-      .hero-text .eyebrow{display:block;text-align:center}
-      .hero-btns{display:flex;justify-content:center}
-      .hero-visual{width:100%;justify-content:center}
-      .hero-logos{max-width:100%;flex-direction:row;flex-wrap:wrap;justify-content:center;gap:.8rem}
-      .hero-logo-ring{width:120px;height:120px}
-      .hero-logos-x{font-size:1rem}
-      #worries .pain-row{grid-template-columns:1fr;gap:1.8rem}
-      #concept .inner-wide>div[style*="grid"]{grid-template-columns:1fr!important}
-      .concept-diagram{max-width:min(300px,88vw);margin:1.5rem auto 0}
-      .alt-block{display:none}
-      .why-mobile-cards{display:flex;flex-direction:column;gap:.8rem;margin-top:1.5rem}
-      .svc-grid{grid-template-columns:1fr}
-      .plans-grid{max-width:100%;grid-template-columns:1fr}
-      .diff-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;overflow-y:hidden}
-      .diff-row{min-width:340px}
-      .flow-list{padding:0}
-      .insta-grid{grid-template-columns:1fr}
-      .future-grid{grid-template-columns:1fr}
-      .cta-cards{max-width:100%;grid-template-columns:1fr!important}
-      footer{flex-direction:column;text-align:center;gap:.8rem}
-      .sec-label .en{font-size:clamp(2.8rem,9vw,4.5rem)}
-      .diag-input-row{flex-direction:column;align-items:stretch}
-      .diag-input{min-width:0;width:100%}
-      .diag-btn{width:100%;text-align:center}
-    }
-
-    /* ─── 768px: スマートフォン共通 (iOS / Android) ─── */
-    @media(max-width:768px){
-      :root{--nav-h:56px}
-      nav{padding:0 1rem}
-      .nav-links,.nav-cta{display:none}
-      .hamburger{display:flex}
-      /* 全セクション */
-      .sec{padding:clamp(3rem,8vw,5rem) 1.1rem}
       /* ヒーロー */
-      #hero{padding:var(--nav-h) 1.1rem 0}
-      .hero-inner{gap:1.2rem;padding:1.2rem 0 2rem}
-      .hero-title{text-align:center;font-size:clamp(2rem,7.5vw,2.8rem)}
-      .hero-title .eyebrow-line{text-align:center}
-      .hero-body{text-align:center;margin-left:auto;margin-right:auto}
-      .hero-text .eyebrow{display:block;text-align:center}
-      .hero-btns{display:flex;justify-content:center}
-      .hero-visual{width:100%;justify-content:center}
-      .hero-logos{max-width:100%;flex-direction:row;flex-wrap:wrap;justify-content:center;gap:.8rem}
-      .hero-logo-ring{width:120px;height:120px}
-      .hero-logos-x{font-size:1rem}
+      .hero-inner{gap:1.2rem;padding:1.5rem 0 2.5rem}
+      .hero-title{font-size:clamp(2rem,6.5vw,2.8rem)}
+      .hero-logo-ring{width:clamp(100px,22vw,140px);height:clamp(100px,22vw,140px)}
+      .hero-logos-x{font-size:clamp(.85rem,2.5vw,1.1rem)}
       /* Worries */
       #worries .pain-row{grid-template-columns:1fr;gap:1.8rem}
       /* コンセプト */
-      #concept .inner-wide>div[style*="grid"]{grid-template-columns:1fr!important}
-      .concept-diagram{max-width:min(300px,88vw);margin:1.5rem auto 0}
-      .concept-diagram svg{max-width:100%!important;width:100%!important}
-      /* WHY: モバイルカード表示 */
-      .alt-block{display:none}
-      .why-mobile-cards{display:flex;flex-direction:column;gap:.8rem;margin-top:1.5rem}
+      .concept-diagram{max-width:min(320px,86vw)}
       /* サービス */
       .svc-grid{grid-template-columns:1fr}
-      /* プラン */
-      .plans-grid{max-width:100%;grid-template-columns:1fr}
-      /* 比較表 */
-      .diff-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;overflow-y:hidden}
-      .diff-row{min-width:340px}
-      /* フロー */
-      .flow-list{padding:0}
       /* インスタ */
-      .insta-grid{grid-template-columns:1fr}
+      .insta-grid{grid-template-columns:repeat(2,1fr)}
       /* フューチャー */
       .future-grid{grid-template-columns:1fr}
       /* CTA */
-      .cta-cards{max-width:100%;grid-template-columns:1fr!important}
-      /* フッター */
-      footer{flex-direction:column;text-align:center;gap:.8rem}
-      /* セクションラベル */
-      .sec-label .en{font-size:clamp(2.8rem,9vw,4.5rem)}
+      .cta-cards{grid-template-columns:1fr!important;max-width:100%}
+      /* ラベル */
+      .sec-label .en{font-size:clamp(2.8rem,8vw,4.5rem)}
       /* 診断 */
       .diag-input-row{flex-direction:column;align-items:stretch}
       .diag-input{min-width:0;width:100%}
       .diag-btn{width:100%;text-align:center}
     }
 
-    /* ─── 430px: 小型スマホ (iPhone SE / 旧Android) ─── */
+    /* ──────────────────────────────
+       ≤768px : スマートフォン
+    ────────────────────────────── */
+    @media(max-width:768px){
+      :root{--nav-h:54px}
+      nav{padding:0 1rem}
+      .sec{padding:clamp(2.8rem,8vw,4.5rem) 1rem}
+      #hero{padding:var(--nav-h) 1rem 0}
+      .hero-inner{gap:1rem;padding:1.2rem 0 2rem}
+      .hero-title{font-size:clamp(1.9rem,7.5vw,2.6rem)}
+      .hero-logo-ring{width:clamp(90px,24vw,130px);height:clamp(90px,24vw,130px)}
+      /* サービス */
+      .svc-grid{grid-template-columns:1fr}
+      /* インスタ */
+      .insta-grid{grid-template-columns:1fr}
+      /* ラベル */
+      .sec-label .en{font-size:clamp(2.5rem,9vw,4rem)}
+    }
+
+    /* ──────────────────────────────
+       ≤430px : 小型スマホ
+    ────────────────────────────── */
     @media(max-width:430px){
       :root{--nav-h:52px}
       .sec{padding:clamp(2.5rem,7vw,4rem) .9rem}
       #hero{padding:var(--nav-h) .9rem 0}
       .btn-group{flex-direction:column;align-items:center}
       .btn-primary,.btn-outline-white{width:100%;max-width:260px;justify-content:center}
-      .hero-logo-ring{width:100px;height:100px}
-      .hero-logo-kanji{font-size:1.8rem}
-      .hero-logos-x{font-size:.9rem}
+      .hero-logo-ring{width:clamp(82px,22vw,108px);height:clamp(82px,22vw,108px)}
+      .hero-logo-kanji{font-size:clamp(1.15rem,5vw,1.6rem)!important}
+      .hero-logo-en{font-size:clamp(.38rem,1.2vw,.5rem)!important}
+      .hero-logos-x{font-size:.85rem}
       .concept-diagram{max-width:min(260px,86vw)}
       .concept-diagram svg{max-width:100%!important;width:100%!important}
-      .sec-label .en{font-size:clamp(2.4rem,9vw,3.5rem)}
+      .sec-label .en{font-size:clamp(2.2rem,9vw,3.2rem)}
       /* 診断 */
       .diag-metrics{grid-template-columns:repeat(3,1fr);gap:.4rem}
       .diag-metric-card{padding:.7rem .4rem}
       .diag-metric-val{font-size:1.2rem}
       .diag-metric-label{font-size:.58rem}
     }
-
     /* ─── safe-area-inset: ノッチ / Dynamic Island 対応 ─── */
     @supports(padding:max(0px)){
       nav{
