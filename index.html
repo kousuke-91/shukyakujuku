@@ -542,6 +542,18 @@
     ════════════════════════ */
     /* alt-block はデスクトップ(≥1025px)のみ表示 */
     .why-mobile-cards{display:none}
+    /* ≤1024pxでalt-blockを完全非表示（JSのvisibleクラス付与後も非表示） */
+    @media(max-width:1024px){
+      .alt-block,
+      .alt-block.visible{
+        display:none!important;
+        visibility:hidden!important;
+      }
+      .why-mobile-cards{
+        display:flex!important;
+        flex-direction:column;gap:.8rem;margin-top:1.5rem;
+      }
+    }
     .why-m-card{
       background:#fff;border-radius:16px;padding:1.5rem 1.6rem;
       border:1px solid rgba(26,26,46,.08);
@@ -851,9 +863,7 @@
       #concept .inner-wide>div[style*="grid"]{grid-template-columns:1fr!important}
       .concept-diagram{max-width:min(380px,80vw);margin:2rem auto 0}
       .concept-diagram svg{max-width:100%!important;width:100%!important;height:auto}
-      /* WHY */
-      .alt-block{display:none}
-      .why-mobile-cards{display:flex;flex-direction:column;gap:.8rem;margin-top:1.5rem}
+      /* WHY：ベースの@media(max-width:1024px)ブロックで制御済み */
       /* サービス */
       .svc-grid{grid-template-columns:repeat(2,1fr)}
       /* プラン */
