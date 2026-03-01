@@ -411,7 +411,9 @@
     #worries .pain-row{
       display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,7rem);
       align-items:flex-start;margin-top:3rem;
+      width:100%;box-sizing:border-box;
     }
+    #worries .pain-row > *{min-width:0;box-sizing:border-box}
     .pain-list{display:flex;flex-direction:column;gap:0}
     .pain-item{
       display:flex;gap:1.2rem;align-items:flex-start;
@@ -431,6 +433,7 @@
     .insight-card{
       background:var(--deep);border-radius:20px;padding:clamp(2rem,3.5vw,2.8rem);
       position:relative;overflow:hidden;
+      width:100%;box-sizing:border-box;
       opacity:0;transform:translateY(12px);transition:all .6s .1s;
     }
     .insight-card.visible{opacity:1;transform:translateY(0)}
@@ -506,7 +509,15 @@
     .concept-diagram{
       margin:3rem auto 0;
       max-width:420px;
-      flex-shrink:0;
+      width:100%;
+      overflow:hidden;
+      box-sizing:border-box;
+    }
+    .concept-diagram svg{
+      max-width:100%;
+      width:100%;
+      height:auto;
+      display:block;
     }
     .diagram-caption{
       text-align:center;margin-top:1.2rem;
@@ -814,55 +825,92 @@
       .insta-grid{grid-template-columns:repeat(2,1fr)}
       #concept .inner-wide>div[style*="grid"]{grid-template-columns:1fr!important}
       .concept-diagram{max-width:380px;margin:2.5rem auto 0}
+      #worries .pain-row{grid-template-columns:1fr;gap:2rem}
     }
 
-    /* ─── タブレット縦向き(〜1024px) + スマホ(〜900px) → モバイルと完全同一 ─── */
-    @media (max-width:1024px) and (orientation:portrait), (max-width:900px){
-      :root{--nav-h:56px}
-      nav{padding:0 1.1rem}
+    /* ─── タブレット縦向き(769〜1024px)：ヒーローは左寄り、その他はモバイルと同一 ─── */
+    @media (min-width:769px) and (max-width:1024px) and (orientation:portrait){
+      :root{--nav-h:62px}
+      nav{padding:0 clamp(1.2rem,3vw,2rem)}
       .nav-links,.nav-cta{display:none}
       .hamburger{display:flex}
-      /* 全セクション */
-      .sec{padding:clamp(3rem,8vw,5rem) 1.1rem}
-      #hero{padding:var(--nav-h) 1.1rem 0}
-      /* ヒーロー：モバイルと同一 */
-      .hero-inner{grid-template-columns:1fr;gap:1.4rem;padding:1.5rem 0 2.5rem;justify-items:start}
-      .hero-title{text-align:center;font-size:clamp(2rem,5vw,2.8rem)}
-      .hero-title .eyebrow-line{text-align:center}
-      .hero-body{text-align:center;margin-left:auto;margin-right:auto}
-      .hero-text .eyebrow{display:block;text-align:center}
-      .hero-btns{display:flex;justify-content:center}
-      .hero-visual{width:100%;justify-content:center}
-      .hero-logos{max-width:100%;flex-direction:row;flex-wrap:wrap;justify-content:center;gap:.8rem}
-      .hero-logo-ring{width:130px;height:130px}
-      .hero-logos-x{font-size:1rem}
+      .sec{padding:clamp(4rem,7vw,6rem) clamp(1.4rem,4vw,2.5rem)}
+      #hero{padding:var(--nav-h) clamp(1.4rem,4vw,2.5rem) 0}
+      /* ヒーロー：左寄りのまま・縦積み */
+      .hero-inner{grid-template-columns:1fr;gap:2rem;padding:2.5rem 0 3rem;justify-items:start}
+      .hero-title{text-align:left;font-size:clamp(2.4rem,5vw,3.2rem)}
+      .hero-title .eyebrow-line{text-align:left}
+      .hero-body{text-align:left;margin-left:0;margin-right:0}
+      .hero-text .eyebrow{display:block;text-align:left}
+      .hero-btns{display:flex;justify-content:flex-start}
+      .hero-visual{width:100%;justify-content:center;margin-top:1rem}
+      .hero-logos{max-width:100%;flex-direction:row;flex-wrap:wrap;justify-content:center;gap:1.2rem}
+      .hero-logo-ring{width:150px;height:150px}
+      .hero-logos-x{font-size:1.1rem}
+      /* Worries */
+      #worries .pain-row{grid-template-columns:1fr;gap:2rem}
       /* コンセプト */
       #concept .inner-wide>div[style*="grid"]{grid-template-columns:1fr!important}
-      .concept-diagram{max-width:min(320px,88vw);margin:1.5rem auto 0}
-      .concept-diagram svg{max-width:100%!important;width:100%!important}
+      .concept-diagram{max-width:min(380px,80vw);margin:2rem auto 0}
       /* WHY：モバイルカード表示 */
       .alt-block{display:none}
       .why-mobile-cards{display:flex;flex-direction:column;gap:.8rem;margin-top:1.5rem}
       /* サービス */
-      .svc-grid{grid-template-columns:1fr}
+      .svc-grid{grid-template-columns:repeat(2,1fr)}
       /* プラン */
       .plans-grid{max-width:100%;grid-template-columns:1fr}
       /* 比較表 */
       .diff-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;overflow-y:hidden}
       .diff-row{min-width:340px}
       /* フロー */
-      .flow-list{padding:0}
+      .flow-list{max-width:600px;margin:0 auto}
       /* インスタ */
-      .insta-grid{grid-template-columns:1fr}
+      .insta-grid{grid-template-columns:repeat(2,1fr)}
       /* フューチャー */
-      .future-grid{grid-template-columns:1fr}
+      .future-grid{grid-template-columns:repeat(2,1fr)}
       /* CTA */
-      .cta-cards{max-width:100%;grid-template-columns:1fr!important}
+      .cta-cards{max-width:100%;grid-template-columns:repeat(2,1fr)!important}
       /* フッター */
       footer{flex-direction:column;text-align:center;gap:.8rem}
       /* セクションラベル */
-      .sec-label .en{font-size:clamp(2.8rem,9vw,4.5rem)}
+      .sec-label .en{font-size:clamp(3rem,7vw,4.5rem)}
       /* 診断 */
+      .diag-input-row{flex-wrap:wrap}
+    }
+
+    /* ─── スマホ〜900px：完全モバイルレイアウト ─── */
+    @media (max-width:900px){
+      :root{--nav-h:56px}
+      nav{padding:0 1.1rem}
+      .nav-links,.nav-cta{display:none}
+      .hamburger{display:flex}
+      .sec{padding:clamp(3rem,8vw,5rem) 1.1rem}
+      #hero{padding:var(--nav-h) 1.1rem 0}
+      .hero-inner{grid-template-columns:1fr;gap:1.2rem;padding:1.2rem 0 2rem;justify-items:start}
+      .hero-title{text-align:center;font-size:clamp(2rem,7.5vw,2.8rem)}
+      .hero-title .eyebrow-line{text-align:center}
+      .hero-body{text-align:center;margin-left:auto;margin-right:auto}
+      .hero-text .eyebrow{display:block;text-align:center}
+      .hero-btns{display:flex;justify-content:center}
+      .hero-visual{width:100%;justify-content:center}
+      .hero-logos{max-width:100%;flex-direction:row;flex-wrap:wrap;justify-content:center;gap:.8rem}
+      .hero-logo-ring{width:120px;height:120px}
+      .hero-logos-x{font-size:1rem}
+      #worries .pain-row{grid-template-columns:1fr;gap:1.8rem}
+      #concept .inner-wide>div[style*="grid"]{grid-template-columns:1fr!important}
+      .concept-diagram{max-width:min(300px,88vw);margin:1.5rem auto 0}
+      .alt-block{display:none}
+      .why-mobile-cards{display:flex;flex-direction:column;gap:.8rem;margin-top:1.5rem}
+      .svc-grid{grid-template-columns:1fr}
+      .plans-grid{max-width:100%;grid-template-columns:1fr}
+      .diff-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;overflow-y:hidden}
+      .diff-row{min-width:340px}
+      .flow-list{padding:0}
+      .insta-grid{grid-template-columns:1fr}
+      .future-grid{grid-template-columns:1fr}
+      .cta-cards{max-width:100%;grid-template-columns:1fr!important}
+      footer{flex-direction:column;text-align:center;gap:.8rem}
+      .sec-label .en{font-size:clamp(2.8rem,9vw,4.5rem)}
       .diag-input-row{flex-direction:column;align-items:stretch}
       .diag-input{min-width:0;width:100%}
       .diag-btn{width:100%;text-align:center}
@@ -888,6 +936,8 @@
       .hero-logos{max-width:100%;flex-direction:row;flex-wrap:wrap;justify-content:center;gap:.8rem}
       .hero-logo-ring{width:120px;height:120px}
       .hero-logos-x{font-size:1rem}
+      /* Worries */
+      #worries .pain-row{grid-template-columns:1fr;gap:1.8rem}
       /* コンセプト */
       #concept .inner-wide>div[style*="grid"]{grid-template-columns:1fr!important}
       .concept-diagram{max-width:min(300px,88vw);margin:1.5rem auto 0}
@@ -956,8 +1006,8 @@
           padding-right:max(1.1rem, env(safe-area-inset-right));
         }
         nav{
-          padding-left:max(1.1rem, env(safe-area-inset-left));
-          padding-right:max(1.1rem, env(safe-area-inset-right));
+          padding-left:max(1rem, env(safe-area-inset-left));
+          padding-right:max(1rem, env(safe-area-inset-right));
         }
       }
       @media(max-width:768px){
@@ -1281,7 +1331,7 @@
       <span class="en">Concept</span>
       <span class="ja">コンセプト</span>
     </div>
-    <div style="display:grid;grid-template-columns:1fr auto;gap:clamp(2rem,5vw,5rem);align-items:center;min-width:0;width:100%">
+    <div style="display:grid;grid-template-columns:1fr minmax(0,420px);gap:clamp(2rem,5vw,5rem);align-items:center;min-width:0;width:100%;overflow:hidden">
       <div class="inner" style="max-width:var(--col);margin:0">
         <p class="concept-text">
           <span class="line">インスタを始めたのに、</span>
