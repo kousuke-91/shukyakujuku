@@ -476,7 +476,7 @@
     /* ════════════════════════
        WHY（できない理由・交互レイアウト）
     ════════════════════════ */
-    #why{background:var(--cream);overflow:clip}
+    #why{background:var(--cream);overflow:clip;width:100%;max-width:100%}
     .why-lead{max-width:var(--col)}
     .alt-block{
       display:grid;grid-template-columns:1fr 1fr;gap:clamp(2.5rem,5vw,6rem);
@@ -546,22 +546,26 @@
       display:grid;
       grid-template-columns:repeat(2,1fr);
       gap:1.2rem;margin-top:2.5rem;
+      width:100%;max-width:100%;
+      box-sizing:border-box;overflow:clip;
     }
     .why-m-card{
-      background:#fff;border-radius:16px;padding:1.5rem 1.6rem;
+      background:#fff;border-radius:16px;padding:1.5rem 1.4rem;
       border:1px solid rgba(26,26,46,.08);
-      display:flex;gap:1rem;align-items:flex-start;
+      display:flex;gap:.8rem;align-items:flex-start;
       opacity:0;transform:translateY(12px);transition:all .5s;
-      box-sizing:border-box;width:100%;
+      box-sizing:border-box;width:100%;min-width:0;overflow:hidden;
     }
     .why-m-card.visible{opacity:1;transform:translateY(0)}
     .why-m-num{
       font-family:'DM Serif Display',serif;font-style:italic;
-      font-size:2rem;color:rgba(232,93,138,.25);line-height:1;flex-shrink:0;min-width:2rem;
+      font-size:1.8rem;color:rgba(232,93,138,.25);line-height:1;
+      flex-shrink:0;min-width:1.8rem;
     }
+    .why-m-body{min-width:0;flex:1;overflow:hidden}
     .why-m-body .tag{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--grad-1);display:block;margin-bottom:.3rem}
-    .why-m-body h3{font-family:'Shippori Mincho',serif;font-size:.95rem;font-weight:700;margin-bottom:.4rem}
-    .why-m-body p{font-size:.8rem;line-height:1.8;color:rgba(26,26,46,.58)}
+    .why-m-body h3{font-family:'Shippori Mincho',serif;font-size:.95rem;font-weight:700;margin-bottom:.4rem;word-break:auto-phrase}
+    .why-m-body p{font-size:.8rem;line-height:1.8;color:rgba(26,26,46,.58);word-break:auto-phrase}
     #services{background:var(--ivory);overflow:clip}
     .svc-grid{
       display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem;
