@@ -517,12 +517,20 @@
     /* ════════════════════════
        CONCEPT ダイアグラム
     ════════════════════════ */
+    .concept-grid{
+      display:grid;
+      grid-template-columns:1fr minmax(0,420px);
+      gap:clamp(2rem,5vw,5rem);
+      align-items:center;
+      min-width:0;width:100%;overflow:clip;
+    }
     .concept-diagram{
       margin:3rem auto 0;
-      max-width:420px;
+      max-width:min(420px,100%);
       width:100%;
-      overflow:hidden;
+      overflow:clip;
       box-sizing:border-box;
+      min-width:0;
     }
     .concept-diagram svg{
       max-width:100%;
@@ -869,8 +877,8 @@
       /* Worries */
       #worries .pain-row{grid-template-columns:1fr;gap:2rem}
       /* コンセプト */
-      #concept .inner-wide>div[style*="grid"]{grid-template-columns:1fr!important}
-      .concept-diagram{max-width:min(380px,80vw);margin:2rem auto 0}
+      .concept-grid{grid-template-columns:1fr!important}
+      .concept-diagram{max-width:min(380px,80vw);margin:2rem auto 0;min-width:0}
       .concept-diagram svg{max-width:100%!important;width:100%!important;height:auto}
       /* WHY：1列 */
       .why-mobile-cards{grid-template-columns:1fr}
@@ -910,7 +918,7 @@
       .hero-logos{flex-direction:row!important;flex-wrap:wrap;max-width:min(380px,86vw);gap:clamp(.6rem,3vw,1.2rem)}
       .hero-title{font-size:clamp(2rem,6.5vw,2.8rem)}
       #worries .pain-row{grid-template-columns:1fr;gap:1.8rem}
-      .concept-diagram{max-width:min(300px,84vw)}
+      .concept-diagram{max-width:min(300px,84vw);min-width:0}
       .svc-grid{grid-template-columns:1fr}
       .future-grid{overflow:clip;grid-template-columns:1fr}
       .cta-cards{grid-template-columns:1fr!important;max-width:min(440px,86vw)!important;margin:2rem auto 0!important}
@@ -937,8 +945,8 @@
       #worries .pain-row{grid-template-columns:1fr;gap:1.6rem}
       /* Difference スクロールヒント表示 */
       .diff-scroll-hint{display:block}
-      #concept .inner-wide>div[style*="grid"]{grid-template-columns:1fr!important}
-      .concept-diagram{max-width:min(280px,88vw)}
+      .concept-grid{grid-template-columns:1fr!important}
+      .concept-diagram{max-width:min(280px,88vw);min-width:0}
       .concept-diagram svg{max-width:100%!important;width:100%!important;height:auto}
     }
 
@@ -953,7 +961,7 @@
       .hero-logo-kanji{font-size:clamp(1rem,4.5vw,1.4rem)!important;letter-spacing:.06em!important}
       .hero-logo-en{font-size:clamp(.35rem,1.1vw,.48rem)!important}
       .hero-logos-x{font-size:.8rem}
-      .concept-diagram{max-width:min(250px,86vw)}
+      .concept-diagram{max-width:min(250px,86vw);min-width:0}
       .sec-label .en{font-size:clamp(2.2rem,9vw,3.2rem)}
       .diag-metrics{grid-template-columns:repeat(3,1fr);gap:.4rem}
       .diag-metric-card{padding:.7rem .4rem}
@@ -1301,7 +1309,7 @@
       <span class="en">Concept</span>
       <span class="ja">コンセプト</span>
     </div>
-    <div style="display:grid;grid-template-columns:1fr minmax(0,420px);gap:clamp(2rem,5vw,5rem);align-items:center;min-width:0;width:100%;overflow:hidden">
+    <div class="concept-grid">
       <div class="inner" style="max-width:var(--col);margin:0">
         <p class="concept-text">
           <span class="line">インスタを始めたのに、</span>
@@ -1330,7 +1338,7 @@
             左下  → (168, 363)
             左上  → (117, 207)
         -->
-        <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:420px;display:block;margin:0 auto">
+        <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;margin:0 auto">
           <defs>
             <linearGradient id="diagGrad" x1="0" y1="0" x2="500" y2="500" gradientUnits="userSpaceOnUse">
               <stop offset="0%" stop-color="#e85d8a"/>
